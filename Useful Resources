@@ -1,1 +1,3 @@
 Spark Documentation : http://sparkjava.com/documentation#getting-started
+
+This guy created very good example about spark java that uses CRUD operations : https://github.com/mscharhag/blog-examples/tree/master/sparkdemo/src/main/java/com/mscharhag/sparkdemo

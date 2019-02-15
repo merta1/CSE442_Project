@@ -4,4 +4,4 @@ In this project, we are going to implement a debate application that runs on the
 
 To build this web application these are the technologies we are planning to use: at the front-end HTML, CSS, JavaScript, and at the back-end Spark with Java by building a rest api and a MySQL backend.
 
-test
+test2

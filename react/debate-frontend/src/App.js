@@ -9,16 +9,17 @@ class App extends React.Component {
         this.state = {
           currentView: 'DebateList',
         };
-        this.changeCurrentView = (x) => {
-            this.setState.currentView = x;
-        };
+        this.changeView = this.changeView.bind(this);
+      }
+      changeView(view) {
+        this.setState({currentView: view})
       }
     render() {
       return (
         <div>
             {this.state.currentView === 'DebateList' ? (
-                <DebateList />
-            ) : ( <DebateWindow /> )}
+                <DebateList changeView={this.changeView}  />
+            ) : ( <DebateWindow changeView={this.changeView} /> )}
         </div>
       );
     }

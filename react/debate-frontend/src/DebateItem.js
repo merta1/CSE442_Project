@@ -1,13 +1,15 @@
 import React from 'react';
-import App from './App';
-import DebateWindow from './DebateWindow';
 
 class DebateItem extends React.Component {  
     render() {
+        
       return (
-        <div onClick={() => this.props.changeView('DebateWindow',1)}>
-          This is debate item.
-        </div>
+        <tr>
+            <th scope="row">This is a debate about school.</th>
+            <td>13</td>
+            <td>February 18, 2018</td>
+            <td><div onClick={() => this.props.changeView('DebateWindow')}><a href="#">Join</a></div></td>
+        </tr>
       );
     }
   }

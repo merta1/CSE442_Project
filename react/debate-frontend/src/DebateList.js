@@ -1,8 +1,6 @@
 import React from 'react';
 
 import DebateItem from './DebateItem';
-import App from './App';
-import DebateWindow from './DebateWindow';
 
 class DebateList extends React.Component { 
     handleViewChange = (view) => {
@@ -10,16 +8,25 @@ class DebateList extends React.Component {
     } 
     render() {
       return (
-        <div>
-            This is a list of available debates.
-          <DebateItem changeView={this.handleViewChange}  />
-          <DebateItem changeView={this.handleViewChange}  />
-          <DebateItem changeView={this.handleViewChange}  />
-          <DebateItem changeView={this.handleViewChange}  />
-          <DebateItem changeView={this.handleViewChange}  />
-          <DebateItem changeView={this.handleViewChange}  />
-          <DebateItem changeView={this.handleViewChange}  />
-        </div>
+        <table className="table">
+            <thead className="thead-dark">
+                <tr>
+                    <th scope="col">Question</th>
+                    <th scope="col">Participants</th>
+                    <th scope="col">Date</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            <DebateItem changeView={this.handleViewChange}  />
+            <DebateItem changeView={this.handleViewChange}  />
+            <DebateItem changeView={this.handleViewChange}  />
+            <DebateItem changeView={this.handleViewChange}  />
+            <DebateItem changeView={this.handleViewChange}  />
+            <DebateItem changeView={this.handleViewChange}  />
+            <DebateItem changeView={this.handleViewChange}  />
+            </tbody>
+        </table>
       );
     }
   }

@@ -1,13 +1,15 @@
 import React from 'react';
-import App from './App';
-import DebateWindow from './DebateWindow';
 
 class DebateItem extends React.Component {  
     render() {
+        
       return (
-        <div onClick={() => this.App.changeCurrentView("DebateWindow") }>
-          This is debate item.
-        </div>
+        <tr>
+            <th scope="row">{this.props.debateName}</th>
+            <td>{this.props.activeUsers}</td>
+            <td>{this.props.createdDate}</td>
+            <td><div onClick={() => this.props.changeView('DebateWindow',this.props.id)}><a href={'#/debate/' + this.props.id}>Join</a></div></td>
+        </tr>
       );
     }
   }

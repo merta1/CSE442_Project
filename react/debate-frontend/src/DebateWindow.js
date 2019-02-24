@@ -1,12 +1,10 @@
 import React from 'react';
 
-import App from './App';
-
 class DebateWindow extends React.Component {  
     render() {
       return (
-        <div>
-           Debate Window
+        <div onClick={() => this.props.changeView('DebateList')}>
+           Draw Debate Window for {this.props.debateid} here
         </div>
       );
     }

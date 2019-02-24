@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
-import DebateList from './DebateList';
+import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
     <App />, 

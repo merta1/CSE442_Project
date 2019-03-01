@@ -4,6 +4,7 @@ import DebateList from './DebateList';
 import DebateWindow from './DebateWindow';
 import StartNewDebate from './StartNewDebate';
 import Nav from './Nav';
+import Form from './Form';
 
 class App extends React.Component { 
     constructor(props) {

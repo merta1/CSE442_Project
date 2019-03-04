@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "ajv": "^6.9.1",
+    "ajv": "^6.10.0",
     "bootstrap": "^4.3.1",
     "react": "^16.8.3",
-    "react-dom": "^16.8.2",
-    "react-scripts": "^2.1.5",
-    "scripts": "^0.1.0"
+    "react-dom": "^16.8.3",
+    "react-scripts": "^2.1.5"
   },
   "scripts": {
     "start": "react-scripts start",

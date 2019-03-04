@@ -30,14 +30,11 @@ class Nav extends React.Component {
 
             <div className={`${classOne}`} id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
-                        <a className="nav-link" href="#/list-debates" onClick={() => this.handleViewChange('DebateList')}>Home <span className="sr-only">(current)</span></a>
-                    </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#/new-debate" onClick={() => this.handleViewChange('StartNewDebate')}>Start a New Debate</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#/register" onClick={() => this.handleViewChange('Register')}>Register</a>
+                        <a className="nav-link" href="#/register" onClick={() => this.handleViewChange('Register')}>Login/Register</a>
                     </li>
                 </ul>
                 <form className="form-inline mx-2 my-2 my-lg-0">

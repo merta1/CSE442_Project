@@ -1,24 +1,43 @@
 import React from 'react';
 
 class Nav extends React.Component { 
+
+    constructor(props) {
+        super(props);
+        this.toggleNavbar = this.toggleNavbar.bind(this);
+        this.state = {
+            collapsed: true,
+        };
+    }
+    toggleNavbar() {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    }
     handleViewChange = (view) => {
         this.props.changeView(view);            
     } 
     render() {
+        const collapsed = this.state.collapsed;
+        const classOne = collapsed ? 'collapse navbar-collapse' : 'collapse navbar-collapse show';
+        const classTwo = collapsed ? 'navbar-toggler navbar-toggler-right collapsed' : 'navbar-toggler navbar-toggler-right';
       return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <a className="navbar-brand" href="#">Bad-Ass Debate App</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button onClick={this.toggleNavbar} className={`${classTwo}`} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
 
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <div className={`${classOne}`} id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item active">
                         <a className="nav-link" href="#" onClick={() => this.handleViewChange('DebateList')}>Home <span className="sr-only">(current)</span></a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#" onClick={() => this.handleViewChange('StartNewDebate')}>Start a New Debate</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#" onClick={() => this.handleViewChange('Form')}>Form</a>
                     </li>
                 </ul>
                 <form className="form-inline mx-2 my-2 my-lg-0">

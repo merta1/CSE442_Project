@@ -4,7 +4,7 @@ import DebateList from './DebateList';
 import DebateWindow from './DebateWindow';
 import StartNewDebate from './StartNewDebate';
 import Nav from './Nav';
-import Form from './Form';
+import Register from './Register';
 
 class App extends React.Component { 
     constructor(props) {
@@ -26,6 +26,7 @@ class App extends React.Component {
             DebateList: <DebateList changeView={this.changeView}  />,
             DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} />,
+            Register: <Register changeView={this.changeView} />,
             }
         return VIEWS[state.currentView];
       }

@@ -23,7 +23,7 @@ class Nav extends React.Component {
         const classTwo = collapsed ? 'navbar-toggler navbar-toggler-right collapsed' : 'navbar-toggler navbar-toggler-right';
       return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a className="navbar-brand" href="#">Bad-Ass Debate App</a>
+            <a className="navbar-brand" href="#/">Bad-Ass Debate App</a>
             <button onClick={this.toggleNavbar} className={`${classTwo}`} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -31,13 +31,13 @@ class Nav extends React.Component {
             <div className={`${classOne}`} id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item active">
-                        <a className="nav-link" href="#" onClick={() => this.handleViewChange('DebateList')}>Home <span className="sr-only">(current)</span></a>
+                        <a className="nav-link" href="#/list-debates" onClick={() => this.handleViewChange('DebateList')}>Home <span className="sr-only">(current)</span></a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#" onClick={() => this.handleViewChange('StartNewDebate')}>Start a New Debate</a>
+                        <a className="nav-link" href="#/new-debate" onClick={() => this.handleViewChange('StartNewDebate')}>Start a New Debate</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#" onClick={() => this.handleViewChange('Form')}>Form</a>
+                        <a className="nav-link" href="#/register" onClick={() => this.handleViewChange('Register')}>Register</a>
                     </li>
                 </ul>
                 <form className="form-inline mx-2 my-2 my-lg-0">

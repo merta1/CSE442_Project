@@ -4,7 +4,7 @@ class CommentItem extends React.Component {
     render() {
       return (
         <tr>
-            <td>{this.props.Comment}</td>
+            <td>{this.props.UserID}: {this.props.Comment}</td>
         </tr>
       );
     }

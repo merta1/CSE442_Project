@@ -26,6 +26,7 @@ class App extends React.Component {
             DebateList: <DebateList changeView={this.changeView}  />,
             DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} />,
+            Form: <Form changeView={this.changeView} />,
             }
         return VIEWS[state.currentView];
       }

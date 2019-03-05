@@ -12,6 +12,7 @@ class DebateWindow extends React.Component {
       var debateJson = {
         "question":"Do you think CSE is a good program?",
         "debateid":147,
+        "totalcomments":5,
         "agree":{
             "displaytext":"Agree",
             "usercount":2,

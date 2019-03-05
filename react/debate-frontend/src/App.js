@@ -10,10 +10,12 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        //this is our default state
+        //set defaults
         this.state = {
             currentView: 'DebateList',
             debateid: '#',
+            username: null,
+            email: null
         };
 
         //strip the anchor out of the URL, it will determine the view that is loaded if a page is refreshed
@@ -26,34 +28,36 @@ class App extends React.Component {
                     case "debate":
                         //debateid is only used on the DebateWindow page right now, it refers to a debate ID in the database
                         //currentView is used to change the view state of the React Application
-                        this.state = {
-                            currentView: 'DebateWindow',
-                            debateid: anchorparts[2],
-                        };
+                        this.state.currentView = 'DebateWindow';
+                        this.state.debateid = anchorparts[2];
                         break;
                     case "new-debate":
-                        this.state = {
-                            currentView: 'StartNewDebate',
-                            debateid: '#',
-                        };
+                        this.state.currentView = 'StartNewDebate';
                         break;
                     case "register":
-                        this.state = {
-                            currentView: 'Register',
-                            debateid: '#',
-                        };
+                        this.state.currentView = 'Register';
                         break;
                     default:
                         break;
                 }
             } 
         } 
-        
+
+        let localSave = localStorage.getItem("debate");
+        if (localSave !== "" && localSave !== null) {
+            this.state.username = JSON.parse(localSave).username;
+            this.state.email = JSON.parse(localSave).email;
+        }
+
         this.changeView = this.changeView.bind(this);
+        this.setUserName = this.setUserName.bind(this);
       }
       //this changes the active view and the 
       changeView(view, dbid="#") {
         this.setState({currentView: view, debateid: dbid})
+      }
+      setUserName(user) {
+          this.setState({username: user})
       }
       drawView(state) {
         //this is a list of potential views.  We need to add new views here first!!!!
@@ -61,7 +65,7 @@ class App extends React.Component {
             DebateList: <DebateList changeView={this.changeView}  />,
             DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} />,
-            Register: <Register changeView={this.changeView} />,
+            Register: <Register changeView={this.changeView} setUserName={this.setUserName} />,
             }
         return VIEWS[state.currentView];
       }
@@ -69,7 +73,7 @@ class App extends React.Component {
     render() {
       return (
         <div className='container'>
-            <Nav changeView={this.changeView} />
+            <Nav changeView={this.changeView} username={this.state.username} />
             {this.drawView(this.state)}
 
         </div>

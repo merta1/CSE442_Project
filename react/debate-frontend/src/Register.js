@@ -12,6 +12,7 @@ class Register extends React.Component {
                         passwordlogin : '',
                 }
                 this.handleSubmit = this.handleSubmit.bind(this);
+                
         }
 
         handleSubmit = type => event => {
@@ -19,13 +20,17 @@ class Register extends React.Component {
                 // event is the event object that returned
                 switch(type) {
                         case "register":
-                                alert("do registration for " + this.state.email);
+                                localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
                                 break;
                         case "login":
                                 alert("do login for " + this.state.emaillogin);
                                 break;
                 }
-        };
+        }
+
+        setUserName = user => {
+                this.props.setUserName(user);            
+        } 
 
         render() {
                 return(
@@ -55,7 +60,7 @@ class Register extends React.Component {
                                                                 onChange={e=>this.setState({username: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">
-                                                        <input class="btn btn-dark" type="submit" value="Register" />
+                                                        <input class="btn btn-dark" type="submit" value="Register" onClick={() => this.setUserName(this.state.username)} />
                                                 </div>
                                         </form>
                                 </div>

@@ -5,6 +5,7 @@ function NotLoggedInText(props) {
         <a className="nav-link" href="#/register" onClick={() => props.changeView('Register')}>Login/Register</a>
     );
 }
+
 function LoggedInText(props) {
     return (
         <div className="nav-link">Welcome {props.username} </div>

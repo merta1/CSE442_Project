@@ -19,7 +19,6 @@ class Nav extends React.Component {
         this.toggleNavbar = this.toggleNavbar.bind(this);
         this.state = {
             collapsed: true,
-            username: props.username
         };
     }
     toggleNavbar() {
@@ -31,12 +30,12 @@ class Nav extends React.Component {
         this.props.changeView(view);            
     } 
     render() {
-        const isLoggedIn = (this.state.username === undefined ? false : true);
+        const isLoggedIn = (this.props.username === undefined || this.props.username === null ? false : true);
         let logintext = "";
         if (!isLoggedIn) {
             logintext = <NotLoggedInText changeView={this.handleViewChange} />;
         } else {
-            logintext = <LoggedInText username={this.state.username} />;
+            logintext = <LoggedInText username={this.props.username} />;
         }
         const collapsed = this.state.collapsed;
         const classOne = collapsed ? 'collapse navbar-collapse' : 'collapse navbar-collapse show';

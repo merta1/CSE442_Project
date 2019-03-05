@@ -12,6 +12,7 @@ class Register extends React.Component {
                         passwordlogin : '',
                 }
                 this.handleSubmit = this.handleSubmit.bind(this);
+                
         }
 
         handleSubmit = type => event => {
@@ -19,7 +20,11 @@ class Register extends React.Component {
                 // event is the event object that returned
                 switch(type) {
                         case "register":
-                                alert("do registration for " + this.state.email);
+                                var user = function() {
+                                        this.props.username(this.state.username);
+                                }
+                                localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
+                                //alert("do registration for " + this.state.email);
                                 break;
                         case "login":
                                 alert("do login for " + this.state.emaillogin);

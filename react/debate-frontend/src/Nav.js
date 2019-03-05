@@ -1,5 +1,16 @@
 import React from 'react';
 
+function NotLoggedInText(props) {
+    return(
+        <a className="nav-link" href="#/register" onClick={() => props.changeView('Register')}>Login/Register</a>
+    );
+}
+function LoggedInText(props) {
+    return (
+        <div className="nav-link">Welcome {props.username} </div>
+    );
+}
+
 class Nav extends React.Component { 
 
     constructor(props) {
@@ -7,6 +18,7 @@ class Nav extends React.Component {
         this.toggleNavbar = this.toggleNavbar.bind(this);
         this.state = {
             collapsed: true,
+            username: props.username
         };
     }
     toggleNavbar() {
@@ -18,6 +30,13 @@ class Nav extends React.Component {
         this.props.changeView(view);            
     } 
     render() {
+        const isLoggedIn = (this.state.username === undefined ? false : true);
+        let logintext = "";
+        if (!isLoggedIn) {
+            logintext = <NotLoggedInText changeView={this.handleViewChange} />;
+        } else {
+            logintext = <LoggedInText username={this.state.username} />;
+        }
         const collapsed = this.state.collapsed;
         const classOne = collapsed ? 'collapse navbar-collapse' : 'collapse navbar-collapse show';
         const classTwo = collapsed ? 'navbar-toggler navbar-toggler-right collapsed' : 'navbar-toggler navbar-toggler-right';
@@ -34,7 +53,7 @@ class Nav extends React.Component {
                         <a className="nav-link" href="#/new-debate" onClick={() => this.handleViewChange('StartNewDebate')}>Start a New Debate</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#/register" onClick={() => this.handleViewChange('Register')}>Login/Register</a>
+                        {logintext}
                     </li>
                 </ul>
                 <form className="form-inline mx-2 my-2 my-lg-0">

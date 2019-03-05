@@ -10,11 +10,23 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        //this is our default state
-        this.state = {
-            currentView: 'DebateList',
-            debateid: '#',
-        };
+        let localSave = localStorage.getItem("debate");
+        alert(localSave);
+        if (localSave === "") {
+            this.state = {
+                currentView: 'DebateList',
+                debateid: '#'
+                //username: JSON.parse(localStorage.getItem("debate")).username,
+                //email: JSON.parse(localStorage.getItem("debate")).email   
+            };
+        } else {
+            this.state = {
+                currentView: 'DebateList',
+                debateid: '#',
+                username: JSON.parse(localStorage.getItem("debate")).username,
+                email: JSON.parse(localStorage.getItem("debate")).email
+            };
+        }
 
         //strip the anchor out of the URL, it will determine the view that is loaded if a page is refreshed
         let url = document.URL;
@@ -55,13 +67,16 @@ class App extends React.Component {
       changeView(view, dbid="#") {
         this.setState({currentView: view, debateid: dbid})
       }
+      setUsername(user) {
+          this.setState({username: user})
+      }
       drawView(state) {
         //this is a list of potential views.  We need to add new views here first!!!!
         var VIEWS = {
             DebateList: <DebateList changeView={this.changeView}  />,
             DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} />,
-            Register: <Register changeView={this.changeView} />,
+            Register: <Register changeView={this.changeView} username={this.setUserName} />,
             }
         return VIEWS[state.currentView];
       }
@@ -69,7 +84,7 @@ class App extends React.Component {
     render() {
       return (
         <div className='container'>
-            <Nav changeView={this.changeView} />
+            <Nav changeView={this.changeView} username={this.state.username} />
             {this.drawView(this.state)}
 
         </div>

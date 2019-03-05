@@ -24,6 +24,9 @@ class Register extends React.Component {
                         case "login":
                                 alert("do login for " + this.state.emaillogin);
                                 break;
+                        default:
+                                alert("an error occured.");
+                                break;
                 }
         };
 

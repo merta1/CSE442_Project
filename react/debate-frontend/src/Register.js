@@ -20,9 +20,6 @@ class Register extends React.Component {
                 // event is the event object that returned
                 switch(type) {
                         case "register":
-                                var user = function() {
-                                        this.props.username(this.state.username);
-                                }
                                 localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
                                 //alert("do registration for " + this.state.email);
                                 break;
@@ -60,7 +57,7 @@ class Register extends React.Component {
                                                                 onChange={e=>this.setState({username: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">
-                                                        <input class="btn btn-dark" type="submit" value="Register" />
+                                                        <input class="btn btn-dark" type="submit" value="Register" onClick={() => this.props.username(this.state.username)} />
                                                 </div>
                                         </form>
                                 </div>

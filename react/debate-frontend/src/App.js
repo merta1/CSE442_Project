@@ -12,7 +12,7 @@ class App extends React.Component {
 
         let localSave = localStorage.getItem("debate");
         alert(localSave);
-        if (localSave === "") {
+        if (localSave === "" || localSave === null) {
             this.state = {
                 currentView: 'DebateList',
                 debateid: '#'

@@ -6,7 +6,7 @@ import StartNewDebate from './StartNewDebate';
 import Nav from './Nav';
 import Register from './Register';
 
-class App extends React.Component { 
+class App extends React.Component {
     constructor(props) {
         super(props);
 
@@ -40,8 +40,8 @@ class App extends React.Component {
                     default:
                         break;
                 }
-            } 
-        } 
+            }
+        }
 
         let localSave = localStorage.getItem("debate");
         if (localSave !== "" && localSave !== null) {
@@ -52,7 +52,7 @@ class App extends React.Component {
         this.changeView = this.changeView.bind(this);
         this.setUserName = this.setUserName.bind(this);
       }
-      //this changes the active view and the 
+      //this changes the active view and the
       changeView(view, dbid="#") {
         this.setState({currentView: view, debateid: dbid})
       }
@@ -63,13 +63,13 @@ class App extends React.Component {
         //this is a list of potential views.  We need to add new views here first!!!!
         var VIEWS = {
             DebateList: <DebateList changeView={this.changeView}  />,
-            DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} />,
+            DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} username={this.state.username} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} />,
-            Register: <Register changeView={this.changeView} setUserName={this.setUserName} />,
+            Register: <Register changeView={this.changeView} setUserName={this.setUserName} debateid={state.debateid} />,
             }
         return VIEWS[state.currentView];
       }
-    
+
     render() {
       return (
         <div className='container'>

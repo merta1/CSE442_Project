@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Test
 function NotLoggedInText(props) {
     return(
         <a className="nav-link" href="#/register" onClick={() => props.changeView('Register')}>Login/Register</a>
@@ -12,7 +13,7 @@ function LoggedInText(props) {
     );
 }
 
-class Nav extends React.Component { 
+class Nav extends React.Component {
 
     constructor(props) {
         super(props);
@@ -27,8 +28,8 @@ class Nav extends React.Component {
         });
     }
     handleViewChange = (view) => {
-        this.props.changeView(view);            
-    } 
+        this.props.changeView(view);
+    }
     render() {
         const isLoggedIn = (this.props.username === undefined || this.props.username === null ? false : true);
         let logintext = "";

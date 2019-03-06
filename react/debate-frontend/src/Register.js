@@ -12,7 +12,7 @@ class Register extends React.Component {
                         passwordlogin : '',
                 }
                 this.handleSubmit = this.handleSubmit.bind(this);
-                
+
         }
 
         handleSubmit = type => event => {
@@ -21,6 +21,7 @@ class Register extends React.Component {
                 switch(type) {
                         case "register":
                                 localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
+                                this.props.changeView('DebateWindow', this.props.debateid);
                                 break;
                         case "login":
                                 alert("do login for " + this.state.emaillogin);
@@ -32,8 +33,8 @@ class Register extends React.Component {
         }
 
         setUserName = user => {
-                this.props.setUserName(user);            
-        } 
+                this.props.setUserName(user);
+        }
 
         render() {
                 return(
@@ -43,23 +44,23 @@ class Register extends React.Component {
                                 <h3>New User? Register</h3>
                                         <form onSubmit={this.handleSubmit('register')}>
                                                 <div class="form-group">
-                                                        <input placeholder='Email Address' 
+                                                        <input placeholder='Email Address'
                                                                 class="form-control"
                                                                 type="email"
-                                                                value={this.state.email} 
+                                                                value={this.state.email}
                                                                 onChange={e=>this.setState({email: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">
-                                                        <input placeholder='Password' 
+                                                        <input placeholder='Password'
                                                                 class="form-control"
                                                                 type="password"
-                                                                value={this.state.password} 
+                                                                value={this.state.password}
                                                                 onChange={e=>this.setState({password: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">
-                                                        <input placeholder='Display Name' 
+                                                        <input placeholder='Display Name'
                                                                 class="form-control"
-                                                                value={this.state.username} 
+                                                                value={this.state.username}
                                                                 onChange={e=>this.setState({username: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">
@@ -71,17 +72,17 @@ class Register extends React.Component {
                                 <h3>Existing User? Login</h3>
                                 <form onSubmit={this.handleSubmit('login')}>
                                                 <div class="form-group">
-                                                        <input placeholder='Email Address' 
+                                                        <input placeholder='Email Address'
                                                                 class="form-control"
                                                                 type="email"
-                                                                value={this.state.emaillogin} 
+                                                                value={this.state.emaillogin}
                                                                 onChange={e=>this.setState({emaillogin: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">
-                                                        <input placeholder='Password' 
+                                                        <input placeholder='Password'
                                                                 class="form-control"
                                                                 type="password"
-                                                                value={this.state.passwordlogin} 
+                                                                value={this.state.passwordlogin}
                                                                 onChange={e=>this.setState({passwordlogin: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">

@@ -1,7 +1,15 @@
 import React from 'react';
 import CommentItem from './CommentItem';
 
-class DebateWindow extends React.Component {  
+class DebateWindow extends React.Component {
+
+    constructor(props) {
+      super(props);
+      if (props.username == undefined) {
+        props.changeView('Register', props.debateid);
+      }
+    }
+
     showAgreeAlert() {
       alert("Agree Comment : " + document.getElementById("textAreaAgree").value);
     }
@@ -61,10 +69,10 @@ class DebateWindow extends React.Component {
                   </thead>
                   <tbody>
                   {
-                    arrAgree.map(item => <CommentItem changeView={this.handleViewChange} 
-                        id={item.id} 
-                        debateName={item.debateName} 
-                        View={item.View} 
+                    arrAgree.map(item => <CommentItem changeView={this.handleViewChange}
+                        id={item.id}
+                        debateName={item.debateName}
+                        View={item.View}
                         Comment={item.Comment}
                         UserID={item.UserID}
                         />)
@@ -85,14 +93,14 @@ class DebateWindow extends React.Component {
                 </thead>
                 <tbody>
                 {
-                    arrDisagree.map(item => <CommentItem changeView={this.handleViewChange} 
-                        id={item.id} 
-                        debateName={item.debateName} 
-                        View={item.View} 
+                    arrDisagree.map(item => <CommentItem changeView={this.handleViewChange}
+                        id={item.id}
+                        debateName={item.debateName}
+                        View={item.View}
                         Comment={item.Comment}
                         UserID={item.UserID}
                         />)
-                } 
+                }
                 </tbody>
               </table>
               <div>

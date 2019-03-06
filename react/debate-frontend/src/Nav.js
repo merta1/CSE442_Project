@@ -1,6 +1,5 @@
 import React from 'react';
 
-// Test
 function NotLoggedInText(props) {
     return(
         <a className="nav-link" href="#/register" onClick={() => props.changeView('Register')}>Login/Register</a>
@@ -32,15 +31,25 @@ class Nav extends React.Component {
     }
     render() {
         const isLoggedIn = (this.props.username === undefined || this.props.username === null ? false : true);
+
         let logintext = "";
+        let newDebateText = "";
         if (!isLoggedIn) {
             logintext = <NotLoggedInText changeView={this.handleViewChange} />;
         } else {
             logintext = <LoggedInText username={this.props.username} />;
+            newDebateText = (<li className="nav-item">
+                                    <a className="nav-link" href="#/new-debate" onClick={() => this.handleViewChange('StartNewDebate')}>Start a New Debate</a>
+                              </li>);
         }
+
+
+
         const collapsed = this.state.collapsed;
         const classOne = collapsed ? 'collapse navbar-collapse' : 'collapse navbar-collapse show';
         const classTwo = collapsed ? 'navbar-toggler navbar-toggler-right collapsed' : 'navbar-toggler navbar-toggler-right';
+
+
       return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <a className="navbar-brand" href="#/" onClick={() => this.handleViewChange('DebateList')}>Bad-Ass Debate App</a>
@@ -50,9 +59,7 @@ class Nav extends React.Component {
 
             <div className={`${classOne}`} id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <a className="nav-link" href="#/new-debate" onClick={() => this.handleViewChange('StartNewDebate')}>Start a New Debate</a>
-                    </li>
+                    {newDebateText}
                     <li className="nav-item">
                         {logintext}
                     </li>

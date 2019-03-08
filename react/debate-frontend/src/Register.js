@@ -30,6 +30,7 @@ class Register extends React.Component {
                                 alert("an error occured.");
                                 break;
                 }
+                event.preventDefault();
         }
 
         setUserName = user => {

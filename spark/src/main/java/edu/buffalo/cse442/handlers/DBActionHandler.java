@@ -41,7 +41,8 @@ public class DBActionHandler {
                     "  `First Name` VARCHAR(45) NOT NULL," +
                     "  `Last Name` VARCHAR(45) NOT NULL," +
                     "  `Email` VARCHAR(45) NOT NULL," +
-                    "  `Password` VARCHAR(45) NOT NULL," +
+                    "  `EncryptedPassword` VARCHAR(45) NOT NULL," +
+                    "  `User Level` INT NOT NULL," +
                     "  PRIMARY KEY (`Id`));";
             //            System.out.println(query);
             stmt.execute(query);
@@ -68,6 +69,9 @@ public class DBActionHandler {
             Statement stmt= connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`DebateTable` (" +
                     "  `Id` INT NOT NULL AUTO_INCREMENT," +
+                    "  `OwnerID` INT NOT NULL,"+
+                    "  `Open` INT NOT NULL," +
+                    "  `Public` INT NOT NULL," +
                     "  `Title` VARCHAR(100) NOT NULL," +
                     "  `ViewDebate` VARCHAR(100) NOT NULL," +
                     "  `ParticipateAtDebate` VARCHAR(100) NOT NULL," +
@@ -76,7 +80,6 @@ public class DBActionHandler {
                     "  `SideBTitle` VARCHAR(100) NOT NULL," +
                     "  `SideBCommentID` INT NOT NULL," +
                     "  `Summary` VARCHAR(500) NOT NULL," +
-                    "  `Participants` VARCHAR(100) NOT NULL," +
                     "  `LastCommentDateTime` TIMESTAMP NOT NULL," +
                     "  CONSTRAINT contacts_unique UNIQUE (`SideACommentID`, `SideBCommentID`)," +
                     "  PRIMARY KEY (`Id`));";
@@ -104,9 +107,41 @@ public class DBActionHandler {
             Statement stmt= connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`CommentTable` (" +
                     "  `Id` INT NOT NULL," +
+                    "  `DebateID INT NOT NULL," +
                     "  `CommentDateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL," +
                     "  `Comment` VARCHAR(500) NOT NULL," +
-                    "  `UserName of the Commenter` VARCHAR(100) NOT NULL);";
+                    "  `UserID` INT NOT NULL," +
+                    "  `Side` VARCHAR(1) NOT NULL,"+
+                    "   PRIMARY KEY (`Id`));";
+            //            System.out.println(query);
+            stmt.execute(query);
+
+            System.out.println("Comment Table created!");
+            connection.close();
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("Where is your MySQL JDBC Driver?");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+        } catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void createuser_opiniontable() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
+
+            Statement stmt= connection.createStatement();
+            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`useropiniontable` (" +
+                    "  `Id` INT NOT NULL," +
+                    "  `DebateID INT NOT NULL," +
+                    "  `UserID` INT NOT NULL," +
+                    "  `Side` VARCHAR(1) NOT NULL,"+
+                    "   PRIMARY KEY (`Id`));";
             //            System.out.println(query);
             stmt.execute(query);
 

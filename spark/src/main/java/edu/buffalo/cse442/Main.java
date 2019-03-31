@@ -2,6 +2,7 @@ package edu.buffalo.cse442;
 
 import static spark.Spark.*;
 
+import edu.buffalo.cse442.handlers.DBActionHandler;
 import edu.buffalo.cse442.handlers.DebateHandler;
 import edu.buffalo.cse442.handlers.UserHandler;
 import org.apache.log4j.BasicConfigurator;
@@ -10,17 +11,28 @@ public class Main {
 
     private DebateHandler debateHandler;
     private UserHandler userHandler;
+    private DBActionHandler dbActionsHandler;
+
 
     Main() {
         debateHandler = new DebateHandler();
         userHandler = new UserHandler();
+        dbActionsHandler = new DBActionHandler();
     }
 
     public static void main(String[] args) {
     	BasicConfigurator.configure();
 
         Main main = new Main();
+        main.createDBandTables();
         main.establishEndpoints();
+    }
+
+    void createDBandTables() {
+        dbActionsHandler.createDB();
+        dbActionsHandler.createUserTable();
+        dbActionsHandler.createUserTable();
+        dbActionsHandler.createCommentTable();
     }
 
     void establishEndpoints() {

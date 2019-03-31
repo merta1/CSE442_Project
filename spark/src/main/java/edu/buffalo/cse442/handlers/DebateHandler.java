@@ -1,12 +1,18 @@
 package edu.buffalo.cse442.handlers;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class DebateHandler {
 
     /**
      * Create a debate in response to a POST request.
      * The parameters are TBD.
+     *
      * @return The debate's details, the same as if you
-     *  had requested the details of that debate's ID.
+     * had requested the details of that debate's ID.
      */
     public String createDebate() {
         /** TODO Add in creating a debate **/
@@ -125,6 +131,4 @@ public class DebateHandler {
                 "        \"4\":{\"id\":5426788,\"debateName\":\"Is this the best app ever created in the history of apps?\",\"createdDate\":\"Feb 18, 2019 3:00pm\",\"activeUsers\":4}\n" +
                 "}";
     }
-
-
 }

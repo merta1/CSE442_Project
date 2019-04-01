@@ -106,7 +106,7 @@ public class DBActionHandler {
             Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
 
             Statement stmt= connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`CommentTable` (" +
+            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`Comment` (" +
                     "  `Id` INT NOT NULL," +
                     "  `DebateID` INT NOT NULL," +
                     "  `CommentDateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL," +
@@ -137,7 +137,7 @@ public class DBActionHandler {
             Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
 
             Statement stmt= connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`useropiniontable` (" +
+            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`UserOpinion` (" +
                     "  `Id` INT NOT NULL," +
                     "  `DebateID` INT NOT NULL," +
                     "  `UserID` INT NOT NULL," +
@@ -176,7 +176,7 @@ public class DBActionHandler {
                     "\"" + password + "\"" + ", " +
                     userLevel + ");";
 
-            System.out.println(query);
+//            System.out.println(query);
             stmt.execute(query);
 
             System.out.println("User Registered!");

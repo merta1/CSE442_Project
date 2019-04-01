@@ -31,8 +31,9 @@ public class Main {
     void createDBandTables() {
         dbActionsHandler.createDB();
         dbActionsHandler.createUserTable();
-        dbActionsHandler.createUserTable();
+        dbActionsHandler.createDebateTable();
         dbActionsHandler.createCommentTable();
+        dbActionsHandler.createuser_opiniontable();
     }
 
     void establishEndpoints() {

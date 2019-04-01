@@ -107,7 +107,7 @@ public class DBActionHandler {
             Statement stmt= connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`CommentTable` (" +
                     "  `Id` INT NOT NULL," +
-                    "  `DebateID INT NOT NULL," +
+                    "  `DebateID` INT NOT NULL," +
                     "  `CommentDateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL," +
                     "  `Comment` VARCHAR(500) NOT NULL," +
                     "  `UserID` INT NOT NULL," +
@@ -138,14 +138,14 @@ public class DBActionHandler {
             Statement stmt= connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`useropiniontable` (" +
                     "  `Id` INT NOT NULL," +
-                    "  `DebateID INT NOT NULL," +
+                    "  `DebateID` INT NOT NULL," +
                     "  `UserID` INT NOT NULL," +
                     "  `Side` VARCHAR(1) NOT NULL,"+
                     "   PRIMARY KEY (`Id`));";
-            //            System.out.println(query);
+//                        System.out.println(query);
             stmt.execute(query);
 
-            System.out.println("Comment Table created!");
+            System.out.println("Opinion Table created!");
             connection.close();
 
         } catch (ClassNotFoundException e) {

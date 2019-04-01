@@ -21,25 +21,20 @@ class DebateList extends React.Component {
     }
 
     componentDidMount() {
-      fetch("http://localhost:4567/debates/recent")
+      fetch(this.props.sparkEndpoint + "/debates/recent")
         .then(res => res.json())
         .then(
           (result) => {
-            console.log("Result! " + result);
             this.setState({ json : result });
           },
           (error) => {
-            this.setState({
-              isLoaded: true,
-              error
-            });
+            // TODO Implement Error handling.
+            console.log("Error, couldn't connect to spark : " + error);
           }
         )
     }
 
     render() {
-    //here is where we would do our fetch call to get data from spark on various debates
-    //var json = ;
     var json = this.state.json;
 
     var arr = [];

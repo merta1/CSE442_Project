@@ -39,30 +39,29 @@ public class DebateHandler {
          * TODO Implement GET handler for getting info about a sepecific debate.
          */
         return "{\n" +
-                "        \"question\":\"Do you think CSE is a good program?\",\n" +
-                "        \"debateid\":147,\n" +
-                "        \"totalcomments\":5,\n" +
-                "        \"agree\":{\n" +
-                "            \"displaytext\":\"Agree\",\n" +
-                "            \"usercount\":2,\n" +
-                "            \"commentcount\":3,\n" +
-                "            \"comments\":{\n" +
-                "                \"1\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Agree\",\"Comment\":\"It is Awesome!!!\",\"UserID\":\"dadkins20\"},\n" +
-                "                \"2\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Agree\",\"Comment\":\"YEAH!!!!!!!!\",\"UserID\":\"mert\"},\n" +
-                "                \"3\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Agree\",\"Comment\":\"Best APP ever :D\",\"UserID\":\"dadkins20\"}\n" +
-                "            }\n" +
-                "        },\n" +
-                "        \"disagree\":{\n" +
-                "            \"displaytext\":\"Disagree\",\n" +
-                "            \"usercount\":2,\n" +
-                "            \"commentcount\":2,\n" +
-                "            \"comments\":{\n" +
-                "                \"1\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Disagree\",\"Comment\":\"Eh!!\",\"UserID\":\"JonForce\"},\n" +
-                "                \"2\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Disagree\",\"Comment\":\"Worst App Yet!!!!!!!!\",\"UserID\":\"Anu\"}\n" +
-                "            }\n" +
-                "        }\n" +
-                "      }" +
-                "}";
+                "          \"question\":\"Do you think CSE is a good program?\",\n" +
+                "          \"debateid\":147,\n" +
+                "          \"totalcomments\":5,\n" +
+                "          \"agree\":{\n" +
+                "              \"displaytext\":\"Agree\",\n" +
+                "              \"usercount\":2,\n" +
+                "              \"commentcount\":3,\n" +
+                "              \"comments\":{\n" +
+                "                  \"1\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Agree\",\"Comment\":\"I love spark!!!\",\"UserID\":\"dadkins20\"},\n" +
+                "                  \"2\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Agree\",\"Comment\":\"YEAH!!!!!!!!\",\"UserID\":\"mert\"},\n" +
+                "                  \"3\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Agree\",\"Comment\":\"Best APP ever :D\",\"UserID\":\"dadkins20\"}\n" +
+                "              }\n" +
+                "          },\n" +
+                "          \"disagree\":{\n" +
+                "              \"displaytext\":\"Disagree\",\n" +
+                "              \"usercount\":2,\n" +
+                "              \"commentcount\":2,\n" +
+                "              \"comments\":{\n" +
+                "                  \"1\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Disagree\",\"Comment\":\"Eh!!\",\"UserID\":\"JonForce\"},\n" +
+                "                  \"2\":{\"id\":146,\"debateName\":\"debate 146\",\"View\":\"Disagree\",\"Comment\":\"Worst App Yet!!!!!!!!\",\"UserID\":\"Anu\"}\n" +
+                "              }\n" +
+                "          }\n" +
+                "        }";
     }
 
     /**

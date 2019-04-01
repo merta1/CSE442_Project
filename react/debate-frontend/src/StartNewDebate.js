@@ -15,13 +15,19 @@ class StartNewDebate extends React.Component {
 
     handleSubmit(event) {
       event.preventDefault();
-      alert("Form submitted!\nFirstName : " + event.target.firstName.value
-          +"\nLastName : " + event.target.lastName.value
-          +"\nWhoCanView : " + event.target.whoCanView.value
-          +"\nWhoCanDebate : " + event.target.whoCanDebate.value
-          +"\nDebateSummary : " + event.target.debateSummary.value
-          +"\nSideATitle : " + event.target.debateSideA.value
-          +"\nSideBTitle : " + event.target.debateSideB.value);
+
+      fetch(this.props.sparkEndpoint + "/debate", {
+        method: "POST",
+        body: event.target
+      }).then(
+        (result) => {
+          alert("Posted to the server!")
+        },
+        (error) => {
+          // TODO Implement Error handling.
+          console.log("Error, couldn't connect to spark : " + error);
+        }
+      )
       return false;
     }
 

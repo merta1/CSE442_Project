@@ -15,7 +15,8 @@ class App extends React.Component {
             currentView: 'DebateList',
             debateid: '#',
             username: null,
-            email: null
+            email: null,
+            sparkEndpoint: "http://localhost:4567"
         };
 
         //strip the anchor out of the URL, it will determine the view that is loaded if a page is refreshed
@@ -54,7 +55,7 @@ class App extends React.Component {
       }
       //this changes the active view and the
       changeView(view, dbid="#") {
-        this.setState({currentView: view, debateid: dbid})
+        this.setState({currentView: view, debateid: dbid })
       }
       setUserName(user) {
           this.setState({username: user})
@@ -62,10 +63,10 @@ class App extends React.Component {
       drawView(state) {
         //this is a list of potential views.  We need to add new views here first!!!!
         var VIEWS = {
-            DebateList: <DebateList changeView={this.changeView}  />,
-            DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} username={this.state.username} />,
-            StartNewDebate: <StartNewDebate changeView={this.changeView} />,
-            Register: <Register changeView={this.changeView} setUserName={this.setUserName} debateid={state.debateid} />,
+            DebateList: <DebateList changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
+            DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} username={this.state.username} sparkEndpoint={this.state.sparkEndpoint} />,
+            StartNewDebate: <StartNewDebate changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
+            Register: <Register changeView={this.changeView} setUserName={this.setUserName} debateid={state.debateid} sparkEndpoint={this.state.sparkEndpoint} />,
             }
         return VIEWS[state.currentView];
       }

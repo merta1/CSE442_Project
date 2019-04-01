@@ -24,6 +24,13 @@ public class Main {
     }
 
     void establishEndpoints() {
+        after((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET");
+            response.header("Access-Control-Allow-Methods", "POST");
+            response.header("Access-Control-Allow-Methods", "PUT");
+        });
+
         // First, connect the debate endpoints.
         post("/debate", (req, res) -> debateHandler.createDebate());
 
@@ -54,7 +61,7 @@ public class Main {
                 throw e;
             }
         });
-        
+
         // Next, connect the user handler.
         put("/user/login", (req, res) -> {
             return userHandler.login(req.params("username"), req.params("password"));

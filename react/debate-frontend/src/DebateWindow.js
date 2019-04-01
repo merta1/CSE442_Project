@@ -8,6 +8,49 @@ class DebateWindow extends React.Component {
       if (props.username == undefined) {
         props.changeView('Register', props.debateid);
       }
+
+      // This will be the values on the screen until the Spark API call returns.
+      this.state = {
+        json : {
+          "question":"Do you think CSE is a good program?",
+          "debateid":147,
+          "totalcomments":5,
+          "agree":{
+              "displaytext":"Agree",
+              "usercount":2,
+              "commentcount":3,
+              "comments":{
+                  "1":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"It is Awesome!!!","UserID":"dadkins20"},
+                  "2":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"YEAH!!!!!!!!","UserID":"mert"},
+                  "3":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"Best APP ever :D","UserID":"dadkins20"}
+              }
+          },
+          "disagree":{
+              "displaytext":"Disagree",
+              "usercount":2,
+              "commentcount":2,
+              "comments":{
+                  "1":{"id":146,"debateName":"debate 146","View":"Disagree","Comment":"Eh!!","UserID":"JonForce"},
+                  "2":{"id":146,"debateName":"debate 146","View":"Disagree","Comment":"Worst App Yet!!!!!!!!","UserID":"Anu"}
+              }
+          }
+        }
+      };
+    }
+
+    componentDidMount() {
+      fetch(this.props.sparkEndpoint + "/debate/" + this.props.debateid)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log("JSON : " + result);
+            this.setState({ json : result });
+          },
+          (error) => {
+            // TODO Implement Error handling.
+            console.log("Error, couldn't connect to spark : " + error);
+          }
+        )
     }
 
     showAgreeAlert() {
@@ -17,30 +60,7 @@ class DebateWindow extends React.Component {
       alert("Disagree Comment : " + document.getElementById("textAreaDisagree").value);
     }
     render() {
-      var debateJson = {
-        "question":"Do you think CSE is a good program?",
-        "debateid":147,
-        "totalcomments":5,
-        "agree":{
-            "displaytext":"Agree",
-            "usercount":2,
-            "commentcount":3,
-            "comments":{
-                "1":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"It is Awesome!!!","UserID":"dadkins20"},
-                "2":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"YEAH!!!!!!!!","UserID":"mert"},
-                "3":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"Best APP ever :D","UserID":"dadkins20"}
-            }
-        },
-        "disagree":{
-            "displaytext":"Disagree",
-            "usercount":2,
-            "commentcount":2,
-            "comments":{
-                "1":{"id":146,"debateName":"debate 146","View":"Disagree","Comment":"Eh!!","UserID":"JonForce"},
-                "2":{"id":146,"debateName":"debate 146","View":"Disagree","Comment":"Worst App Yet!!!!!!!!","UserID":"Anu"}
-            }
-        }
-      }
+      var debateJson = this.state.json;
 
       var arrAgree = [];
       Object.keys(debateJson.agree.comments).forEach(function(key) {

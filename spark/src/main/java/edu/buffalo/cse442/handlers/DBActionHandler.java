@@ -36,13 +36,14 @@ public class DBActionHandler {
             Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
 
             Statement stmt= connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`UserTable` (" +
+            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`Users` (" +
                     "  `Id` INT NOT NULL AUTO_INCREMENT," +
-                    "  `First Name` VARCHAR(45) NOT NULL," +
-                    "  `Last Name` VARCHAR(45) NOT NULL," +
+                    "  `FirstName` VARCHAR(45) NOT NULL," +
+                    "  `LastName` VARCHAR(45) NOT NULL," +
+                    "  `UserName` VARCHAR(45) NOT NULL," +
                     "  `Email` VARCHAR(45) NOT NULL," +
                     "  `EncryptedPassword` VARCHAR(45) NOT NULL," +
-                    "  `User Level` INT NOT NULL," +
+                    "  `UserLevel` INT NOT NULL," +
                     "  PRIMARY KEY (`Id`));";
             //            System.out.println(query);
             stmt.execute(query);
@@ -67,7 +68,7 @@ public class DBActionHandler {
             Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
 
             Statement stmt= connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`DebateTable` (" +
+            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`Debate` (" +
                     "  `Id` INT NOT NULL AUTO_INCREMENT," +
                     "  `OwnerID` INT NOT NULL,"+
                     "  `Open` INT NOT NULL," +
@@ -160,8 +161,36 @@ public class DBActionHandler {
     }
 
     //Todo : Mert
-    public void createUser(String firstName, String lastName, String userName, String email, String passwrod) {
+    public void createUser(String firstName, String lastName, String userName, String email, String password, int userLevel) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
 
+            Statement stmt= connection.createStatement();
+            String query = "INSERT INTO `DEBATEAPP`.`Users` (" +
+                    " `FirstName`, `LastName`, `UserName`, `Email`, `EncryptedPassword`, `UserLevel`) Values (" +
+                    "\"" + firstName + "\"" + ", " +
+                    "\"" + lastName + "\"" + ", " +
+                    "\"" + userName + "\"" + ", " +
+                    "\"" + email + "\"" + ", " +
+                    "\"" + password + "\"" + ", " +
+                    userLevel + ");";
+
+            System.out.println(query);
+            stmt.execute(query);
+
+            System.out.println("User Registered!");
+            connection.close();
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("Where is your MySQL JDBC Driver?");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+        } catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     //Todo : Mert

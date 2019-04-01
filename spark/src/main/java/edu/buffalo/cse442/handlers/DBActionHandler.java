@@ -130,7 +130,7 @@ public class DBActionHandler {
         }
     }
 
-    public void createuser_opiniontable() {
+    public void createUserOpinionTable() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
@@ -159,15 +159,23 @@ public class DBActionHandler {
         }
     }
 
+    //Todo : Mert
     public void createUser(String firstName, String lastName, String userName, String email, String passwrod) {
 
     }
 
+    //Todo : Mert
     public void createDebate() {
 
     }
 
+    //Todo : Anu
     public void createComment() {
+
+    }
+
+    //Todo : Anu
+    public void createUserOpinion() {
 
     }
 }

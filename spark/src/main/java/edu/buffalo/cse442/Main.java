@@ -33,7 +33,7 @@ public class Main {
         dbActionsHandler.createUserTable();
         dbActionsHandler.createDebateTable();
         dbActionsHandler.createCommentTable();
-        dbActionsHandler.createuser_opiniontable();
+        dbActionsHandler.createUserOpinionTable();
     }
 
     void establishEndpoints() {

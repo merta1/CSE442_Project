@@ -1,9 +1,6 @@
 package edu.buffalo.cse442.handlers;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DBActionHandler {
     public void createDB() {
@@ -81,7 +78,7 @@ public class DBActionHandler {
                     "  `SideBTitle` VARCHAR(100) NOT NULL," +
                     "  `SideBCommentID` INT NOT NULL," +
                     "  `Summary` VARCHAR(500) NOT NULL," +
-                    "  `LastCommentDateTime` TIMESTAMP NOT NULL," +
+                    "  `LastCommentDateTime` TIMESTAMP," +
                     "  CONSTRAINT contacts_unique UNIQUE (`SideACommentID`, `SideBCommentID`)," +
                     "  PRIMARY KEY (`Id`));";
             //            System.out.println(query);
@@ -179,7 +176,7 @@ public class DBActionHandler {
 //            System.out.println(query);
             stmt.execute(query);
 
-            System.out.println("User Registered!");
+            System.out.println("User Created!");
             connection.close();
 
         } catch (ClassNotFoundException e) {
@@ -194,8 +191,60 @@ public class DBActionHandler {
     }
 
     //Todo : Mert
-    public void createDebate() {
+    public void createDebate(String userName, int open, int _public, String Title, String ViewDebate, String ParticipateAtDebate, String SideATitle, String SideBTitle, String Summary) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
 
+            Statement stmt= connection.createStatement();
+            String query = "select count(*) from debateapp.debate;";
+            ResultSet rs = stmt.executeQuery(query);
+
+            int id = 0;
+            while(rs.next()) {
+                id = rs.getInt("count(*)") + 1;
+            }
+            System.out.println("ID " + id);
+            int sideACommentID = id*id;
+            int sideBCommentID = (id*id) + 1;
+
+            query = "select id from debateapp.users where userName = '" + userName+ "';";
+            rs = stmt.executeQuery(query);
+
+            int ownerId = 0;
+            while(rs.next()) {
+                ownerId = rs.getInt("id");
+            }
+
+            System.out.println("idUserName " + ownerId);
+
+            query = "INSERT INTO `DEBATEAPP`.`Debate` (OwnerID, Open, Public, Title, ViewDebate, ParticipateAtDebate, SideATitle, SideACommentID, SideBTitle, SideBCommentID, Summary) Values (" +
+                    ownerId + ", " + open + ", " + _public + ", " +
+                    "\"" + Title + "\"," +
+                    "\"" + ViewDebate + "\"," +
+                    "\"" + ParticipateAtDebate + "\"," +
+                    "\"" + SideATitle + "\"," +
+                    sideACommentID + "," +
+                    "\"" + SideBTitle + "\"," +
+                    sideBCommentID + "," +
+                    "\"" + Summary + "\"" +
+                    ");";
+
+//            System.out.println(query);
+            stmt.execute(query);
+
+            System.out.println("Debate Created!");
+            connection.close();
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("Where is your MySQL JDBC Driver?");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+        } catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     //Todo : Anu

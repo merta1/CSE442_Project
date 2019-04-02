@@ -36,6 +36,8 @@ public class Main {
         dbActionsHandler.createUserOpinionTable();
 
         dbActionsHandler.createUser("Mert", "A", "matk", "ma@gmail.com", "pass", 1);
+        dbActionsHandler.createUser("Measdfrt", "Aa", "matasdfk", "maas@gmail.com", "pass", 1);
+        dbActionsHandler.createDebate("matk", 1, 1, "title", "viewDebate", "participateDebate", "SideATitle", "SideBTitle", "Summary");
     }
 
     void establishEndpoints() {

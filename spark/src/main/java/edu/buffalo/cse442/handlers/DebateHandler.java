@@ -1,11 +1,14 @@
 package edu.buffalo.cse442.handlers;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DebateHandler {
+
+    private DBActionHandler db;
+
+    public DebateHandler() {
+        DBActionHandler db = new DBActionHandler();
+    }
 
     /**
      * Create a debate in response to a POST request.
@@ -14,7 +17,51 @@ public class DebateHandler {
      * @return The debate's details, the same as if you
      * had requested the details of that debate's ID.
      */
-    public String createDebate() {
+    public String createDebate(String ownerId, String Title, int readPermissions, int writePermissions, String SideATitle, String SideBTitle, String Summary) {
+
+        int open = 1; //right now we only support open debates.
+        int _public = 1; //right now we only support public debates.
+
+
+        try {
+            Connection connection = db.openDBConnection("debateapp");
+            Statement stmt= connection.createStatement();
+
+            String query = "INSERT INTO Debates (" +
+                    "OwnerID, " +
+                    "Open, " +
+                    "Public, " +
+                    "Title, " +
+                    "ViewPermissions, " +
+                    "CommentPermissions, " +
+                    "SideATitle, " +
+                    "SideBTitle, " +
+                    "Summary) Values (" +
+                    ownerId + ", " +
+                    open + ", " +
+                    _public + ", " +
+                    "\"" + Title + "\"," +
+                    readPermissions + ", " +
+                    writePermissions + ", " +
+                    "\"" + SideATitle + "\"," +
+                    "\"" + SideBTitle + "\"," +
+                    "\"" + Summary + "\"" +
+                    ");";
+
+//            System.out.println(query);
+            stmt.execute(query);
+
+            System.out.println("Debate Created!");
+            connection.close();
+
+        } catch (SQLException e) {
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+        } catch(Exception e){
+            System.out.println(e);
+        }
+
+
         /** TODO Add in creating a debate **/
         System.out.println("Created a debate!");
         return "";

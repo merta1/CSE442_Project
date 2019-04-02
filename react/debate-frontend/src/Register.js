@@ -8,6 +8,8 @@ class Register extends React.Component {
                         username :'',
                         email :'',
                         password : '',
+                        firstname : '',
+                        lastname : "",
                         emaillogin :'',
                         passwordlogin : '',
                 }
@@ -20,10 +22,20 @@ class Register extends React.Component {
                 // event is the event object that returned
                 switch(type) {
                         case "register":
+                                // this needs some work.  Now we need to send an API request to register a user
+                                // and once we get a successful message form the API, then we set the username
+                                // through the set username function.
+
+                                // We need to encrypt the password before we send it.
                                 localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
                                 this.props.changeView('DebateWindow', this.props.debateid);
                                 break;
                         case "login":
+                                // here we send the API request to login and wait for a successful response.
+                                // if there isn't a successful response, we need to display a message to the
+                                // user.  If it is successful, then we set the username.
+
+                                // We need to to encrypt the password before we send it.
                                 alert("do login for " + this.state.emaillogin);
                                 break;
                         default:
@@ -45,11 +57,16 @@ class Register extends React.Component {
                                 <h3>New User? Register</h3>
                                         <form onSubmit={this.handleSubmit('register')}>
                                                 <div class="form-group">
-                                                        <input placeholder='Email Address'
+                                                        <input placeholder='First Name'
                                                                 class="form-control"
-                                                                type="email"
-                                                                value={this.state.email}
-                                                                onChange={e=>this.setState({email: e.target.value}) }/>
+                                                                value={this.state.firstname}
+                                                                onChange={e=>this.setState({firstname: e.target.value}) }/>
+                                                </div>
+                                                <div class="form-group">
+                                                        <input placeholder='Last Name'
+                                                                class="form-control"
+                                                                value={this.state.lastname}
+                                                                onChange={e=>this.setState({lastname: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">
                                                         <input placeholder='Password'
@@ -65,7 +82,7 @@ class Register extends React.Component {
                                                                 onChange={e=>this.setState({username: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">
-                                                        <input class="btn btn-dark" type="submit" value="Register" onClick={() => this.setUserName(this.state.username)} />
+                                                        <input class="btn btn-dark" type="submit" value="Register" />
                                                 </div>
                                         </form>
                                 </div>

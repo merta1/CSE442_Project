@@ -248,12 +248,70 @@ public class DBActionHandler {
     }
 
     //Todo : Anu
-    public void createComment() {
+    public void createComment(int debateiD,string datetime,string comment,int userid,char side)
+    {
+           try 
+           {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
 
+            Statement stmt= connection.createStatement();
+            String query = "INSERT INTO `DEBATEAPP`.`Comments` (" +
+                    " `DebateID`, `CommentDateTime`, `Comment`, `UserID`, `Side`) Values (" +
+                    "\"" + debateID + "\"" + ", " +
+                    "\"" + datetime + "\"" + ", " +
+                    "\"" + comment + "\"" + ", " +
+                    "\"" + userid + "\"" + ", " +
+                    "\"" + side + "\"" );";
+
+//            System.out.println(query);
+            stmt.execute(query);
+
+            System.out.println("Comment Created!");
+            connection.close();
+
+           } 
+        catch (ClassNotFoundException e) {
+            System.out.println("Where is your MySQL JDBC Driver?");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+        } catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     //Todo : Anu
-    public void createUserOpinion() {
+    public void createUserOpinion(int debateid,int userid,char side) 
+    {
+         try 
+           {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/debateapp","root", "1234");;
 
+            Statement stmt= connection.createStatement();
+            String query = "INSERT INTO `DEBATEAPP`.`UserOpinion` (" +
+                    " `DebateID`, `UserID`, `Side`) Values (" +
+                    "\"" + debateID + "\"" + ", " +
+                    "\"" + userid + "\"" + ", " +
+                    "\"" + side + "\"" + " );";
+
+//            System.out.println(query);
+            stmt.execute(query);
+
+            System.out.println("Comment Created!");
+            connection.close();
+
+           } 
+         catch (ClassNotFoundException e) {
+            System.out.println("Where is your MySQL JDBC Driver?");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+        } catch(Exception e){
+            System.out.println(e);
+        }
     }
 }

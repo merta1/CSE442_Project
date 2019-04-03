@@ -71,9 +71,7 @@ public class UserHandler {
 
         } catch (SQLException e) {
             return "{\"status\":\"error\",\"message\":\"A SQL error occured.\"}";
-        } catch(Exception e){
-            return "{\"status\":\"error\",\"message\":\"An unknown error occured.\"}";
-        }
+        } 
     }
 
 }

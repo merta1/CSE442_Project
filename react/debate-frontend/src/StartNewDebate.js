@@ -39,35 +39,28 @@ class StartNewDebate extends React.Component {
               <div class="bg-light">
                 <div class="row">
                   <div class="col-md-6 mb-3">
-                    <label htmlFor="firstName">First name</label>
-                    <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Jane" required="" />
+                    <label htmlFor="title">Debate Title</label>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="A Good Debate Topic" required="" />
                     <div class="invalid-feedback">
-                      Valid first name is required.
-                    </div>
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label htmlFor="lastName">Last name</label>
-                    <input  name="lastName" type="text" class="form-control" id="lastName" placeholder="Smith" required="" />
-                    <div class="invalid-feedback">
-                      Valid last name is required.
+                      A valid debate title is required.
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm">
-                    <label htmlFor="whoCanView">Who can view this debate :</label>
-                    <select name="whoCanView" class="form-control" id="whoCanView">
-                      <option>Anyone</option>
-                      <option>Invite Only</option>
-                      <option>Only Me</option>
+                    <label htmlFor="readPermissions">Who can view this debate :</label>
+                    <select name="readPermissions" class="form-control" id="readPermissions">
+                      <option value="1">Anyone</option>
+                      <option value="2">Invite Only</option>
+                      <option value="4">Only Me</option>
                     </select>
                   </div>
                   <div class="col-sm">
-                    <label htmlFor="whoCanDebate">Who can participate :</label>
-                    <select name="whoCanDebate" class="form-control" id="whoCanDebate">
-                      <option>Anyone</option>
-                      <option>Users logged in</option>
-                      <option>Only Me</option>
+                    <label htmlFor="writePermissions">Who can participate :</label>
+                    <select name="writePermissions" class="form-control" id="writePermissions">
+                      <option value="1">Anyone</option>
+                      <option value="2">Users logged in</option>
+                      <option value="4">Only Me</option>
                     </select>
                   </div>
                 </div>
@@ -75,18 +68,18 @@ class StartNewDebate extends React.Component {
 
                 <div class="row">
                   <div class="col w-50">
-                    <label htmlFor="debateSummary">Debate Summary :</label>
-                    <textarea name="debateSummary" class="form-control" id="debateSummary" rows="3"></textarea>
+                    <label htmlFor="summary">Debate Summary :</label>
+                    <textarea name="summary" class="form-control" id="summary" rows="3"></textarea>
                   </div>
                   <div class="col w-50">
                     <div class="row">
                       <div class="col w-50">
-                        <label htmlFor="debateSideA">Side A Title :</label>
-                        <textarea name="debateSideA" class="form-control" id="debateSideA" rows="1"></textarea>
+                        <label htmlFor="SideATitle">Side A Title :</label>
+                        <textarea name="SideATitle" class="form-control" id="SideATitle" rows="1"></textarea>
                       </div>
                       <div class="col w-50">
-                        <label htmlFor="debateSideB">Side B Title :</label>
-                        <textarea name="debateSideB" class="form-control" id="debateSideB" rows="1"></textarea>
+                        <label htmlFor="SideBTitle">Side B Title :</label>
+                        <textarea name="SideBTitle" class="form-control" id="SideBTitle" rows="1"></textarea>
                       </div>
                     </div>
                   </div>

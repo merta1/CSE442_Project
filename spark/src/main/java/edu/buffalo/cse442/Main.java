@@ -34,10 +34,6 @@ public class Main {
         dbActionsHandler.createDebateTable();
         dbActionsHandler.createCommentTable();
         dbActionsHandler.createUserOpinionTable();
-
-        dbActionsHandler.createUser("Mert", "A", "matk", "ma@gmail.com", "pass", 1);
-        dbActionsHandler.createUser("Measdfrt", "Aa", "matasdfk", "maas@gmail.com", "pass", 1);
-        dbActionsHandler.createDebate("matk", 1, 1, "title", "viewDebate", "participateDebate", "SideATitle", "SideBTitle", "Summary");
     }
 
     void establishEndpoints() {
@@ -49,7 +45,15 @@ public class Main {
         });
 
         // First, connect the debate endpoints.
-        post("/debate", (req, res) -> debateHandler.createDebate());
+        post("/debate", (req, res) -> debateHandler.createDebate(
+                req.params("userid"),
+                req.params("title"),
+                Integer.parseInt(req.params("readPermissions")),
+                Integer.parseInt(req.params("writePermissions")),
+                req.params("SideATitle"),
+                req.params("SideBTitle"),
+                req.params("Summary")
+        ));
 
         get("/debate/:id", (req, res) -> {
             String idString = req.params(":id");
@@ -84,6 +88,12 @@ public class Main {
             return userHandler.login(req.params("username"), req.params("password"));
         });
 
-        post("/user/register", (req, res) -> userHandler.register());
+        post("/user/register", (req, res) -> userHandler.register(
+                req.params("firstname"),
+                req.params("lastname"),
+                req.params("email"),
+                req.params("password"),
+                req.params("username")
+        ));
     }
 }

@@ -2,31 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9367ceb0-ad13-49e9-b6b2-53545d8397b9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../react/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../react/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../react/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/public/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/public/manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/.vs/ProjectSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/.vs/ProjectSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/.vs/VSWorkspaceState.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/.vs/VSWorkspaceState.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/.vs/slnx.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/.vs/slnx.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/.vs/src/v15/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/.vs/src/v15/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/CommentItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/CommentItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/DebateChooseSide.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DebateChooseSide.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/DebateItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DebateItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/DebateList.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DebateList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/DebateWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DebateWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Nav.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/StartNewDebate.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/StartNewDebate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-app/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-app/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-app/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-app/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-app/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-app/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-app/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-app/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Nav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Register.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,11 +26,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-105">
-              <caret line="166" column="5" selection-start-line="166" selection-start-column="5" selection-end-line="166" selection-end-column="5" />
+            <state relative-caret-position="282">
+              <caret line="81" selection-start-line="81" selection-end-line="81" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="293">
+              <caret line="22" column="19" lean-forward="true" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -49,8 +47,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DebateHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-253">
-              <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
+            <state relative-caret-position="585">
+              <caret line="39" column="36" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
               <folding>
                 <element signature="e#119#120#0" expanded="true" />
                 <element signature="e#177#178#0" expanded="true" />
@@ -63,7 +61,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/UserHandler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
-              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#181#182#0" expanded="true" />
@@ -73,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="80" column="40" selection-start-line="80" selection-start-column="40" selection-end-line="80" selection-end-column="40" />
+            <state relative-caret-position="224">
+              <caret line="26" column="12" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -105,14 +103,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Dehash.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/TestException.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Test.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/UserHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DebateHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Main.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java" />
       </list>
     </option>
   </component>
@@ -181,7 +179,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554159349143" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.48390806" />
   </component>
@@ -280,7 +278,7 @@
     <frame x="0" y="23" width="1440" height="806" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17453505" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17453505" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -290,7 +288,7 @@
       <window_info id="Learn" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.15618221" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.15546219" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -317,13 +315,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/TestException.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Test.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Dehash.java" />
@@ -337,7 +328,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/UserHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#181#182#0" expanded="true" />
@@ -346,10 +337,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="26" column="12" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="22" column="19" lean-forward="true" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DebateHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-253">
-          <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
+        <state relative-caret-position="585">
+          <caret line="39" column="36" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
           <folding>
             <element signature="e#119#120#0" expanded="true" />
             <element signature="e#177#178#0" expanded="true" />
@@ -359,18 +367,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-105">
-          <caret line="166" column="5" selection-start-line="166" selection-start-column="5" selection-end-line="166" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="80" column="40" selection-start-line="80" selection-start-column="40" selection-end-line="80" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="282">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
         </state>
       </provider>
     </entry>
@@ -380,10 +378,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>debate-app</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.48390806" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>

@@ -25,14 +25,20 @@ class Register extends React.Component {
                                 // this needs some work.  Now we need to send an API request to register a user
                                 // and once we get a successful message form the API, then we set the username
                                 // through the set username function.
+                                var data = new FormData();
+                                data.append("username", this.state.username);
+                                data.append("email", this.state.email);
+                                data.append("password", this.state.password);
+                                data.append("firstname", this.state.firstname);
+                                data.append("lastname", this.state.lastname);
                                 fetch(this.props.sparkEndpoint + "/user/register", {
                                         method: 'post',
-                                        body: JSON.stringify(this.state)
+                                        body: data,
                                 }).then(function(response) {
                                         return response.json();
                                 }).then(function(data) {
                                         if (data.status === "ok") {
-                                                this.props.setUserName(this.state.username);
+                                                //this.props.setUserName(this.state.username);
                                                 localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
                                                 this.props.changeView('DebateWindow', this.props.debateid);
                                         } else {

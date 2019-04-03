@@ -11,7 +11,7 @@ public class UserHandler {
 
 
     public UserHandler() {
-        DBActionHandler db = new DBActionHandler();
+        db = new DBActionHandler();
     }
 
     /**
@@ -56,8 +56,8 @@ public class UserHandler {
         try {
             Connection connection = db.openDBConnection("debateapp");
             Statement stmt= connection.createStatement();
-            String query = "INSERT INTO `DEBATEAPP`.`Users` (" +
-                    " `FirstName`, `LastName`, `UserName`, `Email`, `EncryptedPassword`, `UserLevel`) Values (" +
+            String query = "INSERT INTO Users (" +
+                    " FirstName, LastName, UserName, Email, EncryptedPassword, UserLevel) Values (" +
                     "\"" + firstname + "\"" + ", " +
                     "\"" + lastname + "\"" + ", " +
                     "\"" + username + "\"" + ", " +

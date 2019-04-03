@@ -2,11 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9367ceb0-ad13-49e9-b6b2-53545d8397b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../react/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../react/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../react/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/.vs/ProjectSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/.vs/ProjectSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/.vs/VSWorkspaceState.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/.vs/VSWorkspaceState.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/.vs/slnx.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/.vs/slnx.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/.vs/src/v15/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/.vs/src/v15/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/CommentItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/CommentItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/DebateChooseSide.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DebateChooseSide.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/DebateItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DebateItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/DebateList.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DebateList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/DebateWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DebateWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Nav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/StartNewDebate.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/StartNewDebate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/debate-frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DebateHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DebateHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/UserHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/UserHandler.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,7 +40,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
+            <state relative-caret-position="-105">
               <caret line="166" column="5" selection-start-line="166" selection-start-column="5" selection-end-line="166" selection-end-column="5" />
             </state>
           </provider>
@@ -29,7 +49,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DebateHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
+            <state relative-caret-position="-253">
               <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
               <folding>
                 <element signature="e#119#120#0" expanded="true" />
@@ -42,8 +62,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/UserHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
+            <state relative-caret-position="90">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#181#182#0" expanded="true" />
@@ -56,8 +76,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="35" column="50" lean-forward="true" selection-start-line="35" selection-start-column="50" selection-end-line="35" selection-end-column="50" />
+            <state relative-caret-position="289">
+              <caret line="80" column="40" selection-start-line="80" selection-start-column="40" selection-end-line="80" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -316,8 +336,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/UserHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
+        <state relative-caret-position="90">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#181#182#0" expanded="true" />
@@ -328,7 +348,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DebateHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
+        <state relative-caret-position="-253">
           <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
           <folding>
             <element signature="e#119#120#0" expanded="true" />
@@ -339,15 +359,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/handlers/DBActionHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
+        <state relative-caret-position="-105">
           <caret line="166" column="5" selection-start-line="166" selection-start-column="5" selection-end-line="166" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/buffalo/cse442/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="35" column="50" lean-forward="true" selection-start-line="35" selection-start-column="50" selection-end-line="35" selection-end-column="50" />
+        <state relative-caret-position="289">
+          <caret line="80" column="40" selection-start-line="80" selection-start-column="40" selection-end-line="80" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

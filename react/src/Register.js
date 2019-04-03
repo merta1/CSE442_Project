@@ -25,8 +25,21 @@ class Register extends React.Component {
                                 // this needs some work.  Now we need to send an API request to register a user
                                 // and once we get a successful message form the API, then we set the username
                                 // through the set username function.
+                                // fetch(this.props.sparkEndpoint + "/user/register" + this.props.debateid)
+                                //         .then(res => res.json())
+                                //         .then(
+                                //                 (result) => {
+                                //                 console.log("JSON : " + result);
+                                //                 this.setState({ json : result });
+                                //                 },
+                                //                 (error) => {
+                                //                 // TODO Implement Error handling.
+                                //                 console.log("Error, couldn't connect to spark : " + error);
+                                //                 }
+                                //         )
 
                                 // We need to encrypt the password before we send it.
+                                this.props.setUserName(this.state.username);
                                 localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
                                 this.props.changeView('DebateWindow', this.props.debateid);
                                 break;
@@ -43,10 +56,6 @@ class Register extends React.Component {
                                 break;
                 }
                 event.preventDefault();
-        }
-
-        setUserName = user => {
-                this.props.setUserName(user);
         }
 
         render() {
@@ -67,6 +76,13 @@ class Register extends React.Component {
                                                                 class="form-control"
                                                                 value={this.state.lastname}
                                                                 onChange={e=>this.setState({lastname: e.target.value}) }/>
+                                                </div>
+                                                <div class="form-group">
+                                                        <input placeholder='Email'
+                                                                class="form-control"
+                                                                type="email"
+                                                                value={this.state.email}
+                                                                onChange={e=>this.setState({email: e.target.value}) }/>
                                                 </div>
                                                 <div class="form-group">
                                                         <input placeholder='Password'

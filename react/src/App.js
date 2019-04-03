@@ -74,7 +74,7 @@ class App extends React.Component {
     render() {
       return (
         <div className='container'>
-            <Nav changeView={this.changeView} username={this.state.username} />
+            <Nav changeView={this.changeView} setUserName={this.setUserName} username={this.state.username} />
             {this.drawView(this.state)}
 
         </div>

@@ -5,7 +5,7 @@ class DebateWindow extends React.Component {
 
     constructor(props) {
       super(props);
-      if (props.username == undefined) {
+      if (props.username === undefined) {
         props.changeView('Register', props.debateid);
       }
 

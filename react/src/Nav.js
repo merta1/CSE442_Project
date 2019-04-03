@@ -8,8 +8,14 @@ function NotLoggedInText(props) {
 
 function LoggedInText(props) {
     return (
-        <div className="nav-link">Welcome {props.username} </div>
+        <a className="nav-link" href="#/" onClick={() => Logout(props)}>Logout {props.username}</a>
     );
+}
+
+function Logout(props) {
+    props.setUser(null);
+    localStorage.removeItem("debate");
+    props.changeView('DebateList');
 }
 
 class Nav extends React.Component {
@@ -29,6 +35,9 @@ class Nav extends React.Component {
     handleViewChange = (view) => {
         this.props.changeView(view);
     }
+    setUserName = (user) => {
+        this.props.setUserName(user);
+    }
     render() {
         const isLoggedIn = (this.props.username === undefined || this.props.username === null ? false : true);
 
@@ -37,7 +46,7 @@ class Nav extends React.Component {
         if (!isLoggedIn) {
             logintext = <NotLoggedInText changeView={this.handleViewChange} />;
         } else {
-            logintext = <LoggedInText username={this.props.username} />;
+            logintext = <LoggedInText setUser={this.setUserName} changeView={this.handleViewChange} username={this.props.username} />;
             newDebateText = (<li className="nav-item">
                                     <a className="nav-link" href="#/new-debate" onClick={() => this.handleViewChange('StartNewDebate')}>Start a New Debate</a>
                               </li>);

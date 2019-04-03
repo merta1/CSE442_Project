@@ -25,23 +25,29 @@ class Register extends React.Component {
                                 // this needs some work.  Now we need to send an API request to register a user
                                 // and once we get a successful message form the API, then we set the username
                                 // through the set username function.
-                                // fetch(this.props.sparkEndpoint + "/user/register" + this.props.debateid)
-                                //         .then(res => res.json())
-                                //         .then(
-                                //                 (result) => {
-                                //                 console.log("JSON : " + result);
-                                //                 this.setState({ json : result });
-                                //                 },
-                                //                 (error) => {
-                                //                 // TODO Implement Error handling.
-                                //                 console.log("Error, couldn't connect to spark : " + error);
-                                //                 }
-                                //         )
-
-                                // We need to encrypt the password before we send it.
-                                this.props.setUserName(this.state.username);
-                                localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
-                                this.props.changeView('DebateWindow', this.props.debateid);
+                                var data = new FormData();
+                                data.append("username", this.state.username);
+                                data.append("email", this.state.email);
+                                data.append("password", this.state.password);
+                                data.append("firstname", this.state.firstname);
+                                data.append("lastname", this.state.lastname);
+                                fetch(this.props.sparkEndpoint + "/user/register", {
+                                        method: 'post',
+                                        body: data,
+                                }).then(function(response) {
+                                        return response.json();
+                                }).then(function(data) {
+                                        if (data.status === "ok") {
+                                                //this.props.setUserName(this.state.username);
+                                                localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
+                                                this.props.changeView('DebateWindow', this.props.debateid);
+                                        } else {
+                                                //there is an error, tell someone
+                                                console.log(data);
+                                        }
+                                }).catch(function(err) {
+                                        console.log("Fetch Error: ",err);
+                                });
                                 break;
                         case "login":
                                 // here we send the API request to login and wait for a successful response.
@@ -60,67 +66,67 @@ class Register extends React.Component {
 
         render() {
                 return(
-                <div class="container login-container">
-                        <div class="row">
-                                <div class="col-md-6 login-form-1">
+                <div className="container login-container">
+                        <div className="row">
+                                <div className="col-md-6 login-form-1">
                                 <h3>New User? Register</h3>
                                         <form onSubmit={this.handleSubmit('register')}>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                         <input placeholder='First Name'
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 value={this.state.firstname}
                                                                 onChange={e=>this.setState({firstname: e.target.value}) }/>
                                                 </div>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                         <input placeholder='Last Name'
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 value={this.state.lastname}
                                                                 onChange={e=>this.setState({lastname: e.target.value}) }/>
                                                 </div>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                         <input placeholder='Email'
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 type="email"
                                                                 value={this.state.email}
                                                                 onChange={e=>this.setState({email: e.target.value}) }/>
                                                 </div>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                         <input placeholder='Password'
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 type="password"
                                                                 value={this.state.password}
                                                                 onChange={e=>this.setState({password: e.target.value}) }/>
                                                 </div>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                         <input placeholder='Display Name'
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 value={this.state.username}
                                                                 onChange={e=>this.setState({username: e.target.value}) }/>
                                                 </div>
-                                                <div class="form-group">
-                                                        <input class="btn btn-dark" type="submit" value="Register" />
+                                                <div className="form-group">
+                                                        <input className="btn btn-dark" type="submit" value="Register" />
                                                 </div>
                                         </form>
                                 </div>
-                                <div class="col-md-6 login-form-2 bg-dark">
+                                <div className="col-md-6 login-form-2 bg-dark">
                                 <h3>Existing User? Login</h3>
                                 <form onSubmit={this.handleSubmit('login')}>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                         <input placeholder='Email Address'
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 type="email"
                                                                 value={this.state.emaillogin}
                                                                 onChange={e=>this.setState({emaillogin: e.target.value}) }/>
                                                 </div>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                         <input placeholder='Password'
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 type="password"
                                                                 value={this.state.passwordlogin}
                                                                 onChange={e=>this.setState({passwordlogin: e.target.value}) }/>
                                                 </div>
-                                                <div class="form-group">
-                                                        <input class="btn btn-light" type="submit" value="Login" />
+                                                <div className="form-group">
+                                                        <input className="btn btn-light" type="submit" value="Login" />
                                                 </div>
                                         </form>
                                 </div>

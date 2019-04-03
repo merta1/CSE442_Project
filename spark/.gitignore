@@ -1,4 +1,4 @@
 /target/
-/.idea
-/spark/.idea
+.idea
+.idea*
 .metadata

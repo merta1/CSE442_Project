@@ -34,6 +34,8 @@ public class Main {
         dbActionsHandler.createDebateTable();
         dbActionsHandler.createCommentTable();
         dbActionsHandler.createUserOpinionTable();
+
+        //userHandler.register("david","adkins","david@davidadkins.com","test","david");
     }
 
     void establishEndpoints() {
@@ -89,11 +91,11 @@ public class Main {
         });
 
         post("/user/register", (req, res) -> userHandler.register(
-                req.params("firstname"),
-                req.params("lastname"),
-                req.params("email"),
-                req.params("password"),
-                req.params("username")
+                req.queryParams("firstname"),
+                req.queryParams("lastname"),
+                req.queryParams("email"),
+                req.queryParams("password"),
+                req.queryParams("username")
         ));
     }
 }

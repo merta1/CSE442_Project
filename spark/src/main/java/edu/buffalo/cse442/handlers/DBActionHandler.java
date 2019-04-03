@@ -6,12 +6,12 @@ public class DBActionHandler {
 
     private String connectionString = "jdbc:mysql://localhost:3306";
     private String dbUser = "root";
-    private String dbPassword = "1234";
+    private String dbPassword = "de-ba-te1!";
 
     public Connection openDBConnection() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection =  DriverManager.getConnection(connectionString, dbUser, dbPassword);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection =  DriverManager.getConnection(connectionString + "?serverTimezone=UTC", dbUser, dbPassword);
             return connection;
         } catch (ClassNotFoundException e) {
             System.out.println("Where is your MySQL JDBC Driver?");
@@ -29,8 +29,8 @@ public class DBActionHandler {
 
     public Connection openDBConnection(String dbName) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection =  DriverManager.getConnection(connectionString + "/" + dbName, dbUser, dbPassword);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection =  DriverManager.getConnection(connectionString + "/" + dbName + "?serverTimezone=UTC", dbUser, dbPassword);
             return connection;
         } catch (ClassNotFoundException e) {
             System.out.println("Where is your MySQL JDBC Driver?");
@@ -50,7 +50,7 @@ public class DBActionHandler {
         try {
             Connection connection =  openDBConnection();
             Statement stmt= connection.createStatement();
-            String query = "CREATE DATABASE IF NOT EXISTS DEBATEAPP";
+            String query = "CREATE DATABASE IF NOT EXISTS debateapp";
             stmt.execute(query);
 
             System.out.println("Database created!");
@@ -69,16 +69,16 @@ public class DBActionHandler {
         try {
             Connection connection = openDBConnection("debateapp");
             Statement stmt= connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS `Users` (" +
+            String query = "CREATE TABLE IF NOT EXISTS Users (" +
                     "  `Id` INT NOT NULL AUTO_INCREMENT," +
                     "  `FirstName` VARCHAR(45) NOT NULL," +
                     "  `LastName` VARCHAR(45) NOT NULL," +
                     "  `UserName` VARCHAR(64) NOT NULL," +
                     "  `Email` VARCHAR(45) NOT NULL," +
-                    "  `EncryptedPassword` VARCHAR() NOT NULL," +
+                    "  `EncryptedPassword` VARCHAR(64) NOT NULL," +
                     "  `UserLevel` INT NOT NULL," +
-                    "  PRIMARY KEY (`Id`));";
-            //            System.out.println(query);
+                    "  PRIMARY KEY (`Id`)" +
+                    ");";
             stmt.execute(query);
 
             System.out.println("User Table created!");

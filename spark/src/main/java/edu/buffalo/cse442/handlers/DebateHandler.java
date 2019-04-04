@@ -6,8 +6,10 @@ public class DebateHandler {
 
     private DBActionHandler db;
 
-    public DebateHandler() {
-        DBActionHandler db = new DBActionHandler();
+    public DebateHandler(String con, String un, String pw) {
+
+        db = new DBActionHandler(con, un, pw);
+
     }
 
     /**
@@ -21,7 +23,6 @@ public class DebateHandler {
 
         int open = 1; //right now we only support open debates.
         int _public = 1; //right now we only support public debates.
-
 
         try {
             Connection connection = db.openDBConnection("debateapp");

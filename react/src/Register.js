@@ -1,4 +1,5 @@
 import React from 'react';
+import Error from './Error';
 
 class Register extends React.Component {
         constructor(props) {
@@ -17,46 +18,81 @@ class Register extends React.Component {
 
         }
 
+        handleError = msg => {
+
+                this.setState({error: msg});
+                this.setState({hasError: true});
+                
+        }
+
         handleSubmit = type => event => {
+
+                let self = this;
+                
                 // type is the argument you passed to the function
                 // event is the event object that returned
                 switch(type) {
                         case "register":
-                                // this needs some work.  Now we need to send an API request to register a user
-                                // and once we get a successful message form the API, then we set the username
-                                // through the set username function.
-                                var data = new FormData();
-                                data.append("username", this.state.username);
-                                data.append("email", this.state.email);
-                                data.append("password", this.state.password);
-                                data.append("firstname", this.state.firstname);
-                                data.append("lastname", this.state.lastname);
-                                fetch(this.props.sparkEndpoint + "/user/register", {
+
+                                var formBody = [];
+                                for (var property in self.state) {
+                                  var encodedKey = encodeURIComponent(property);
+                                  var encodedValue = encodeURIComponent(self.state[property]);
+                                  formBody.push(encodedKey + "=" + encodedValue);
+                                }
+                                formBody = formBody.join("&");
+
+                                fetch(self.props.sparkEndpoint + "/user/register", {
                                         method: 'post',
-                                        body: data,
+                                        headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                                        },
+                                        body: formBody,
                                 }).then(function(response) {
                                         return response.json();
                                 }).then(function(data) {
                                         if (data.status === "ok") {
-                                                //this.props.setUserName(this.state.username);
-                                                localStorage.setItem("debate", JSON.stringify({"username":this.state.username, "email":this.state.email}));
-                                                this.props.changeView('DebateWindow', this.props.debateid);
+                                                self.props.setUserName(data.username);
+                                                localStorage.setItem("debate", JSON.stringify({"userid":data.userid,"username":data.username, "email":data.email}));
+                                                self.props.changeView('DebateWindow', self.props.debateid);
                                         } else {
-                                                //there is an error, tell someone
-                                                console.log(data);
+                                                self.handleError(data.message);
                                         }
                                 }).catch(function(err) {
                                         console.log("Fetch Error: ",err);
                                 });
                                 break;
                         case "login":
-                                // here we send the API request to login and wait for a successful response.
-                                // if there isn't a successful response, we need to display a message to the
-                                // user.  If it is successful, then we set the username.
+                                
+                                var formBody = [];
+                                for (var property in self.state) {
+                                var encodedKey = encodeURIComponent(property);
+                                var encodedValue = encodeURIComponent(self.state[property]);
+                                formBody.push(encodedKey + "=" + encodedValue);
+                                }
+                                formBody = formBody.join("&");
 
-                                // We need to to encrypt the password before we send it.
-                                alert("do login for " + this.state.emaillogin);
+                                fetch(self.props.sparkEndpoint + "/user/login", {
+                                        method: 'post',
+                                        headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                                        },
+                                        body: formBody,
+                                }).then(function(response) {
+                                        return response.json();
+                                }).then(function(data) {
+                                        if (data.status === "ok") {
+                                                self.props.setUserName(data.username);
+                                                localStorage.setItem("debate", JSON.stringify({"userid":data.userid,"username":data.username, "email":data.email}));
+                                                self.props.changeView('DebateWindow', self.props.debateid);
+                                        } else {
+                                                self.handleError(data.message);
+                                        }
+                                }).catch(function(err) {
+                                        console.log("Fetch Error: ",err);
+                                });
                                 break;
+
                         default:
                                 alert("an error occured.");
                                 break;
@@ -67,6 +103,9 @@ class Register extends React.Component {
         render() {
                 return(
                 <div className="container login-container">
+
+                        { this.state.hasError ? <Error ErrorMessage={this.state.error} /> : null }
+
                         <div className="row">
                                 <div className="col-md-6 login-form-1">
                                 <h3>New User? Register</h3>

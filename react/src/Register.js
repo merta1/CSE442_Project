@@ -28,17 +28,18 @@ class Register extends React.Component {
         handleSubmit = type => event => {
 
                 let self = this;
+                let formBody,property,encodedKey,encodedValue;
                 
                 // type is the argument you passed to the function
                 // event is the event object that returned
                 switch(type) {
                         case "register":
 
-                                var formBody = [];
-                                for (var property in self.state) {
-                                  var encodedKey = encodeURIComponent(property);
-                                  var encodedValue = encodeURIComponent(self.state[property]);
-                                  formBody.push(encodedKey + "=" + encodedValue);
+                                formBody = [];
+                                for (property in self.state) {
+                                        encodedKey = encodeURIComponent(property);
+                                        encodedValue = encodeURIComponent(self.state[property]);
+                                        formBody.push(encodedKey + "=" + encodedValue);
                                 }
                                 formBody = formBody.join("&");
 
@@ -64,11 +65,11 @@ class Register extends React.Component {
                                 break;
                         case "login":
                                 
-                                var formBody = [];
-                                for (var property in self.state) {
-                                var encodedKey = encodeURIComponent(property);
-                                var encodedValue = encodeURIComponent(self.state[property]);
-                                formBody.push(encodedKey + "=" + encodedValue);
+                                formBody = [];
+                                for (property in self.state) {
+                                        encodedKey = encodeURIComponent(property);
+                                        encodedValue = encodeURIComponent(self.state[property]);
+                                        formBody.push(encodedKey + "=" + encodedValue);
                                 }
                                 formBody = formBody.join("&");
 

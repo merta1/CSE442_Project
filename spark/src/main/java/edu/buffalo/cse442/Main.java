@@ -7,17 +7,25 @@ import edu.buffalo.cse442.handlers.DebateHandler;
 import edu.buffalo.cse442.handlers.UserHandler;
 import org.apache.log4j.BasicConfigurator;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class Main {
 
     private DebateHandler debateHandler;
     private UserHandler userHandler;
     private DBActionHandler dbActionsHandler;
+    private Properties prop;
 
 
     Main() {
-        debateHandler = new DebateHandler();
-        userHandler = new UserHandler();
-        dbActionsHandler = new DBActionHandler();
+
+        dbActionsHandler = new DBActionHandler(getProperty("database.connectionString"),getProperty("database.username"),getProperty("database.password"));
+        debateHandler = new DebateHandler(getProperty("database.connectionString"),getProperty("database.username"),getProperty("database.password"));
+        userHandler = new UserHandler(getProperty("password.salt"),getProperty("database.connectionString"),getProperty("database.username"),getProperty("database.password"));
+
     }
 
     public static void main(String[] args) {
@@ -39,11 +47,12 @@ public class Main {
     }
 
     void establishEndpoints() {
-        after((request, response) -> {
+        before((request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
             response.header("Access-Control-Allow-Methods", "GET");
             response.header("Access-Control-Allow-Methods", "POST");
             response.header("Access-Control-Allow-Methods", "PUT");
+            response.header("Access-Control-Allow-Methods", "OPTIONS");
         });
 
         // First, connect the debate endpoints.
@@ -86,8 +95,8 @@ public class Main {
         });
 
         // Next, connect the user handler.
-        put("/user/login", (req, res) -> {
-            return userHandler.login(req.params("username"), req.params("password"));
+        post("/user/login", (req, res) -> {
+            return userHandler.login(req.queryParams("emaillogin"), req.queryParams("passwordlogin"));
         });
 
         post("/user/register", (req, res) -> userHandler.register(
@@ -97,5 +106,42 @@ public class Main {
                 req.queryParams("password"),
                 req.queryParams("username")
         ));
+    }
+
+
+
+    public static String getProperty(String propName) {
+
+        String propValue = null;
+
+        try {
+
+            //to load application's properties, we use this class
+            Properties mainProperties = new Properties();
+
+            FileInputStream file;
+
+            //the base folder is ./, the root of the main.properties file
+            String path = "config.properties";
+
+            //load the file handle for main.properties
+            file = new FileInputStream(path);
+
+            //load all the properties from this file
+            mainProperties.load(file);
+
+            //we have loaded the properties, so close the file handle
+            file.close();
+
+            //retrieve the property we are intrested, the app.version
+            propValue = mainProperties.getProperty(propName);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("config.properties not found");
+        } catch (IOException e) {
+            System.out.println("Unknown config file error.");
+        }
+
+        return propValue;
     }
 }

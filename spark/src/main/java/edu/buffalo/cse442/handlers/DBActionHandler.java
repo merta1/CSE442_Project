@@ -4,9 +4,15 @@ import java.sql.*;
 
 public class DBActionHandler {
 
-    private String connectionString = "jdbc:mysql://localhost:3306";
-    private String dbUser = "root";
-    private String dbPassword = "de-ba-te1!";
+    private static String connectionString;
+    private static String dbUser;
+    private static String dbPassword;
+
+    public DBActionHandler(String con, String un, String pw) {
+        connectionString = con;
+        dbUser = un;
+        dbPassword = pw;
+    }
 
     public Connection openDBConnection() {
         try {

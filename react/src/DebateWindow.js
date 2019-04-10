@@ -1,5 +1,7 @@
 import React from 'react';
 import CommentItem from './CommentItem';
+import Error from './Error';
+import LoadingOverlay from 'react-loading-overlay';
 
 class DebateWindow extends React.Component {
 
@@ -9,58 +11,113 @@ class DebateWindow extends React.Component {
         props.changeView('Register', props.debateid);
       }
 
-      // This will be the values on the screen until the Spark API call returns.
       this.state = {
         json : {
-          "question":"Do you think CSE is a good program?",
-          "debateid":147,
-          "totalcomments":5,
-          "agree":{
-              "displaytext":"Agree",
-              "usercount":2,
-              "commentcount":3,
-              "comments":{
-                  "1":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"It is Awesome!!!","UserID":"dadkins20"},
-                  "2":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"YEAH!!!!!!!!","UserID":"mert"},
-                  "3":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"Best APP ever :D","UserID":"dadkins20"}
-              }
+          "agree" : {
+            "comments":{},
           },
-          "disagree":{
-              "displaytext":"Disagree",
-              "usercount":2,
-              "commentcount":2,
-              "comments":{
-                  "1":{"id":146,"debateName":"debate 146","View":"Disagree","Comment":"Eh!!","UserID":"JonForce"},
-                  "2":{"id":146,"debateName":"debate 146","View":"Disagree","Comment":"Worst App Yet!!!!!!!!","UserID":"Anu"}
-              }
-          }
-        }
+          "disagree" : {
+            "comments":{},
+          },
+        },
+        isLoading : true,
+        comment : "",
+        error : "",
+        hasError : false
       };
+
     }
 
     componentDidMount() {
+      this.interval = setInterval(() => 
       fetch(this.props.sparkEndpoint + "/debate/" + this.props.debateid)
         .then(res => res.json())
         .then(
           (result) => {
             console.log("JSON : " + result);
             this.setState({ json : result });
+            this.setState({ isLoading : false });
           },
           (error) => {
             // TODO Implement Error handling.
             console.log("Error, couldn't connect to spark : " + error);
           }
-        )
+        ), 1000);
     }
 
-    showAgreeAlert() {
-      alert("Agree Comment : " + document.getElementById("textAreaAgree").value);
+    componentWillUnmount() {
+      clearInterval(this.interval);
     }
-    showDisagreeAlert() {
-      alert("Disagree Comment : " + document.getElementById("textAreaDisagree").value);
+
+    handleError = msg => {
+
+      this.setState({error: msg});
+      this.setState({hasError: true});
+      
     }
+
+    handleSubmit = type => event => {
+
+      let self = this;
+
+      let formBody = [];
+      formBody.push("debateid=" + encodeURIComponent(self.props.debateid));
+      formBody.push("comment=" + encodeURIComponent(self.state.comment));
+      formBody.push("userid=" + encodeURIComponent(self.props.userid));
+      formBody.push("side=" + encodeURIComponent(type));
+      formBody = formBody.join("&");
+
+      fetch(self.props.sparkEndpoint + "/comment", {
+              method: 'post',
+              headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+              },
+              body: formBody,
+      }).then(function(response) {
+              return response.json();
+      }).then(function(data) {
+              if (data.status === "ok") {
+                      //we don't have to do anything, the page will refresh automatically
+              } else {
+                      self.handleError(data.message);
+              }
+      }).catch(function(err) {
+              console.log("Fetch Error: ",err);
+      });
+
+      event.preventDefault();
+    }
+
     render() {
       var debateJson = this.state.json;
+
+      // 2. If the debate is public
+
+      // 2a. If the debate is "closed" then we just show the debate screen without comments
+
+      // 2b. If the debate is "open" check if the user is logged in
+
+          // 2b-1. If the user is logged in, check to see if they have chosen a side on this debate.
+
+              // 2b-1-a. If they have chosen a side then show the comment box for the side they are on.
+
+              // 2b-1-b.  If they haven't chosen a side, then change the window to the change side window.
+              //          Pass something to this page so the system knows to return them to this page.
+
+          // 2b-2. If the user is not logged in, send them to the register page to login.  Pass something so
+          //       the system knows to return them to this page.
+
+      // 3. If the debate is private
+
+        // for now just do the same thing as private, we will eventually build this out with more permissions.
+
+
+      
+      
+
+      // 4. We need to listen for comment submission.  If we get a comment, we should add it to the appropriate
+      //    side of the debate in realtime so the user thinks it is realtime.  Then send the request to the correct
+      //    api call.
 
       var arrAgree = [];
       Object.keys(debateJson.agree.comments).forEach(function(key) {
@@ -73,16 +130,37 @@ class DebateWindow extends React.Component {
       });
 
       return (
-        // <div onClick={() => this.props.changeView('DebateList')}>
-          //  Draw Debate Window for {this.props.debateid} here
-        <div class="container">
-          <div class="row mb-4 mt-4">
+
+        <LoadingOverlay 
+          active={this.state.isLoading} 
+          spinner 
+          text='Loading...' 
+          styles={{
+            overlay: (base) => ({
+              ...base,
+              background: 'rgba(255, 255, 255, 1.0)'
+            }),
+            content: (base) => ({
+              ...base,
+              color: 'rgba(0, 0, 0, 1)',
+              background: 'rgba(255, 255, 255, 1)'
+            }),
+            spinner: (base) => ({
+              ...base,
+              '& svg circle': {
+                stroke: 'rgba(0, 0, 0, 1)'
+              }
+            })
+        }}>
+        <div className="container">
+          { this.state.hasError ? <Error ErrorMessage={this.state.error} /> : null }
+          <div className="row mb-4 mt-4">
             <h1>{debateJson.question} - #{this.props.debateid}</h1>
           </div>
-          <div class="row">
-            <div class="col">
-                <table class="table">
-                  <thead class="thead-dark">
+          <div className="row">
+            <div className="col">
+                <table className="table">
+                  <thead className="thead-dark">
                     <tr>
                       <th scope="col"><h2>{debateJson.agree.displaytext} - {debateJson.agree.usercount} Users</h2></th>
                     </tr>
@@ -91,45 +169,52 @@ class DebateWindow extends React.Component {
                   {
                     arrAgree.map(item => <CommentItem changeView={this.handleViewChange}
                         id={item.id}
-                        debateName={item.debateName}
-                        View={item.View}
                         Comment={item.Comment}
                         UserID={item.UserID}
+                        UserName={item.UserName}
                         />)
                   }
                   </tbody>
                 </table>
-                <div>
-                    <textarea rows="2" cols="50" id="textAreaAgree"></textarea><br></br>
-                    <button onClick={this.showAgreeAlert}>Create Comment</button>
-                </div>
+                <form onSubmit={this.handleSubmit('A')} >
+                  <div>
+                      <textarea rows="2" cols="50" id="textAreaAgree" 
+                        onChange={e=>this.setState({comment: e.target.value}) } 
+                        value={this.state.comment} /><br></br>
+                      <input className="btn btn-light" type="submit" value="Submit Comment" />
+                  </div>
+                </form>
             </div>
-            <div class="col">
-              <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                    <th scope="col"><h2>{debateJson.disagree.displaytext} - {debateJson.disagree.usercount} Users</h2></th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    arrDisagree.map(item => <CommentItem changeView={this.handleViewChange}
+            <div className="col">
+                <table className="table">
+                  <thead className="thead-dark">
+                      <tr>
+                      <th scope="col"><h2>{debateJson.disagree.displaytext} - {debateJson.disagree.usercount} Users</h2></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {
+                      arrDisagree.map(item => <CommentItem changeView={this.handleViewChange}
                         id={item.id}
-                        debateName={item.debateName}
-                        View={item.View}
                         Comment={item.Comment}
                         UserID={item.UserID}
-                        />)
-                }
-                </tbody>
-              </table>
-              <div>
-                <textarea rows="2" cols="50" id="textAreaDisagree"></textarea><br></br>
-                <button onClick={this.showDisagreeAlert}>Create Comment</button>
-              </div>
+                        UserName={item.UserName}
+                          />)
+                  }
+                  </tbody>
+                </table>
+                <form onSubmit={this.handleSubmit('B')} >
+                  <div>
+                    <textarea rows="2" cols="50" id="textAreaDisagree" 
+                      onChange={e=>this.setState({comment: e.target.value}) } 
+                      value={this.state.comment} /><br></br>
+                    <input className="btn btn-light" type="submit" value="Submit Comment" />
+                  </div>
+              </form>
             </div>
           </div>
         </div>
+        </LoadingOverlay>
       );
     }
   }

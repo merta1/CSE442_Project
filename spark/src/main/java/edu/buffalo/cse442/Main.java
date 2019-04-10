@@ -5,6 +5,7 @@ import static spark.Spark.*;
 import edu.buffalo.cse442.handlers.DBActionHandler;
 import edu.buffalo.cse442.handlers.DebateHandler;
 import edu.buffalo.cse442.handlers.UserHandler;
+import edu.buffalo.cse442.handlers.CommentHandler;
 import org.apache.log4j.BasicConfigurator;
 
 import java.io.FileNotFoundException;
@@ -16,6 +17,7 @@ public class Main {
 
     private DebateHandler debateHandler;
     private UserHandler userHandler;
+    private CommentHandler commentHandler;
     private DBActionHandler dbActionsHandler;
     private Properties prop;
 
@@ -24,6 +26,7 @@ public class Main {
 
         dbActionsHandler = new DBActionHandler(getProperty("database.connectionString"),getProperty("database.username"),getProperty("database.password"));
         debateHandler = new DebateHandler(getProperty("database.connectionString"),getProperty("database.username"),getProperty("database.password"));
+        commentHandler = new CommentHandler(getProperty("database.connectionString"),getProperty("database.username"),getProperty("database.password"));
         userHandler = new UserHandler(getProperty("password.salt"),getProperty("database.connectionString"),getProperty("database.username"),getProperty("database.password"));
 
     }
@@ -105,6 +108,14 @@ public class Main {
                 req.queryParams("email"),
                 req.queryParams("password"),
                 req.queryParams("username")
+        ));
+
+        // Now create comment handlers
+        post("/comment", (req, res) -> commentHandler.addComment(
+                Integer.parseInt(req.queryParams("userid")),
+                Integer.parseInt(req.queryParams("debateid")),
+                req.queryParams("side"),
+                req.queryParams("comment")
         ));
     }
 

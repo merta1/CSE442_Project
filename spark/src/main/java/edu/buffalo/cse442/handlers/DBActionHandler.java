@@ -129,7 +129,7 @@ public class DBActionHandler {
             Connection connection = openDBConnection("debateapp");
             Statement stmt= connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`Comment` (" +
-                    "  `Id` INT NOT NULL," +
+                    "  `Id` INT NOT NULL AUTO_INCREMENT," +
                     "  `DebateID` INT NOT NULL," +
                     "  `CommentDateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL," +
                     "  `Comment` VARCHAR(500) NOT NULL," +

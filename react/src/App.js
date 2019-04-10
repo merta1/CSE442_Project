@@ -13,8 +13,9 @@ class App extends React.Component {
         //set defaults
         this.state = {
             currentView: 'DebateList',
-            debateid: '#',
+            debateid: '2',
             username: null,
+            userid: null,
             email: null,
             sparkEndpoint: "http://localhost:4567"
         };
@@ -48,6 +49,7 @@ class App extends React.Component {
         if (localSave !== "" && localSave !== null) {
             this.state.username = JSON.parse(localSave).username;
             this.state.email = JSON.parse(localSave).email;
+            this.state.userid = JSON.parse(localSave).userid;
         }
 
         this.changeView = this.changeView.bind(this);
@@ -64,7 +66,7 @@ class App extends React.Component {
         //this is a list of potential views.  We need to add new views here first!!!!
         var VIEWS = {
             DebateList: <DebateList changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
-            DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} username={this.state.username} sparkEndpoint={this.state.sparkEndpoint} />,
+            DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} username={this.state.username} userid={this.state.userid} sparkEndpoint={this.state.sparkEndpoint} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
             Register: <Register changeView={this.changeView} setUserName={this.setUserName} debateid={state.debateid} sparkEndpoint={this.state.sparkEndpoint} />,
             }

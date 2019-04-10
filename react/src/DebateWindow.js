@@ -77,6 +77,8 @@ class DebateWindow extends React.Component {
               return response.json();
       }).then(function(data) {
               if (data.status === "ok") {
+                //return user to debate page.
+                changeView("DebateWindow",id);
                       //we don't have to do anything, the page will refresh automatically
               } else {
                       self.handleError(data.message);
@@ -90,6 +92,16 @@ class DebateWindow extends React.Component {
 
     render() {
       var debateJson = this.state.json;
+
+      //get from the API if the current user has chosen a side.
+
+      // if they haven't chosen a side
+
+          //change window
+
+changeView('DebateChooseSide', this.state.debateid);
+
+
 
       // 2. If the debate is public
 

@@ -102,7 +102,7 @@ public class DBActionHandler {
         try {
             Connection connection = openDBConnection("debateapp");
             Statement stmt= connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS `Debates` (" +
+            String query = "CREATE TABLE IF NOT EXISTS Debates (" +
                     "  `Id` INT NOT NULL AUTO_INCREMENT," +
                     "  `OwnerID` INT NOT NULL,"+
                     "  `Open` INT NOT NULL," +
@@ -128,7 +128,7 @@ public class DBActionHandler {
         try {
             Connection connection = openDBConnection("debateapp");
             Statement stmt= connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`Comment` (" +
+            String query = "CREATE TABLE IF NOT EXISTS Comment (" +
                     "  `Id` INT NOT NULL AUTO_INCREMENT," +
                     "  `DebateID` INT NOT NULL," +
                     "  `CommentDateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL," +
@@ -153,7 +153,7 @@ public class DBActionHandler {
         try {
             Connection connection = openDBConnection("debateapp");
             Statement stmt= connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS `DEBATEAPP`.`UserOpinion` (" +
+            String query = "CREATE TABLE IF NOT EXISTS UserOpinion (" +
                     "  `Id` INT NOT NULL," +
                     "  `DebateID` INT NOT NULL," +
                     "  `UserID` INT NOT NULL," +
@@ -173,37 +173,11 @@ public class DBActionHandler {
     }
 
     //Todo : Anu
-    public void createComment(int debateID,String datetime,String comment,int userid,char side) {
-        try {
-            Connection connection = openDBConnection("debateapp");
-            Statement stmt= connection.createStatement();
-            String query = "INSERT INTO `DEBATEAPP`.`Comments` (" +
-                    " `DebateID`, `CommentDateTime`, `Comment`, `UserID`, `Side`) Values (" +
-                    "\"" + debateID + "\"" + ", " +
-                    "\"" + datetime + "\"" + ", " +
-                    "\"" + comment + "\"" + ", " +
-                    "\"" + userid + "\"" + ", " +
-                    "\"" + side + "\" );";
-
-            stmt.execute(query);
-
-            System.out.println("Comment Created!");
-            connection.close();
-
-        } catch (SQLException e) {
-            System.out.println("Connection Failed! Check output console");
-            e.printStackTrace();
-        } catch(Exception e){
-            System.out.println(e);
-        }
-    }
-
-    //Todo : Anu
     public void createUserOpinion(int debateID,int userid,char side) {
          try {
              Connection connection = openDBConnection("debateapp");
              Statement stmt= connection.createStatement();
-             String query = "INSERT INTO `DEBATEAPP`.`UserOpinion` (" +
+             String query = "INSERT INTO UserOpinion (" +
                     " `DebateID`, `UserID`, `Side`) Values (" +
                     "\"" + debateID + "\"" + ", " +
                     "\"" + userid + "\"" + ", " +

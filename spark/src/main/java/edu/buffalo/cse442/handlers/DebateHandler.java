@@ -7,9 +7,7 @@ public class DebateHandler {
     private DBActionHandler db;
 
     public DebateHandler(String con, String un, String pw) {
-
-        db = new DBActionHandler(con, un, pw);
-
+        db = createActionHandler(con, un, pw);
     }
 
     /**
@@ -230,11 +228,40 @@ public class DebateHandler {
      * @return a list of the most recent debates.
      */
     public String getRecentDebates() {
-        /** TODO Implement GET handler for getting recent debates. */
-        return "{\n" +
-                "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
-                "        \"3\":{\"id\":3,\"debateName\":\"Is AI Dangerous?\",\"createdDate\":\"Feb 18, 2019 1:05pm\",\"activeUsers\":16},\n" +
-                "        \"4\":{\"id\":4,\"debateName\":\"Is this the best app ever created in the history of apps?\",\"createdDate\":\"Feb 18, 2019 3:00pm\",\"activeUsers\":4}\n" +
-                "}";
+        try {
+            Connection connection = db.openDBConnection("debateapp");
+
+            PreparedStatement getDebate = connection.prepareStatement(
+                    "SELECT * FROM Debates WHERE Public = 1 ORDER BY Id DESC");
+
+            ResultSet rs = getDebate.executeQuery();
+
+            String json = "{";
+
+            while (rs.next()) {
+
+                json += "\"" + rs.getInt("Id") + "\":{\"id\":\""+rs.getInt("Id")+"\",\"debateName\":\""+rs.getString("Title")+"\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},";
+
+            }
+
+            if (json != null && json.length() > 0 && json.charAt(json.length() - 1) == ',') {
+                json = json.substring(0, json.length() - 1);
+            }
+
+            json += "}";
+
+            if (json.equals("{}")) {
+                throw new SQLException("No debates found.");
+            }
+
+            return json;
+
+        } catch (SQLException e) {
+            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+        }
+    }
+
+    protected DBActionHandler createActionHandler(String con, String un, String pw) {
+        return new DBActionHandler(con, un, pw);
     }
 }

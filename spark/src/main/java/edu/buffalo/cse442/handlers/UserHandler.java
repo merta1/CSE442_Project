@@ -17,8 +17,7 @@ public class UserHandler {
 
 
     public UserHandler(String salt,String con, String un, String pw) {
-
-        db = new DBActionHandler(con, un, pw);
+        db = createActionHandler(con, un, pw);
         password_salt = salt;
     }
 
@@ -142,4 +141,7 @@ public class UserHandler {
         } 
     }
 
+    protected DBActionHandler createActionHandler(String con, String un, String pw) {
+        return new DBActionHandler(con, un, pw);
+    }
 }

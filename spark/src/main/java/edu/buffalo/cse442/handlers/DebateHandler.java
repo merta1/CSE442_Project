@@ -7,9 +7,7 @@ public class DebateHandler {
     private DBActionHandler db;
 
     public DebateHandler(String con, String un, String pw) {
-
-        db = new DBActionHandler(con, un, pw);
-
+        db = createActionHandler(con, un, pw);
     }
 
     /**
@@ -236,5 +234,9 @@ public class DebateHandler {
                 "        \"3\":{\"id\":3,\"debateName\":\"Is AI Dangerous?\",\"createdDate\":\"Feb 18, 2019 1:05pm\",\"activeUsers\":16},\n" +
                 "        \"4\":{\"id\":4,\"debateName\":\"Is this the best app ever created in the history of apps?\",\"createdDate\":\"Feb 18, 2019 3:00pm\",\"activeUsers\":4}\n" +
                 "}";
+    }
+
+    protected DBActionHandler createActionHandler(String con, String un, String pw) {
+        return new DBActionHandler(con, un, pw);
     }
 }

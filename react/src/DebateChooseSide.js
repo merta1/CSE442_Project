@@ -55,7 +55,7 @@ class DebateChooseSide extends React.Component {
                 <table class="table">
                   <thead class="thead-dark">
                     <tr>
-                      <th scope="col"><h2>Click below to agree! </h2></th>
+                      <th scope="col"><h2>Click below to agree! Debate.debateJson.agree </h2></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -71,7 +71,7 @@ class DebateChooseSide extends React.Component {
               <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                    <th scope="col"><h2>Click below to disagree!</h2></th>
+                    <th scope="col"><h2>Click below to disagree!Debate.debateJson.disagree</h2></th>
                     </tr>
                 </thead>
                 <tbody>

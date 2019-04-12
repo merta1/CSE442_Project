@@ -58,7 +58,7 @@ class Nav extends React.Component {
         const classOne = collapsed ? 'collapse navbar-collapse' : 'collapse navbar-collapse show';
         const classTwo = collapsed ? 'navbar-toggler navbar-toggler-right collapsed' : 'navbar-toggler navbar-toggler-right';
 
-
+//need to make the select box work down below to change the view on the debates.
       return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <a className="navbar-brand" href="#/" onClick={() => this.handleViewChange('DebateList')}>Bad-Ass Debate App</a>

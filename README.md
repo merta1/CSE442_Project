@@ -20,7 +20,8 @@ To run the app locally:
 database.connectionString=jdbc:mysql://localhost:3306
 database.username=root
 database.password=password
-password.salt=S;dcUk>/uRKTK;mC8g%(z%2B0n#C|m@~D#h zhD.WN8=m.c)gM+{j|V8H```
+password.salt=S;dcUk>/uRKTK;mC8g%(z%2B0n#C|m@~D#h zhD.WN8=m.c)gM+{j|V8H
+```
 
 5. From the spark folder type ```mvn clean install```.  This will build a jar file in the /spark/target/ folder.  Once it is finished run ```java -jar ./target/debate-app-1.0-jar-with-dependencies.jar``` to start the backend.  You have to leave this window open!  You should now have a running backend at http://localhost:4567/.  You can verify it is working by visiting http://localhost:4567/debates/recent.
 

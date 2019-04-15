@@ -17,7 +17,7 @@ class App extends React.Component {
             username: null,
             userid: null,
             email: null,
-            sparkEndpoint: "http://api.davidadkins.com"
+            sparkEndpoint: "http://localhost:4567"
         };
 
         //strip the anchor out of the URL, it will determine the view that is loaded if a page is refreshed

@@ -4,6 +4,8 @@ In this project, we are going to implement a debate application that runs on the
 
 To build this web application these are the technologies we are planning to use: at the front-end HTML, CSS, JavaScript, and at the back-end Spark with Java by building a rest api and a MySQL backend.
 
+User Acceptance Tests:
+https://github.com/merta1/CSE442_Project/projects/1?card_filter_query=label%3A%22user+story%22
 
 To run the app locally:
 

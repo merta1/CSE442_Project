@@ -108,7 +108,7 @@ class App extends React.Component {
           changeView={this.changeView}
           setUserName={this.setUserName}
           username={this.state.username}
-          userid={this.state.nullUserID}
+          userid={this.nullUserID}
         />
         {this.drawView(this.state)}
       </div>

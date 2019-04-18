@@ -46,7 +46,7 @@ public class Main {
         dbActionsHandler.createCommentTable();
         dbActionsHandler.createUserOpinionTable();
 
-        //userHandler.register("david","adkins","david@davidadkins.com","test","david");
+
     }
 
     void establishEndpoints() {

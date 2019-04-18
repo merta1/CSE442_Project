@@ -1,4 +1,12 @@
-package edu.buffalo.cse442.handlers;
+package edu.buffalo.cse442.handlers;import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.security.MessageDigest;
+import java.nio.charset.StandardCharsets;
+import org.apache.commons.codec.binary.Hex;
 
 import java.sql.*;
 
@@ -17,54 +25,52 @@ public class DebateHandler {
      * @return The debate's details, the same as if you
      * had requested the details of that debate's ID.
      */
-    public String createDebate(String ownerId, String Title, int readPermissions, int writePermissions, String SideATitle, String SideBTitle, String Summary) {
-
-        int open = 1; //right now we only support open debates.
-        int _public = 1; //right now we only support public debates.
-
-        try {
-            Connection connection = db.openDBConnection("debateapp");
-            Statement stmt= connection.createStatement();
-
-            String query = "INSERT INTO Debates (" +
-                    "OwnerID, " +
-                    "Open, " +
-                    "Public, " +
-                    "Title, " +
-                    "ViewPermissions, " +
-                    "CommentPermissions, " +
-                    "SideATitle, " +
-                    "SideBTitle, " +
-                    "Summary) Values (" +
-                    ownerId + ", " +
-                    open + ", " +
-                    _public + ", " +
-                    "\"" + Title + "\"," +
-                    readPermissions + ", " +
-                    writePermissions + ", " +
-                    "\"" + SideATitle + "\"," +
-                    "\"" + SideBTitle + "\"," +
-                    "\"" + Summary + "\"" +
-                    ");";
-
-//            System.out.println(query);
-            stmt.execute(query);
-
-            System.out.println("Debate Created!");
-            connection.close();
-
-        } catch (SQLException e) {
-            System.out.println("Connection Failed! Check output console");
-            e.printStackTrace();
-        } catch(Exception e){
-            System.out.println(e);
-        }
+   public string createdebate(int ownerid,int open, int publicity,String title,String SideA,String SideB,String summary)
+   {
 
 
-        /** TODO Add in creating a debate **/
-        System.out.println("Created a debate!");
-        return "";
-    }
+       int debateid;
+       String query;
+       ResultSet rs;
+       try {
+           Connection connection = db.openDBConnection("debateapp");
+           PreparedStatement checkTitle = connection.prepareStatement("SELECT * FROM Debates WHERE Title = ?");
+
+           checkTitle.setString(1, title);
+           rs = checkTitle.executeQuery();
+
+           if (rs.next()) {
+               connection.close();
+               throw new SQLException("A debate with this title already exists.");
+           }
+           PreparedStatement debatecreation = connection.prepareStatement(
+                   "INSERT INTO Debates (OwnerID, Public , Title, SideA, SideB,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+           debatecreation.setString(1, ownerid);
+           debatecreation.setString(2, publicity);
+           debatecreation.setString(3, title);
+           debatecreation.setString(4, SideA);
+           debatecreation.setString(5, SideB);
+           debatecreation.setString(6, summary);
+           debatecreation.executeUpdate();
+           ResultSet generatedKeys = debatecreation.getGeneratedKeys();
+           if (generatedKeys.next()) {
+               debateid = generatedKeys.getInt(1);
+           } else {
+               connection.close();
+               throw new SQLException("Unable to create debate");
+           }
+           connection.close();
+
+           return "{\"status\":\"ok\",\"message\":\"Debate successfully created.\",\"debateid\":\"" + debateid+"\"}";
+       }
+       catch (SQLException e)
+       {
+           return "{\"status\":\"ok\",\"message\":\"User successfully created.\",\"userid\":\""+userid+"\",\"username\":\""+username+"\",\"email\":\""+email+"\"}";
+       }
+
+   }
+
+
 
     /**
      * @param query The String to search for.

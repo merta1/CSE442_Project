@@ -3,6 +3,8 @@ import CommentItem from './CommentItem';
 import Error from './Error';
 import LoadingOverlay from 'react-loading-overlay';
 
+var changed = false
+var time = 1000
 class DebateWindow extends React.Component {
 
     constructor(props) {
@@ -29,21 +31,29 @@ class DebateWindow extends React.Component {
     }
 
     componentDidMount() {
-      this.interval = setInterval(() => 
-      fetch(this.props.sparkEndpoint + "/debate/" + this.props.debateid)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            console.log("JSON : " + result);
-            this.setState({ json : result });
-            this.setState({ isLoading : false });
-          },
-          (error) => {
-            // TODO Implement Error handling.
-            console.log("Error, couldn't connect to spark : " + error);
-          }
-        ), 1000);
+            this.interval = setInterval(() =>
+                fetch(this.props.sparkEndpoint + "/debate/" + this.props.debateid)
+                    .then(res => res.json())
+                    .then(
+                        (result) => {
+                            if (changed) {
+                                time = 100
+                            }else {
+                                time = 1000
+                            }
+                            console.log(changed)
+                            console.log("JSON : " + result);
+                            this.setState({ json : result });
+                            this.setState({ isLoading : false });
+                        },
+                        (error) => {
+                            // TODO Implement Error handling.
+                            console.log("Error, couldn't connect to spark : " + error);
+                        }
+                    ), time);
     }
+
+
 
     componentWillUnmount() {
       clearInterval(this.interval);
@@ -53,14 +63,16 @@ class DebateWindow extends React.Component {
 
       this.setState({error: msg});
       this.setState({hasError: true});
-      
+
     }
 
     handleSubmit = type => event => {
 
       let self = this;
+      changed = true
+        console.log("submit" + changed)
 
-      let formBody = [];
+        let formBody = [];
       formBody.push("debateid=" + encodeURIComponent(self.props.debateid));
       formBody.push("comment=" + encodeURIComponent(self.state.comment));
       formBody.push("userid=" + encodeURIComponent(self.props.userid));
@@ -112,8 +124,8 @@ class DebateWindow extends React.Component {
         // for now just do the same thing as private, we will eventually build this out with more permissions.
 
 
-      
-      
+
+
 
       // 4. We need to listen for comment submission.  If we get a comment, we should add it to the appropriate
       //    side of the debate in realtime so the user thinks it is realtime.  Then send the request to the correct
@@ -131,10 +143,10 @@ class DebateWindow extends React.Component {
 
       return (
 
-        <LoadingOverlay 
-          active={this.state.isLoading} 
-          spinner 
-          text='Loading...' 
+        <LoadingOverlay
+          active={this.state.isLoading}
+          spinner
+          text='Loading...'
           styles={{
             overlay: (base) => ({
               ...base,
@@ -178,8 +190,8 @@ class DebateWindow extends React.Component {
                 </table>
                 <form onSubmit={this.handleSubmit('A')} >
                   <div>
-                      <textarea rows="2" cols="50" id="textAreaAgree" 
-                        onChange={e=>this.setState({comment: e.target.value}) } 
+                      <textarea rows="2" cols="50" id="textAreaAgree"
+                        onChange={e=>this.setState({comment: e.target.value}) }
                         value={this.state.comment} /><br></br>
                       <input className="btn btn-light" type="submit" value="Submit Comment" />
                   </div>
@@ -205,8 +217,8 @@ class DebateWindow extends React.Component {
                 </table>
                 <form onSubmit={this.handleSubmit('B')} >
                   <div>
-                    <textarea rows="2" cols="50" id="textAreaDisagree" 
-                      onChange={e=>this.setState({comment: e.target.value}) } 
+                    <textarea rows="2" cols="50" id="textAreaDisagree"
+                      onChange={e=>this.setState({comment: e.target.value}) }
                       value={this.state.comment} /><br></br>
                     <input className="btn btn-light" type="submit" value="Submit Comment" />
                   </div>

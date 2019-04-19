@@ -14,10 +14,10 @@ class DebateWindow extends React.Component {
       this.state = {
         json : {
           "agree" : {
-            "comments":{},
+            "commentsleft":{},
           },
           "disagree" : {
-            "comments":{},
+            "commentsright":{},
           },
         },
         isLoading : true,
@@ -120,13 +120,13 @@ class DebateWindow extends React.Component {
       //    api call.
 
       var arrAgree = [];
-      Object.keys(debateJson.agree.comments).forEach(function(key) {
-        arrAgree.push(debateJson.agree.comments[key]);
+      Object.keys(debateJson.agree.commentsleft).forEach(function(key) {
+        arrAgree.push(debateJson.agree.commentsleft[key]);
       });
 
       var arrDisagree = [];
-      Object.keys(debateJson.disagree.comments).forEach(function(key) {
-        arrDisagree.push(debateJson.disagree.comments[key]);
+      Object.keys(debateJson.disagree.commentsright).forEach(function(key) {
+        arrDisagree.push(debateJson.disagree.commentsright[key]);
       });
 
       return (

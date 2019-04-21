@@ -1,7 +1,8 @@
 import React from 'react';
 import Error from './Error';
 
-class Register extends React.Component {
+class Register extends React.Component 
+{
         constructor(props) {
                 super(props);
 

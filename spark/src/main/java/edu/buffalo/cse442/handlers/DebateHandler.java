@@ -25,9 +25,8 @@ public class DebateHandler {
      * @return The debate's details, the same as if you
      * had requested the details of that debate's ID.
      */
-   public string createdebate(int ownerid,int open, int publicity,String title,String SideA,String SideB,String summary)
+   public String createDebate(int ownerid,int open, int publicity,String title,String SideA,String SideB,String summary)
    {
-
 
        int debateid;
        String query;
@@ -45,12 +44,15 @@ public class DebateHandler {
            }
            PreparedStatement debatecreation = connection.prepareStatement(
                    "INSERT INTO Debates (OwnerID, Public , Title, SideA, SideB,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-           debatecreation.setString(1, ownerid);
-           debatecreation.setString(2, publicity);
-           debatecreation.setString(3, title);
-           debatecreation.setString(4, SideA);
-           debatecreation.setString(5, SideB);
-           debatecreation.setString(6, summary);
+           debatecreation.setInt(1, ownerid);
+           debatecreation.setInt(2,open);
+           debatecreation.setInt(3, publicity);
+           debatecreation.setString(4, title);
+           debatecreation.setString(5, SideA);
+           debatecreation.setString(6, SideB);
+           debatecreation.setString(7,summary);
+           ;
+
            debatecreation.executeUpdate();
            ResultSet generatedKeys = debatecreation.getGeneratedKeys();
            if (generatedKeys.next()) {
@@ -61,11 +63,11 @@ public class DebateHandler {
            }
            connection.close();
 
-           return "{\"status\":\"ok\",\"message\":\"Debate successfully created.\",\"debateid\":\"" + debateid+"\"}";
+           return "{\"status\" : \"ok\"}";
        }
        catch (SQLException e)
        {
-           return "{\"status\":\"ok\",\"message\":\"User successfully created.\",\"userid\":\""+userid+"\",\"username\":\""+username+"\",\"email\":\""+email+"\"}";
+           return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
        }
 
    }
@@ -123,7 +125,8 @@ public class DebateHandler {
                 int rightCount = 0;
                 String leftJson = "";
                 String rightJson = "";
-                while (rsComments.next()) {
+                while (rsComments.next())
+                {
                     rowCount++;
                     if (rsComments.getString("Side").equals("A")) {
                         leftCount++;

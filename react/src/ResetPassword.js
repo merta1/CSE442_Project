@@ -26,7 +26,7 @@ class ResetPassword extends React.Component {
         handleMessage = (msg,type) => {
 
                 this.setState({message: msg});
-                if (type == "error") {
+                if (type === "error") {
                         this.setState({hasError: true});
                         this.setState({hasMessage: false});
                 } else {

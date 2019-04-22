@@ -51,6 +51,7 @@ class Register extends React.Component {
                                         body: formBody,
                                 }).then(function(response) {
                                         return response.json();
+                                        //nested if causing page load errors perhaps?
                                 }).then(function(data) {
                                         if (data.status === "ok") {
                                                 self.props.setUserName(data.username);

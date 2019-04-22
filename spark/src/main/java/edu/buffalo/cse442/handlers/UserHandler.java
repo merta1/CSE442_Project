@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.security.MessageDigest;
 import java.nio.charset.StandardCharsets;
+import edu.buffalo.cse442.Main;
+
 import org.apache.commons.codec.binary.Hex;
 
 public class UserHandler {
@@ -90,6 +92,16 @@ public class UserHandler {
         }
 
         try {
+            if (password.length() < 8) {
+                throw new PasswordException("Password does not meet minimum length requirement.");
+            }
+            //do more validation!
+
+        } catch (PasswordException e) {
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
+
+        try {
             Connection connection = db.openDBConnection("debateapp");
 
             PreparedStatement checkUsername = connection.prepareStatement(
@@ -141,7 +153,193 @@ public class UserHandler {
         } 
     }
 
+    /**
+     * This method should generate a one-time use link that is emailed to a user.
+     *
+     * When they click the link it should take them to a page to actually choose a new password.
+     *
+     *
+     * The parameters are TBD.
+     * @return A JSON String containing status info about the register attempt.
+     */
+    public String forgotPassword(String email, String domain) {
+
+        int userid;
+        String query;
+        ResultSet rs;
+        String sha256hex;
+
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            String pwsalt = email + password_salt + System.currentTimeMillis();
+            byte[] hash = digest.digest(pwsalt.getBytes(StandardCharsets.UTF_8));
+            sha256hex = new String(Hex.encodeHex(hash)); //this is a hash we can use for a one time use URL
+        } catch (NoSuchAlgorithmException e) {
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
+
+        try {
+            Connection connection = db.openDBConnection("debateapp");
+
+            PreparedStatement checkUsername = connection.prepareStatement(
+                    "SELECT * FROM Users WHERE Email = ?");
+
+            checkUsername.setString(1,email);
+            rs = checkUsername.executeQuery();
+
+            if (!rs.next()) {
+                connection.close();
+                throw new SQLException("Email Address does not exist.");
+            }
+
+            PreparedStatement resetPassword = connection.prepareStatement(
+                    "INSERT INTO UserChanges (Email, EncryptedPassword, Type) VALUES (?,?, 1)",Statement.RETURN_GENERATED_KEYS);
+
+            resetPassword.setString(1,email);
+            resetPassword.setString(2,sha256hex);
+            resetPassword.executeUpdate();
+
+            ResultSet generatedKeys = resetPassword.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int id = generatedKeys.getInt(1);
+            } else {
+                connection.close();
+                throw new SQLException("An unknown error has occured.");
+            }
+
+            connection.close();
+
+            //send an email to the user!
+            String resetLink = domain + "/#/resetPassword/" + sha256hex;
+
+            String emailBody = "Please click on the link below to reset your password.  This link is only good for 24 hours." +
+                    "<br><br><a href=\""+resetLink+"\">Reset Password</a><br><br> If the above link does not work, copy and " +
+                    "paste this link into your browser window.<br>" + resetLink;
+
+            String msg = Main.sendEmail(email, "Reset Password Request from "+domain, emailBody);
+
+            return msg;
+
+        } catch (SQLException e) {
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
+    }
+
+    public String resetPassword(String token) {
+        try {
+            ResultSet rs;
+            String email;
+            Connection connection = db.openDBConnection("debateapp");
+
+            PreparedStatement checkKey = connection.prepareStatement(
+                    "SELECT * FROM UserChanges WHERE EncryptedPassword = ? AND TYPE=1 AND SUBDATE(CURRENT_DATE(), INTERVAL 24 HOUR) <= RequestTime");
+
+            checkKey.setString(1,token);
+            rs = checkKey.executeQuery();
+
+            if (!rs.next()) {
+                connection.close();
+                throw new SQLException("We are sorry, this URL is not valid.");
+            }
+
+            email = rs.getString("Email");
+
+            connection.close();
+
+            return "{\"status\":\"ok\",\"message\":\"Valid token found.\",\"email\":\""+email+"\"}";
+
+        } catch (SQLException e) {
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
+    }
+
+    public String resetPassword(String token, String email, String password, String passwordConfirm) {
+
+        try {
+            if (!password.equals(passwordConfirm)) {
+                throw new PasswordException("Passwords do not match.");
+            }
+            if (password.length() < 8) {
+                throw new PasswordException("Password does not meet minimum length requirement.");
+            }
+            //do more validation!
+
+        } catch (PasswordException e) {
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
+
+
+        String sha256hex;
+
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            String pwsalt = password + password_salt;
+            byte[] hash = digest.digest(pwsalt.getBytes(StandardCharsets.UTF_8));
+            sha256hex = new String(Hex.encodeHex(hash));
+        } catch (NoSuchAlgorithmException e) {
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
+
+        try {
+            ResultSet rs;
+            Connection connection = db.openDBConnection("debateapp");
+
+            //check the key one more time
+            PreparedStatement checkKey = connection.prepareStatement(
+                    "SELECT * FROM UserChanges WHERE EncryptedPassword = ? AND TYPE=1 AND SUBDATE(CURRENT_DATE(), INTERVAL 24 HOUR) <= RequestTime");
+
+            checkKey.setString(1,token);
+            rs = checkKey.executeQuery();
+
+            if (!rs.next()) {
+                connection.close();
+                throw new SQLException("We are sorry, this URL is no longer valid.");
+            }
+
+
+
+            //insert the new password in the database
+            PreparedStatement resetUserPW = connection.prepareStatement(
+                    "UPDATE Users SET EncryptedPassword = ? WHERE Email = ?");
+
+            resetUserPW.setString(1,sha256hex);
+            resetUserPW.setString(2,email);
+            resetUserPW.executeUpdate();
+
+
+            // delete the key from UserChanges
+            PreparedStatement deleteKey = connection.prepareStatement(
+                    "DELETE FROM UserChanges WHERE EncryptedPassword = ? AND Type = 1");
+
+            deleteKey.setString(1,token);
+            deleteKey.executeUpdate();
+
+            connection.close();
+
+            return "{\"status\":\"ok\",\"message\":\"Password reset successful.\"}";
+
+        } catch (SQLException e) {
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
+    }
+
     protected DBActionHandler createActionHandler(String con, String un, String pw) {
         return new DBActionHandler(con, un, pw);
+    }
+
+    class PasswordException extends Exception {
+        String message;
+
+        public PasswordException(String m) {
+            message = m;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String toString() {
+            return "PasswordException[" + message + "]";
+        }
     }
 }

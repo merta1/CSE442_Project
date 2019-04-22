@@ -3,10 +3,12 @@ import Error from './Error';
 
 class Register extends React.Component 
 {
-        constructor(props) {
+        constructor(props) 
+        {
                 super(props);
-
-                this.state={
+                         
+                this.state=
+                {
                         username :'',
                         email :'',
                         password : '',
@@ -26,7 +28,8 @@ class Register extends React.Component
                 
         }
 
-        handleSubmit = type => event => {
+        handleSubmit = type => event =>
+         {
 
                 let self = this;
                 let formBody,property,encodedKey,encodedValue;
@@ -37,7 +40,8 @@ class Register extends React.Component
                         case "register":
 
                                 formBody = [];
-                                for (property in self.state) {
+                                for (property in self.state) 
+                                {
                                         encodedKey = encodeURIComponent(property);
                                         encodedValue = encodeURIComponent(self.state[property]);
                                         formBody.push(encodedKey + "=" + encodedValue);
@@ -54,9 +58,9 @@ class Register extends React.Component
                                         return response.json();
                                 }).then(function(data) {
                                         if (data.status === "ok") {
-                                                self.props.setUserName(data.username);
-                                                localStorage.setItem("debate", JSON.stringify({"userid":data.userid,"username":data.username, "email":data.email}));
-                                                self.props.changeView('DebateWindow', self.props.debateid);
+                                                self.props.setUserName(data.username); 
+                                                localStorage.setItem("debate", JSON.stringify({"userid":data.userid,"username":data.username, "email":data.email})); 
+                                                self.props.changeView('DebateWindow', self.props.debateid); 
                                         } else {
                                                 self.handleError(data.message);
                                         }

@@ -7,13 +7,13 @@ class StartNewDebate extends React.Component
       super(props);
       this.state = 
       {
-       ownerid : '',
+       ownerid : this.props.userID,
        open : '1',
-       publicity: '1',
+       public: '1',
        title : '',
-       sideA : '',
-       sideB : '',
-       summary : '',
+       SideATitle : '',
+       SideBTitle : '',
+       Summary : '',
 
       //centerStyle : {
       //   textAlign : 'center'
@@ -75,7 +75,7 @@ handleSubmit = type => event =>
        }).then(function(data) {
                if (data.status === "ok") {
                        
-                       self.props.changeView('DebateWindow', self.props.data.debateid); // data.debateID
+                       self.props.changeView('DebateWindow', data.debateid); 
                } else {
                        self.handleError(data.message);
                }
@@ -94,7 +94,7 @@ handleSubmit = type => event =>
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label htmlFor="title">Debate Title</label>
-                    <input name="title" type="text" class="form-control" id="title" placeholder="A Good Debate Topic" required="" value={this.state.title}/>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="A Good Debate Topic" required="" value={this.state.title} onChange={e=>this.setState({title: e.target.value})}/>
                     <div class="invalid-feedback">
                       A valid debate title is required.
                     </div>
@@ -123,17 +123,17 @@ handleSubmit = type => event =>
                 <div class="row">
                   <div class="col w-50">
                     <label htmlFor="summary">Debate Summary :</label>
-                    <textarea name="summary" class="form-control" id="summary" rows="3" value={this.state.summary}></textarea>
+                    <textarea name="summary" class="form-control" id="summary" rows="3" value={this.state.summary} onChange={e=>this.setState({summary: e.target.value})}></textarea>
                   </div>
                   <div class="col w-50">
                     <div class="row">
                       <div class="col w-50">
                         <label htmlFor="SideATitle">Side A Title :</label>
-                        <textarea name="SideATitle" class="form-control" id="SideATitle" value ={this.state.sideA} rows="1"></textarea>
+                        <textarea name="SideATitle" class="form-control" id="SideATitle" value ={this.state.sideA} onChange={e=>this.setState({sideA: e.target.value})}rows="1"></textarea>
                       </div>
                       <div class="col w-50">
                         <label htmlFor="SideBTitle">Side B Title :</label>
-                        <textarea name="SideBTitle" class="form-control" id="SideBTitle"  value ={this.state.sideB}rows="1"></textarea>
+                        <textarea name="SideBTitle" class="form-control" id="SideBTitle"  value ={this.state.sideB} onChange={e=>this.setState({sideB: e.target.value})}rows="1"></textarea>
                       </div>
                     </div>
                   </div>

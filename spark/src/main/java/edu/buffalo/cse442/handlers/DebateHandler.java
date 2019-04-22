@@ -14,6 +14,7 @@ public class DebateHandler {
 
     private DBActionHandler db;
 
+
     public DebateHandler(String con, String un, String pw) {
         db = createActionHandler(con, un, pw);
     }
@@ -43,7 +44,7 @@ public class DebateHandler {
                throw new SQLException("A debate with this title already exists.");
            }
            PreparedStatement debatecreation = connection.prepareStatement(
-                   "INSERT INTO Debates (OwnerID, Public , Title, SideA, SideB,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                   "INSERT INTO Debates (OwnerID, Open, Public , Title, SideA, SideB,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
            debatecreation.setInt(1, ownerid);
            debatecreation.setInt(2,open);
            debatecreation.setInt(3, publicity);
@@ -63,7 +64,7 @@ public class DebateHandler {
            }
            connection.close();
 
-           return "{\"status\" : \"ok\"}";
+           return "{\"status\" : \"ok\" ,\"debateID\" : \"debateid \"}";
        }
        catch (SQLException e)
        {

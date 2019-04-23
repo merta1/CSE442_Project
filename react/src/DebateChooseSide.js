@@ -1,11 +1,56 @@
 import React from 'react';
 
-class DebateChooseSide extends React.Component {  
+class DebateChooseSide extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        userid : props.userid,
+        debateid : props.debateid
+      };
+
+      this.postChoice = this.postChoice.bind(this);
+      this.showAgreeAlert = this.showAgreeAlert.bind(this);
+      this.showDisagreeAlert = this.showDisagreeAlert.bind(this);
+
+      console.log(props.debateid);
+    }
+
+    postChoice(choice) {
+      //alert("Agree Comment : " + document.getElementById("textAreaAgree").value);
+      let self = this;
+      let formBody = [];
+      formBody.push("debateid=" + encodeURIComponent(self.props.debateid));
+      formBody.push("userid=" + encodeURIComponent(self.props.userid));
+      formBody.push("side=" + encodeURIComponent(choice));
+      formBody = formBody.join("&");
+
+      fetch(self.props.sparkEndpoint + "/user/setpreference", {
+              method: 'post',
+              headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+              },
+              body: formBody,
+      }).then(function(response) {
+              console.log(response);
+              return response.json();
+      }).then(function(data) {
+              if (data.status === "ok") {
+                      //self.props.changeView("DebateWindow", this.props.debateid);
+                      alert("You choose the "+choice+" side!");
+              } else {
+                      self.handleError(data.message);
+              }
+      }).catch(function(err) {
+              console.log("Fetch Error: ",err);
+      });
+    }
+
     showAgreeAlert() {
-      alert("Agree Comment : " + document.getElementById("textAreaAgree").value);
+      this.postChoice("A");
     }
     showDisagreeAlert() {
-      alert("Disagree Comment : " + document.getElementById("textAreaDisagree").value);
+      this.postChoice("B");
     }
     render() {
       var debateJson = {
@@ -63,7 +108,7 @@ class DebateChooseSide extends React.Component {
                   </tbody>
                 </table>
                 <div>
-                    
+
                     <button onClick={this.showAgreeAlert}> I agree</button>
                 </div>
             </div>
@@ -79,7 +124,7 @@ class DebateChooseSide extends React.Component {
                 </tbody>
               </table>
               <div>
-                
+
                 <button onClick={this.showDisagreeAlert}>I disagree</button>
               </div>
             </div>

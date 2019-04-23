@@ -88,6 +88,24 @@ public class DBActionHandler {
             stmt.execute(query);
 
             System.out.println("User Table created!");
+
+            Statement stmt2= connection.createStatement();
+            String query2 = "CREATE TABLE IF NOT EXISTS UserChanges (" +
+                    "  `Id` INT NOT NULL AUTO_INCREMENT," +
+                    "  `FirstName` VARCHAR(45)," +
+                    "  `LastName` VARCHAR(45)," +
+                    "  `UserName` VARCHAR(64)," +
+                    "  `Email` VARCHAR(45)," +
+                    "  `EncryptedPassword` VARCHAR(64)," +
+                    "  `RequestTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL," +
+                    "  `UserLevel` INT," +
+                    "  `Type` INT, " +
+                    "  PRIMARY KEY (`Id`)" +
+                    ");";
+            stmt2.execute(query2);
+
+            System.out.println("User Changes Table created!");
+
             connection.close();
 
         } catch (SQLException e) {
@@ -154,7 +172,7 @@ public class DBActionHandler {
             Connection connection = openDBConnection("debateapp");
             Statement stmt= connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS UserOpinion (" +
-                    "  `Id` INT NOT NULL," +
+                    "  `Id` INT NOT NULL AUTO_INCREMENT," +
                     "  `DebateID` INT NOT NULL," +
                     "  `UserID` INT NOT NULL," +
                     "  `Side` VARCHAR(1) NOT NULL,"+

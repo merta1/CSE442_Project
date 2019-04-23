@@ -1,5 +1,7 @@
 package edu.buffalo.cse442.handlers;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.sql.*;
 
 public class DebateHandler {
@@ -21,6 +23,12 @@ public class DebateHandler {
 
         int open = 1; //right now we only support open debates.
         int _public = 1; //right now we only support public debates.
+
+        //Sanitize the input string of ownerId, SideATitle, SideBTitle and Summary
+        ownerId = StringEscapeUtils.escapeHtml4(ownerId);
+        SideATitle = StringEscapeUtils.escapeHtml4(SideATitle);
+        SideBTitle = StringEscapeUtils.escapeHtml4(SideBTitle);
+        Summary = StringEscapeUtils.escapeHtml4(Summary);
 
         try {
             Connection connection = db.openDBConnection("debateapp");
@@ -74,6 +82,10 @@ public class DebateHandler {
         /**
          * TODO Implement searching debates
          */
+
+        //Sanitize the input string of query
+        query = StringEscapeUtils.escapeHtml4(query);
+
         return "{\n" +
                 "        \"1\":{\"id\":146,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
                 "        \"2\":{\"id\":32546,\"debateName\":\"Is AI Dangerous?\",\"createdDate\":\"Feb 18, 2019 1:05pm\",\"activeUsers\":16},\n" +

@@ -7,6 +7,7 @@ import Nav from './Nav';
 import Register from './Register';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
+import DebateChooseSide from './DebateChooseSide';
 
 class App extends React.Component {
     constructor(props) {
@@ -79,6 +80,7 @@ class App extends React.Component {
             Register: <Register changeView={this.changeView} setUserName={this.setUserName} debateid={state.debateid} sparkEndpoint={this.state.sparkEndpoint} />,
             ForgotPassword: <ForgotPassword changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
             ResetPassword: <ResetPassword changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
+            DebateChooseSide: <DebateChooseSide changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} debateid={state.debateid} userid={this.state.userid} />
             }
         return VIEWS[state.currentView];
       }

@@ -150,7 +150,56 @@ public class UserHandler {
 
         } catch (SQLException e) {
             return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
-        } 
+        }
+    }
+
+    public String setSide(int userid, int debateid, String side) {
+        try {
+            Connection connection = db.openDBConnection("debateapp");
+
+            PreparedStatement addComment = connection.prepareStatement(
+                    "INSERT INTO `debateapp`.`useropinion`\n" +
+                            "(`DebateID`,\n" +
+                            "`UserID`,\n" +
+                            "`Side`)\n" +
+                            "VALUES\n" +
+                            "(?,\n" +
+                            "?,\n" +
+                            "?);");
+
+            addComment.setInt(1, debateid);
+            addComment.setInt(2, userid);
+            addComment.setString(3, side);
+            addComment.executeUpdate();
+
+            return "{\"status\":\"ok\",\"message\":\"Side "+side+"chosen.\"}";
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
+    }
+
+    public String getSide(int userid, int debateid) {
+        try {
+            Connection connection = db.openDBConnection("debateapp");
+
+            PreparedStatement getDebate = connection.prepareStatement(
+                    "SELECT * FROM useropinion WHERE UserID = ? AND DebateID = ?");
+
+            getDebate.setInt(1, userid);
+            getDebate.setInt(2, debateid);
+            ResultSet rs = getDebate.executeQuery();
+
+            if (rs.next()) {
+                return "{\"status\":\"ok\",\"message\":\"" + rs.getString("Side") + "\"}";
+            } else {
+                return "{\"status\":\"ok\",\"message\":\"N\"}";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
     }
 
     /**

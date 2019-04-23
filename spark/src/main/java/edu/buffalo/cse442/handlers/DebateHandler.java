@@ -44,7 +44,7 @@ public class DebateHandler {
                throw new SQLException("A debate with this title already exists.");
            }
            PreparedStatement debatecreation = connection.prepareStatement(
-                   "INSERT INTO Debates (OwnerID, Open, Public , Title, SideA, SideB,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                   "INSERT INTO Debates (OwnerID, Open, Public , Title, SideATitle, SideBTitle,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
            debatecreation.setInt(1, ownerid);
            debatecreation.setInt(2,open);
            debatecreation.setInt(3, publicity);
@@ -64,13 +64,16 @@ public class DebateHandler {
            }
            connection.close();
 
-           return "{\"status\" : \"ok\" ,\"debateID\" : \"debateid \"}";
+           return "{\"status\" : \"ok\" ,\"debateID\" : \""+debateid+" \"}";
        }
        catch (SQLException e)
        {
            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
        }
-
+       catch (Exception e)
+       {
+           return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+       }
    }
 
 

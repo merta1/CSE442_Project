@@ -50,9 +50,10 @@ class StartNewDebate extends React.Component
       return false;
     }
 */
-handleSubmit = type => event =>
+handleSubmit(event)
 {
-
+      event.preventDefault();
+       
        let self = this;
        let formBody,property,encodedKey,encodedValue;
        formBody = [];
@@ -123,17 +124,17 @@ handleSubmit = type => event =>
                 <div class="row">
                   <div class="col w-50">
                     <label htmlFor="summary">Debate Summary :</label>
-                    <textarea name="summary" class="form-control" id="summary" rows="3" value={this.state.summary} onChange={e=>this.setState({summary: e.target.value})}></textarea>
+                    <textarea name="summary" class="form-control" id="summary" rows="3" value={this.state.Summary} onChange={e=>this.setState({Summary: e.target.value})}></textarea>
                   </div>
                   <div class="col w-50">
                     <div class="row">
                       <div class="col w-50">
                         <label htmlFor="SideATitle">Side A Title :</label>
-                        <textarea name="SideATitle" class="form-control" id="SideATitle" value ={this.state.sideA} onChange={e=>this.setState({sideA: e.target.value})}rows="1"></textarea>
+                        <textarea name="SideATitle" class="form-control" id="SideATitle" value ={this.state.SideATitle} onChange={e=>this.setState({SideATitle: e.target.value})}rows="1"></textarea>
                       </div>
                       <div class="col w-50">
                         <label htmlFor="SideBTitle">Side B Title :</label>
-                        <textarea name="SideBTitle" class="form-control" id="SideBTitle"  value ={this.state.sideB} onChange={e=>this.setState({sideB: e.target.value})}rows="1"></textarea>
+                        <textarea name="SideBTitle" class="form-control" id="SideBTitle"  value ={this.state.SideBTitle} onChange={e=>this.setState({SideBTitle: e.target.value})}rows="1"></textarea>
                       </div>
                     </div>
                   </div>
@@ -153,3 +154,4 @@ handleSubmit = type => event =>
   }
 
   export default StartNewDebate;
+

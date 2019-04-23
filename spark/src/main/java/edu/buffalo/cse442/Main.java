@@ -60,15 +60,15 @@ public class Main {
 
         // First, connect the debate endpoints.
         post("/debate", (req, res) -> debateHandler.createDebate(
-                Integer.parseInt(req.params("ownerid")),
-                Integer.parseInt(req.params("open")),
-                Integer.parseInt(req.params("public")),
-                req.params("title"),
+                Integer.parseInt(req.queryParams("ownerid")),
+                Integer.parseInt(req.queryParams("open")),
+                Integer.parseInt(req.queryParams("public")),
+                req.queryParams("title"),
                 //   Integer.parseInt(req.params("readPermissions"))
                 //   Integer.parseInt(req.params("writePermissions")),
-                req.params("SideATitle"),
-                req.params("SideBTitle"),
-                req.params("Summary")
+                req.queryParams("SideATitle"),
+                req.queryParams("SideBTitle"),
+                req.queryParams("Summary")
         ));
 
         get("/debate/:id", (req, res) -> {

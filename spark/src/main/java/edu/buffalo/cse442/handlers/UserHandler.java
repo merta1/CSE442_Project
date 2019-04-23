@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import edu.buffalo.cse442.Main;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class UserHandler {
 
@@ -34,6 +35,10 @@ public class UserHandler {
         /** TODO Implement login in PUT request handler. */
 
         String sha256hex;
+
+        //Sanitize the input string of username and password
+        username = StringEscapeUtils.escapeHtml4(username);
+        password = StringEscapeUtils.escapeHtml4(password);
 
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -76,6 +81,13 @@ public class UserHandler {
     public String register(String firstname, String lastname, String email, String password, String username) {
 
         //TODO: we need to check to see if the user is already registered and return an error message if they are.
+
+        //Sanitize the input string of firstname, lastname, email, username, and password
+        firstname = StringEscapeUtils.escapeHtml4(firstname);
+        lastname = StringEscapeUtils.escapeHtml4(lastname);
+        email = StringEscapeUtils.escapeHtml4(email);
+        username = StringEscapeUtils.escapeHtml4(username);
+        password = StringEscapeUtils.escapeHtml4(password);
 
         int userid;
         String query;

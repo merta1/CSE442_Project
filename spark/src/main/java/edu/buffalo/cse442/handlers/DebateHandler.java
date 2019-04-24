@@ -1,11 +1,6 @@
 package edu.buffalo.cse442.handlers;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.PreparedStatement;
 
-
+import java.sql.*;
 
 public class DebateHandler {
 

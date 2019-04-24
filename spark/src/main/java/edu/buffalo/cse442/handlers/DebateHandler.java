@@ -1,14 +1,11 @@
-package edu.buffalo.cse442.handlers;import java.security.NoSuchAlgorithmException;
+package edu.buffalo.cse442.handlers;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import java.security.MessageDigest;
-import java.nio.charset.StandardCharsets;
-import org.apache.commons.codec.binary.Hex;
 
-import java.sql.*;
+
 
 public class DebateHandler {
 

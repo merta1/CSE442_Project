@@ -72,6 +72,7 @@ class Register extends React.Component
                                 
                                 formBody = [];
                                 for (property in self.state) {
+                                        
                                         encodedKey = encodeURIComponent(property);
                                         encodedValue = encodeURIComponent(self.state[property]);
                                         formBody.push(encodedKey + "=" + encodedValue);

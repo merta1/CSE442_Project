@@ -99,7 +99,8 @@ public class UserHandler {
             String pwsalt = password + password_salt;
             byte[] hash = digest.digest(pwsalt.getBytes(StandardCharsets.UTF_8));
             sha256hex = new String(Hex.encodeHex(hash));
-        } catch (NoSuchAlgorithmException e) {
+        } 
+        catch (NoSuchAlgorithmException e) {
             return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
         }
 

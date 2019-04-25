@@ -8,6 +8,7 @@ public class DebateHandler {
 
     private DBActionHandler db;
 
+
     public DebateHandler(String con, String un, String pw) {
         db = createActionHandler(con, un, pw);
     }
@@ -19,60 +20,60 @@ public class DebateHandler {
      * @return The debate's details, the same as if you
      * had requested the details of that debate's ID.
      */
-    public String createDebate(String ownerId, String Title, int readPermissions, int writePermissions, String SideATitle, String SideBTitle, String Summary) {
-
-        int open = 1; //right now we only support open debates.
-        int _public = 1; //right now we only support public debates.
-
-        //Sanitize the input string of ownerId, SideATitle, SideBTitle and Summary
+   public String createDebate(int ownerid,int open, int publicity,String title,String SideA,String SideB,String summary)
+   {
+     
         ownerId = StringEscapeUtils.escapeHtml4(ownerId);
         SideATitle = StringEscapeUtils.escapeHtml4(SideATitle);
         SideBTitle = StringEscapeUtils.escapeHtml4(SideBTitle);
         Summary = StringEscapeUtils.escapeHtml4(Summary);
+      
+       int debateid;
+       String query;
+       ResultSet rs;
+       try {
+           Connection connection = db.openDBConnection("debateapp");
+           PreparedStatement checkTitle = connection.prepareStatement("SELECT * FROM Debates WHERE Title = ?");
 
-        try {
-            Connection connection = db.openDBConnection("debateapp");
-            Statement stmt= connection.createStatement();
+           checkTitle.setString(1, title);
+           rs = checkTitle.executeQuery();
 
-            String query = "INSERT INTO Debates (" +
-                    "OwnerID, " +
-                    "Open, " +
-                    "Public, " +
-                    "Title, " +
-                    "ViewPermissions, " +
-                    "CommentPermissions, " +
-                    "SideATitle, " +
-                    "SideBTitle, " +
-                    "Summary) Values (" +
-                    ownerId + ", " +
-                    open + ", " +
-                    _public + ", " +
-                    "\"" + Title + "\"," +
-                    readPermissions + ", " +
-                    writePermissions + ", " +
-                    "\"" + SideATitle + "\"," +
-                    "\"" + SideBTitle + "\"," +
-                    "\"" + Summary + "\"" +
-                    ");";
+           if (rs.next()) {
+               connection.close();
+               throw new SQLException("A debate with this title already exists.");
+           }
+           PreparedStatement debatecreation = connection.prepareStatement(
+                   "INSERT INTO Debates (OwnerID, Open, Public , Title, SideATitle, SideBTitle,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+           debatecreation.setInt(1, ownerid);
+           debatecreation.setInt(2,open);
+           debatecreation.setInt(3, publicity);
+           debatecreation.setString(4, title);
+           debatecreation.setString(5, SideA);
+           debatecreation.setString(6, SideB);
+           debatecreation.setString(7,summary);
+           ;
 
-//            System.out.println(query);
-            stmt.execute(query);
+           debatecreation.executeUpdate();
+           ResultSet generatedKeys = debatecreation.getGeneratedKeys();
+           if (generatedKeys.next()) {
+               debateid = generatedKeys.getInt(1);
+           } else {
+               connection.close();
+               throw new SQLException("Unable to create debate");
+           }
+           connection.close();
 
-            System.out.println("Debate Created!");
-            connection.close();
-
-        } catch (SQLException e) {
-            System.out.println("Connection Failed! Check output console");
-            e.printStackTrace();
-        } catch(Exception e){
-            System.out.println(e);
-        }
-
-
-        /** TODO Add in creating a debate **/
-        System.out.println("Created a debate!");
-        return "";
-    }
+           return "{\"status\" : \"ok\" ,\"debateID\" : \""+debateid+" \"}";
+       }
+       catch (SQLException e)
+       {
+           return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+       }
+       catch (Exception e)
+       {
+           return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+       }
+   }
 
     /**
      * @param query The String to search for.
@@ -129,7 +130,8 @@ public class DebateHandler {
                 int rightCount = 0;
                 String leftJson = "";
                 String rightJson = "";
-                while (rsComments.next()) {
+                while (rsComments.next())
+                {
                     rowCount++;
                     if (rsComments.getString("Side").equals("A")) {
                         leftCount++;

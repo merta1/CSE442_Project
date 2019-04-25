@@ -1,20 +1,39 @@
 import React from 'react';
 
-class StartNewDebate extends React.Component {
+class StartNewDebate extends React.Component 
+{
 
     constructor(props) {
       super(props);
-      this.state = {
-        centerStyle : {
-          textAlign : 'center'
-        }
+      this.state = 
+      {
+       ownerid : this.props.userID,
+       open : '1',
+       public: '1',
+       title : '',
+       SideATitle : '',
+       SideBTitle : '',
+       Summary : '',
+
+      //centerStyle : {
+      //   textAlign : 'center'
+      //}
       };
 
       this.handleSubmit = this.handleSubmit.bind(this);
     }
+    handleError = msg => 
+    {
 
+      this.setState({error: msg});
+      this.setState({hasError: true});
+      
+    }
+
+    /*
     handleSubmit(event) {
       event.preventDefault();
+      this.props.userID;
 
       fetch(this.props.sparkEndpoint + "/debate", {
         method: "POST",
@@ -30,6 +49,42 @@ class StartNewDebate extends React.Component {
       )
       return false;
     }
+*/
+handleSubmit(event)
+{
+      event.preventDefault();
+       
+       let self = this;
+       let formBody,property,encodedKey,encodedValue;
+       formBody = [];
+       for (property in self.state) 
+       {
+               encodedKey = encodeURIComponent(property);
+               encodedValue = encodeURIComponent(self.state[property]);
+               formBody.push(encodedKey + "=" + encodedValue);
+       }
+       formBody = formBody.join("&");
+
+       fetch(self.props.sparkEndpoint + "/debate", {
+               method: 'post',
+               headers: {
+                       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+               },
+               body: formBody,
+       }).then(function(response) {
+               return response.json();
+       }).then(function(data) {
+               if (data.status === "ok") {
+                       
+                       self.props.changeView('DebateWindow', data.debateid); 
+               } else {
+                       self.handleError(data.message);
+               }
+       }).catch(function(err) {
+               console.log("Fetch Error: ",err);
+       });
+
+}
 
     render() {
       return (
@@ -40,7 +95,7 @@ class StartNewDebate extends React.Component {
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label htmlFor="title">Debate Title</label>
-                    <input name="title" type="text" class="form-control" id="title" placeholder="A Good Debate Topic" required="" />
+                    <input name="title" type="text" class="form-control" id="title" placeholder="A Good Debate Topic" required="" value={this.state.title} onChange={e=>this.setState({title: e.target.value})}/>
                     <div class="invalid-feedback">
                       A valid debate title is required.
                     </div>
@@ -69,17 +124,17 @@ class StartNewDebate extends React.Component {
                 <div class="row">
                   <div class="col w-50">
                     <label htmlFor="summary">Debate Summary :</label>
-                    <textarea name="summary" class="form-control" id="summary" rows="3"></textarea>
+                    <textarea name="summary" class="form-control" id="summary" rows="3" value={this.state.Summary} onChange={e=>this.setState({Summary: e.target.value})}></textarea>
                   </div>
                   <div class="col w-50">
                     <div class="row">
                       <div class="col w-50">
                         <label htmlFor="SideATitle">Side A Title :</label>
-                        <textarea name="SideATitle" class="form-control" id="SideATitle" rows="1"></textarea>
+                        <textarea name="SideATitle" class="form-control" id="SideATitle" value ={this.state.SideATitle} onChange={e=>this.setState({SideATitle: e.target.value})}rows="1"></textarea>
                       </div>
                       <div class="col w-50">
                         <label htmlFor="SideBTitle">Side B Title :</label>
-                        <textarea name="SideBTitle" class="form-control" id="SideBTitle" rows="1"></textarea>
+                        <textarea name="SideBTitle" class="form-control" id="SideBTitle"  value ={this.state.SideBTitle} onChange={e=>this.setState({SideBTitle: e.target.value})}rows="1"></textarea>
                       </div>
                     </div>
                   </div>
@@ -99,3 +154,4 @@ class StartNewDebate extends React.Component {
   }
 
   export default StartNewDebate;
+

@@ -52,7 +52,7 @@ public class Main {
         dbActionsHandler.createCommentTable();
         dbActionsHandler.createUserOpinionTable();
 
-        //userHandler.register("david","adkins","david@davidadkins.com","test","david");
+
     }
 
     void establishEndpoints() {
@@ -66,13 +66,15 @@ public class Main {
 
         // First, connect the debate endpoints.
         post("/debate", (req, res) -> debateHandler.createDebate(
-                req.params("userid"),
-                req.params("title"),
-                Integer.parseInt(req.params("readPermissions")),
-                Integer.parseInt(req.params("writePermissions")),
-                req.params("SideATitle"),
-                req.params("SideBTitle"),
-                req.params("Summary")
+                Integer.parseInt(req.queryParams("ownerid")),
+                Integer.parseInt(req.queryParams("open")),
+                Integer.parseInt(req.queryParams("public")),
+                req.queryParams("title"),
+                //   Integer.parseInt(req.params("readPermissions"))
+                //   Integer.parseInt(req.params("writePermissions")),
+                req.queryParams("SideATitle"),
+                req.queryParams("SideBTitle"),
+                req.queryParams("Summary")
         ));
 
         get("/debate/:id", (req, res) -> {

@@ -13,7 +13,8 @@ class DebateList extends React.Component {
       };
     }
 
-    handleViewChange = (view, url="#") => {
+    handleViewChange = (view, url="#") =>  {
+
         this.props.changeView(view, url);
     }
 

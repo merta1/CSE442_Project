@@ -5,6 +5,9 @@ import DebateWindow from './DebateWindow';
 import StartNewDebate from './StartNewDebate';
 import Nav from './Nav';
 import Register from './Register';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
+import DebateChooseSide from './DebateChooseSide';
 
 class App extends React.Component {
     constructor(props) {
@@ -39,6 +42,12 @@ class App extends React.Component {
                     case "register":
                         this.state.currentView = 'Register';
                         break;
+                    case "forgotPassword":
+                        this.state.currentView = 'ForgotPassword';
+                        break;
+                    case "resetPassword":
+                        this.state.currentView = 'ResetPassword';
+                        break;
                     default:
                         break;
                 }
@@ -69,6 +78,9 @@ class App extends React.Component {
             DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} username={this.state.username} userid={this.state.userid} sparkEndpoint={this.state.sparkEndpoint} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} userID={this.state.userid} />,
             Register: <Register changeView={this.changeView} setUserName={this.setUserName} debateid={state.debateid} sparkEndpoint={this.state.sparkEndpoint} />,
+            ForgotPassword: <ForgotPassword changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
+            ResetPassword: <ResetPassword changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
+            DebateChooseSide: <DebateChooseSide changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} debateid={state.debateid} userid={this.state.userid} />
             }
         return VIEWS[state.currentView];
       }

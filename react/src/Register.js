@@ -172,7 +172,10 @@ class Register extends React.Component
                                                                 onChange={e=>this.setState({passwordlogin: e.target.value}) }/>
                                                 </div>
                                                 <div className="form-group">
-                                                        <input className="btn btn-light" type="submit" value="Login" />
+                                                        <input className="btn btn-light" type="submit" value="Login" aria-describedby="forgotPasswordBlock" />
+                                                        <small id="forgotPasswordBlock" class="form-text text-muted">
+                                                                Forgot your password? <a href="#/forgotPassword" onClick={()=>{ this.props.changeView("ForgotPassword"); }} >Click here to reset it.</a>
+                                                        </small>
                                                 </div>
                                         </form>
                                 </div>

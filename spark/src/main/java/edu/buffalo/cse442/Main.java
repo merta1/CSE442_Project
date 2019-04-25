@@ -8,6 +8,12 @@ import edu.buffalo.cse442.handlers.UserHandler;
 import edu.buffalo.cse442.handlers.CommentHandler;
 import org.apache.log4j.BasicConfigurator;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileInputStream;
@@ -104,12 +110,54 @@ public class Main {
             return userHandler.login(req.queryParams("emaillogin"), req.queryParams("passwordlogin"));
         });
 
+        get("/user/getpreference/:user/:debate", (req, res) -> {
+            int userid;
+            int debateid;
+            try {
+                userid = Integer.parseInt(req.params(":user"));
+                debateid = Integer.parseInt(req.params(":debate"));
+            } catch (RuntimeException e) {
+                return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+            }
+            return userHandler.getSide(userid, debateid);
+        });
+
+        post("/user/setpreference", (req, res) -> {
+            int userid;
+            int debateid;
+            String side;
+            try {
+                userid = Integer.parseInt(req.queryParams("userid"));
+                debateid = Integer.parseInt(req.queryParams("debateid"));
+                side = req.queryParams("side");
+            } catch (RuntimeException e) {
+                return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+            }
+           return userHandler.setSide(userid, debateid, side);
+        });
+
         post("/user/register", (req, res) -> userHandler.register(
                 req.queryParams("firstname"),
                 req.queryParams("lastname"),
                 req.queryParams("email"),
                 req.queryParams("password"),
                 req.queryParams("username")
+        ));
+
+        post("/user/forgotpassword", (req, res) -> userHandler.forgotPassword(
+                req.queryParams("email"),
+                req.queryParams("domain")
+        ));
+
+        get("/user/resetpassword", (req, res) -> userHandler.resetPassword(
+                req.queryParams("token")
+        ));
+
+        post("/user/resetpassword", (req, res) -> userHandler.resetPassword(
+                req.queryParams("token"),
+                req.queryParams("email"),
+                req.queryParams("password"),
+                req.queryParams("passwordConfirm")
         ));
 
         // Now create comment handlers
@@ -156,5 +204,52 @@ public class Main {
         }
 
         return propValue;
+    }
+
+    public static String sendEmail(String email, String subject, String body) {
+        // Create a Properties object to contain connection configuration information.
+        Properties props = System.getProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.port", getProperty("email.smtp.port"));
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.auth", "true");
+
+        // Create a Session object to represent a mail session with the specified properties.
+        Session session = Session.getDefaultInstance(props);
+
+        Transport transport = null;
+
+        try {
+
+            // Create a message with the specified information.
+            MimeMessage msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(getProperty("email.smtp.fromAddress"),getProperty("email.smtp.fromName")));
+            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            msg.setSubject(subject);
+            msg.setContent(body,"text/html");
+
+            // Add a configuration set header. Comment or delete the
+            // next line if you are not using a configuration set
+            // msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
+
+            // Create a transport.
+            transport = session.getTransport();
+
+            // Connect to Amazon SES using the SMTP username and password you specified above.
+            transport.connect(getProperty("email.smtp.host"), getProperty("email.smtp.username"), getProperty("email.smtp.password"));
+
+            // Send the email.
+            transport.sendMessage(msg, msg.getAllRecipients());
+            return "{\"status\":\"ok\",\"message\":\"Please check your email a message has been sent to your email address.\"}";
+        } catch (Exception ex) {
+            return "{\"status\":\"error\",\"message\":\""+ex.getMessage()+"\"}";
+        } finally {
+            // Close and terminate the connection.
+            try {
+                transport.close();
+            } catch (MessagingException e) {
+                //do nothing
+            }
+        }
     }
 }

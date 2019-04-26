@@ -23,10 +23,10 @@ public class DebateHandler {
    public String createDebate(int ownerid,int open, int publicity,String title,String SideA,String SideB,String summary)
    {
      
-        ownerId = StringEscapeUtils.escapeHtml4(ownerId);
-        SideATitle = StringEscapeUtils.escapeHtml4(SideATitle);
-        SideBTitle = StringEscapeUtils.escapeHtml4(SideBTitle);
-        Summary = StringEscapeUtils.escapeHtml4(Summary);
+        
+        SideA = StringEscapeUtils.escapeHtml4(SideA);
+        SideB = StringEscapeUtils.escapeHtml4(SideB);
+        summary = StringEscapeUtils.escapeHtml4(summary);
       
        int debateid;
        String query;

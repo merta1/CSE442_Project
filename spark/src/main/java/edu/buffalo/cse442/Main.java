@@ -110,31 +110,17 @@ public class Main {
             return userHandler.login(req.queryParams("emaillogin"), req.queryParams("passwordlogin"));
         });
 
-        get("/user/getpreference/:user/:debate", (req, res) -> {
-            int userid;
-            int debateid;
-            try {
-                userid = Integer.parseInt(req.params(":user"));
-                debateid = Integer.parseInt(req.params(":debate"));
-            } catch (RuntimeException e) {
-                return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
-            }
-            return userHandler.getSide(userid, debateid);
-        });
+        get("/user/getpreference/:user/:debate", (req, res) -> userHandler.getSide(
+                Integer.parseInt(req.params(":user")),
+                Integer.parseInt(req.params(":debate"))
+        ));
 
-        post("/user/setpreference", (req, res) -> {
-            int userid;
-            int debateid;
-            String side;
-            try {
-                userid = Integer.parseInt(req.queryParams("userid"));
-                debateid = Integer.parseInt(req.queryParams("debateid"));
-                side = req.queryParams("side");
-            } catch (RuntimeException e) {
-                return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
-            }
-           return userHandler.setSide(userid, debateid, side);
-        });
+        post("/user/setpreference", (req, res) -> userHandler.setSide(
+                Integer.parseInt(req.queryParams("userid")),
+                Integer.parseInt(req.queryParams("debateid")),
+                req.queryParams("side")
+        ));
+
 
         post("/user/register", (req, res) -> userHandler.register(
                 req.queryParams("firstname"),

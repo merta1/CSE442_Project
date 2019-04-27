@@ -185,7 +185,7 @@ public class UserHandler {
             addComment.setString(3, side);
             addComment.executeUpdate();
 
-            return "{\"status\":\"ok\",\"message\":\"Side "+side+"chosen.\"}";
+            return "{\"status\":\"ok\",\"debateid\":\""+debateid+"\",\"message\":\"Side "+side+" chosen.\"}";
 
         } catch (SQLException e) {
             e.printStackTrace();

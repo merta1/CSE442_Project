@@ -72,8 +72,14 @@ class App extends React.Component {
       //this changes the active view and the
       changeView(view, dbid="#") {
         if (view === "Register") {
-            this.setState({lastView: this.state.currentView});
-            this.setState({lastDebateID: this.state.debateid});
+            if (this.state.currentView === "Activate") {
+                //we need to do this so that when someone activates their account they go to the homepage
+                this.setState({lastView: "DebateList"});
+                this.setState({lastDebateID: this.state.debateid});
+            } else { 
+                this.setState({lastView: this.state.currentView});
+                this.setState({lastDebateID: this.state.debateid});
+            }
         }
         this.setState({currentView: view, debateid: dbid })
       }

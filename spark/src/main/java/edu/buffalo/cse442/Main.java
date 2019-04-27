@@ -127,7 +127,12 @@ public class Main {
                 req.queryParams("lastname"),
                 req.queryParams("email"),
                 req.queryParams("password"),
-                req.queryParams("username")
+                req.queryParams("username"),
+                req.queryParams("domain")
+        ));
+
+        get("/user/activate", (req, res) -> userHandler.activate(
+                req.queryParams("token")
         ));
 
         post("/user/forgotpassword", (req, res) -> userHandler.forgotPassword(
@@ -226,7 +231,7 @@ public class Main {
 
             // Send the email.
             transport.sendMessage(msg, msg.getAllRecipients());
-            return "{\"status\":\"ok\",\"message\":\"Please check your email a message has been sent to your email address.\"}";
+            return "{\"status\":\"ok\",\"message\":\"Please check your email, a message has been sent to your email address.\"}";
         } catch (Exception ex) {
             return "{\"status\":\"error\",\"message\":\""+ex.getMessage()+"\"}";
         } finally {

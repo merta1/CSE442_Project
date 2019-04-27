@@ -1,14 +1,12 @@
 import React from 'react';
 import Error from './Error';
+import Message from './Message';
 
-class Register extends React.Component 
-{
-        constructor(props) 
-        {
+class Register extends React.Component {
+        constructor(props) {
                 super(props);
                          
-                this.state=
-                {
+                this.state={
                         username :'',
                         email :'',
                         password : '',
@@ -18,18 +16,19 @@ class Register extends React.Component
                         passwordlogin : '',
                 }
                 this.handleSubmit = this.handleSubmit.bind(this);
-
         }
 
         handleError = msg => {
-
                 this.setState({error: msg});
-                this.setState({hasError: true});
-                
+                this.setState({hasError: true});  
         }
 
-        handleSubmit = type => event =>
-         {
+        handleMessage = msg => {
+                this.setState({message: msg});
+                this.setState({hasMessage: true});
+        }
+
+        handleSubmit = type => event => {
 
                 let self = this;
                 let formBody,property,encodedKey,encodedValue;
@@ -40,6 +39,13 @@ class Register extends React.Component
                         case "register":
 
                                 formBody = [];
+
+                                let port = "";
+                                if (window.location.port !== 80 && window.location.port !== 443) {
+                                        port = ":" + window.location.port;
+                                }
+                                formBody.push("domain="+window.location.protocol + "//" + window.location.hostname + port);
+
                                 for (property in self.state) 
                                 {
                                         encodedKey = encodeURIComponent(property);
@@ -58,11 +64,8 @@ class Register extends React.Component
                                         return response.json();
                                 }).then(function(data) {
                                         if (data.status === "ok") {
-                                                self.props.setUserName(data.username); 
-                                                localStorage.setItem("debate", JSON.stringify({"userid":data.userid,"username":data.username, "email":data.email})); 
-
-//what?!? fix this with email confirmation....
-
+                                                self.setState({hasError: false});
+                                                self.handleMessage(data.message);
                                         } else {
                                                 self.handleError(data.message);
                                         }
@@ -119,6 +122,8 @@ class Register extends React.Component
                 <div className="container login-container">
 
                         { this.state.hasError ? <Error ErrorMessage={this.state.error} /> : null }
+
+                        { this.state.hasMessage ? <Message Message={this.state.message} /> : null }
 
                         <div className="row">
                                 <div className="col-md-6 login-form-1">

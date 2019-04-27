@@ -75,7 +75,6 @@ handleSubmit(event)
                return response.json();
        }).then(function(data) {
                if (data.status === "ok") {
-                       
                        self.props.changeView('DebateWindow', data.debateid); 
                } else {
                        self.handleError(data.message);

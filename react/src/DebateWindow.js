@@ -20,27 +20,26 @@ class DebateWindow extends React.Component {
             "comments":{},
           },
         },
+        arrAgree : [],
+        arrDisagree : [],
         isLoading : true,
         comment : "",
         error : "",
-        hasError : false
+        hasError : false,
+        update: false,
       };
 
     }
 
     componentDidMount() {
-      console.log("Fetching user preference for " + this.props.userid);
-      if (this.props.userid != undefined) {
+      if (this.props.userid !== undefined) {
         fetch(this.props.sparkEndpoint + "/user/getpreference/" + this.props.userid + "/"+ this.props.debateid)
           .then(res => res.json())
           .then(
             (result) => {
-              console.log("RESULT " + result);
-              if (result.message == "N") {
-                console.log("Need to choose side " + result.message);
+              if (result.message === "N") {
                 this.props.changeView("DebateChooseSide", this.props.debateid);
               } else {
-                console.log("You have selected side " + result.message);
                 this.setState({ side:result.message });
               }
             },
@@ -77,9 +76,28 @@ class DebateWindow extends React.Component {
 
     }
 
-    handleSubmit = type => event => {
+    handleSubmit = (type) => event => {
 
       let self = this;
+
+      let currentdate = new Date();
+      let datetime = currentdate.getFullYear() + "-"+currentdate.getMonth() + "/" + currentdate.getDay() + " " 
+        + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
+      let comment = {
+        "Comment":self.state.comment,
+        "CommentTime":datetime,
+        "UserName":self.props.username,
+        "UserId":self.props.userid
+      };
+
+      let newJson = self.state.json;
+      if (type === "A") {
+        newJson.agree.comments[2000000] = comment;
+      } else {
+        newJson.disagree.comments[2000000] = comment;
+      }
+      this.setState({json: newJson});
 
       let formBody = [];
       formBody.push("debateid=" + encodeURIComponent(self.props.debateid));
@@ -98,9 +116,9 @@ class DebateWindow extends React.Component {
               return response.json();
       }).then(function(data) {
               if (data.status === "ok") {
-                      //we don't have to do anything, the page will refresh automatically
+                self.setState({ comment : "" });
               } else {
-                      self.handleError(data.message);
+                self.handleError(data.message);
               }
       }).catch(function(err) {
               console.log("Fetch Error: ",err);
@@ -111,30 +129,6 @@ class DebateWindow extends React.Component {
 
     render() {
       var debateJson = this.state.json;
-
-      // 2. If the debate is public
-
-      // 2a. If the debate is "closed" then we just show the debate screen without comments
-
-      // 2b. If the debate is "open" check if the user is logged in
-
-          // 2b-1. If the user is logged in, check to see if they have chosen a side on this debate.
-
-              // 2b-1-a. If they have chosen a side then show the comment box for the side they are on.
-
-              // 2b-1-b.  If they haven't chosen a side, then change the window to the change side window.
-              //          Pass something to this page so the system knows to return them to this page.
-
-          // 2b-2. If the user is not logged in, send them to the register page to login.  Pass something so
-          //       the system knows to return them to this page.
-
-      // 3. If the debate is private
-
-        // for now just do the same thing as private, we will eventually build this out with more permissions.
-
-
-
-
 
       // 4. We need to listen for comment submission.  If we get a comment, we should add it to the appropriate
       //    side of the debate in realtime so the user thinks it is realtime.  Then send the request to the correct
@@ -190,6 +184,7 @@ class DebateWindow extends React.Component {
                   {
                     arrAgree.map(item => <CommentItem changeView={this.handleViewChange}
                         id={item.id}
+                        key={item.id}
                         Comment={item.Comment}
                         UserID={item.UserID}
                         UserName={item.UserName}
@@ -197,10 +192,10 @@ class DebateWindow extends React.Component {
                   }
                   </tbody>
                 </table>
-                {this.state.side=="A"?
-                  <form onSubmit={this.handleSubmit('A')} >
+                {this.state.side==="A"?
+                  <form onSubmit={this.handleSubmit('A', arrAgree)} >
                   <div>
-                      <textarea rows="2" cols="50" id="textAreaAgree"
+                      <textarea className="form-control" rows="2" id="textAreaAgree"
                         onChange={e=>this.setState({comment: e.target.value}) }
                         value={this.state.comment} /><br></br>
                       <input className="btn btn-light" type="submit" value="Submit Comment" />
@@ -221,6 +216,7 @@ class DebateWindow extends React.Component {
                   {
                       arrDisagree.map(item => <CommentItem changeView={this.handleViewChange}
                         id={item.id}
+                        key={item.id}
                         Comment={item.Comment}
                         UserID={item.UserID}
                         UserName={item.UserName}
@@ -228,10 +224,10 @@ class DebateWindow extends React.Component {
                   }
                   </tbody>
                 </table>
-                {this.state.side=="B"?
-                  <form onSubmit={this.handleSubmit('B')} >
+                {this.state.side==="B"?
+                  <form onSubmit={this.handleSubmit('B', arrDisagree)} >
                     <div>
-                      <textarea rows="2" cols="50" id="textAreaDisagree"
+                      <textarea className="form-control" rows="2" id="textAreaDisagree"
                         onChange={e=>this.setState({comment: e.target.value}) }
                         value={this.state.comment} /><br></br>
                       <input className="btn btn-light" type="submit" value="Submit Comment" />

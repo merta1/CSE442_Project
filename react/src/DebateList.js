@@ -72,7 +72,7 @@ class DebateList extends React.Component {
                 </tr>
             </thead>
             <tbody>
-            {arr.map(item => <DebateItem changeView={this.handleViewChange} id={item.id} debateName={item.debateName} createdDate={item.createdDate} activeUsers={item.activeUsers} />)}
+            {arr.map(item => <DebateItem changeView={this.handleViewChange} id={item.id} key={item.id} debateName={item.debateName} createdDate={item.createdDate} activeUsers={item.activeUsers} />)}
             </tbody>
         </table>
         </LoadingOverlay>

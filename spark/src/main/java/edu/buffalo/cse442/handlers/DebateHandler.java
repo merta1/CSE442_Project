@@ -33,15 +33,7 @@ public class DebateHandler {
        ResultSet rs;
        try {
            Connection connection = db.openDBConnection("debateapp");
-           PreparedStatement checkTitle = connection.prepareStatement("SELECT * FROM Debates WHERE Title = ?");
 
-           checkTitle.setString(1, title);
-           rs = checkTitle.executeQuery();
-
-           if (rs.next()) {
-               connection.close();
-               throw new SQLException("A debate with this title already exists.");
-           }
            PreparedStatement debatecreation = connection.prepareStatement(
                    "INSERT INTO Debates (OwnerID, Open, Public , Title, SideATitle, SideBTitle,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
            debatecreation.setInt(1, ownerid);
@@ -63,7 +55,7 @@ public class DebateHandler {
            }
            connection.close();
 
-           return "{\"status\" : \"ok\" ,\"debateID\" : \""+debateid+" \"}";
+           return "{\"status\" : \"ok\" ,\"debateID\" : \""+debateid+"\"}";
        }
        catch (SQLException e)
        {

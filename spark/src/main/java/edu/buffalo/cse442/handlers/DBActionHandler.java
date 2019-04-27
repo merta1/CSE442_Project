@@ -83,6 +83,7 @@ public class DBActionHandler {
                     "  `Email` VARCHAR(45) NOT NULL," +
                     "  `EncryptedPassword` VARCHAR(64) NOT NULL," +
                     "  `UserLevel` INT NOT NULL," +
+                    "  `CreatedTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL," +
                     "  PRIMARY KEY (`Id`)" +
                     ");";
             stmt.execute(query);
@@ -129,6 +130,7 @@ public class DBActionHandler {
                     "  `SideATitle` VARCHAR(100) NOT NULL," +
                     "  `SideBTitle` VARCHAR(100) NOT NULL," +
                     "  `Summary` VARCHAR(500) NOT NULL," +
+                    "  `CreatedTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL," +
                     "  PRIMARY KEY (`Id`));";
             stmt.execute(query);
 

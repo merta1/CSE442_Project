@@ -27,12 +27,13 @@ class DebateWindow extends React.Component {
         error : "",
         hasError : false,
         update: false,
+        side: "N",
       };
 
     }
 
     componentDidMount() {
-      if (this.props.userid !== undefined) {
+      if (this.props.userid !== null) {
         fetch(this.props.sparkEndpoint + "/user/getpreference/" + this.props.userid + "/"+ this.props.debateid)
           .then(res => res.json())
           .then(
@@ -46,8 +47,9 @@ class DebateWindow extends React.Component {
             (error) => {
               // TODO Implement Error handling.
               console.log("Error, couldn't connect to spark : " + error);
-            });
-        }
+            }
+          );
+      }
 
       this.interval = setInterval(() =>
       fetch(this.props.sparkEndpoint + "/debate/" + this.props.debateid)
@@ -192,7 +194,7 @@ class DebateWindow extends React.Component {
                   }
                   </tbody>
                 </table>
-                {this.state.side==="A"?
+                {this.state.side==="A" && this.props.userid !== null?
                   <form onSubmit={this.handleSubmit('A', arrAgree)} >
                   <div>
                       <textarea className="form-control" rows="2" id="textAreaAgree"
@@ -224,7 +226,7 @@ class DebateWindow extends React.Component {
                   }
                   </tbody>
                 </table>
-                {this.state.side==="B"?
+                {this.state.side==="B" && this.props.userid !== null?
                   <form onSubmit={this.handleSubmit('B', arrDisagree)} >
                     <div>
                       <textarea className="form-control" rows="2" id="textAreaDisagree"

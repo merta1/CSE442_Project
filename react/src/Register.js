@@ -90,6 +90,7 @@ class Register extends React.Component
                                 }).then(function(data) {
                                         if (data.status === "ok") {
                                                 self.props.setUserName(data.username);
+                                                self.props.setUserID(data.userid);
                                                 localStorage.setItem("debate", JSON.stringify({"userid":data.userid,"username":data.username, "email":data.email}));
                                                 self.props.changeView('DebateWindow', self.props.debateid);
                                         } else {
@@ -173,7 +174,7 @@ class Register extends React.Component
                                                 </div>
                                                 <div className="form-group">
                                                         <input className="btn btn-light" type="submit" value="Login" aria-describedby="forgotPasswordBlock" />
-                                                        <small id="forgotPasswordBlock" class="form-text text-muted">
+                                                        <small id="forgotPasswordBlock" className="form-text text-muted">
                                                                 Forgot your password? <a href="#/forgotPassword" onClick={()=>{ this.props.changeView("ForgotPassword"); }} >Click here to reset it.</a>
                                                         </small>
                                                 </div>

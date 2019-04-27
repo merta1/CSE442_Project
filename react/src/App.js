@@ -63,6 +63,7 @@ class App extends React.Component {
 
         this.changeView = this.changeView.bind(this);
         this.setUserName = this.setUserName.bind(this);
+        this.setUserID = this.setUserID.bind(this);
       }
       //this changes the active view and the
       changeView(view, dbid="#") {
@@ -70,6 +71,12 @@ class App extends React.Component {
       }
       setUserName(user) {
           this.setState({username: user})
+          if (user === null) {
+              this.setUserID(null);
+          }
+      }
+      setUserID(id) {
+        this.setState({userid: id})
       }
       drawView(state) {
         //this is a list of potential views.  We need to add new views here first!!!!
@@ -77,7 +84,7 @@ class App extends React.Component {
             DebateList: <DebateList changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
             DebateWindow: <DebateWindow changeView={this.changeView} debateid={this.state.debateid} username={this.state.username} userid={this.state.userid} sparkEndpoint={this.state.sparkEndpoint} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} userID={this.state.userid} />,
-            Register: <Register changeView={this.changeView} setUserName={this.setUserName} debateid={this.state.debateid} sparkEndpoint={this.state.sparkEndpoint} />,
+            Register: <Register changeView={this.changeView} setUserName={this.setUserName} setUserID={this.setUserID} debateid={this.state.debateid} sparkEndpoint={this.state.sparkEndpoint} />,
             ForgotPassword: <ForgotPassword changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
             ResetPassword: <ResetPassword changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
             DebateChooseSide: <DebateChooseSide changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} debateid={this.state.debateid} userid={this.state.userid} />

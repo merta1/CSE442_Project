@@ -67,6 +67,10 @@ class App extends React.Component {
       }
       //this changes the active view and the
       changeView(view, dbid="#") {
+        if (view === "Register") {
+            this.setState({lastView: this.state.currentView});
+            this.setState({lastDebateID: this.state.debateid});
+        }
         this.setState({currentView: view, debateid: dbid })
       }
       setUserName(user) {
@@ -84,7 +88,7 @@ class App extends React.Component {
             DebateList: <DebateList changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
             DebateWindow: <DebateWindow changeView={this.changeView} debateid={this.state.debateid} username={this.state.username} userid={this.state.userid} sparkEndpoint={this.state.sparkEndpoint} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} userID={this.state.userid} />,
-            Register: <Register changeView={this.changeView} setUserName={this.setUserName} setUserID={this.setUserID} debateid={this.state.debateid} sparkEndpoint={this.state.sparkEndpoint} />,
+            Register: <Register changeView={this.changeView} lastDebateID={this.state.lastDebateID} lastView={this.state.lastView} setUserName={this.setUserName} setUserID={this.setUserID} debateid={this.state.debateid} sparkEndpoint={this.state.sparkEndpoint} />,
             ForgotPassword: <ForgotPassword changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
             ResetPassword: <ResetPassword changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
             DebateChooseSide: <DebateChooseSide changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} debateid={this.state.debateid} userid={this.state.userid} />

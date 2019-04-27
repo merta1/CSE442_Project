@@ -78,7 +78,7 @@ public class UserHandler {
      * The parameters are TBD.
      * @return A JSON String containing status info about the register attempt.
      */
-    public String register(String firstname, String lastname, String email, String password, String username) {
+    public String register(String firstname, String lastname, String email, String password, String username, String domain) {
 
         //TODO: we need to check to see if the user is already registered and return an error message if they are.
 
@@ -140,7 +140,7 @@ public class UserHandler {
             }
 
             PreparedStatement registerUser = connection.prepareStatement(
-                    "INSERT INTO Users (FirstName, LastName, UserName, Email, EncryptedPassword, UserLevel) Values (?,?,?,?,?,0)", Statement.RETURN_GENERATED_KEYS);
+                    "INSERT INTO UserChanges (FirstName, LastName, UserName, Email, EncryptedPassword, UserLevel, Type) Values (?,?,?,?,?,0,2)", Statement.RETURN_GENERATED_KEYS);
 
             registerUser.setString(1,firstname);
             registerUser.setString(2,lastname);
@@ -159,7 +159,99 @@ public class UserHandler {
 
             connection.close();
 
+            //send an email to the user!
+            String activateLink = domain + "/#/activate/" + sha256hex;
+
+            String emailBody = "Please click on the link below to finish setting up your user account.  This link is only good for 24 hours." +
+                    "<br><br><a href=\""+activateLink+"\">Activate Account</a><br><br> If the above link does not work, copy and " +
+                    "paste this link into your browser window.<br>" + activateLink;
+
+            String msg = Main.sendEmail(email, "User Registration Request from "+domain, emailBody);
+
+            return msg;
+
+        } catch (SQLException e) {
+            return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+        }
+    }
+
+    public String activate(String token) {
+        try {
+            ResultSet rs;
+            String email, firstname, lastname, username, password;
+            int userlevel, userid;
+            Connection connection = db.openDBConnection("debateapp");
+
+            PreparedStatement checkKey = connection.prepareStatement(
+                    "SELECT * FROM UserChanges WHERE EncryptedPassword = ? AND TYPE=2 AND SUBDATE(CURRENT_DATE(), INTERVAL 24 HOUR) <= RequestTime");
+
+            checkKey.setString(1,token);
+            rs = checkKey.executeQuery();
+
+            if (!rs.next()) {
+                connection.close();
+                throw new SQLException("We are sorry, this URL is not valid.");
+            }
+
+            email = rs.getString("Email");
+            firstname = rs.getString("FirstName");
+            lastname = rs.getString("LastName");
+            username = rs.getString("UserName");
+            password = rs.getString("EncryptedPassword");
+            userlevel = rs.getInt("UserLevel");
+
+            PreparedStatement checkUsername = connection.prepareStatement(
+                    "SELECT * FROM Users WHERE Username = ?");
+
+            checkUsername.setString(1,username);
+            rs = checkUsername.executeQuery();
+
+            if (rs.next()) {
+                connection.close();
+                throw new SQLException("Username already exists.");
+            }
+
+            PreparedStatement checkEmail = connection.prepareStatement(
+                    "SELECT * FROM Users WHERE Email = ?");
+
+            checkEmail.setString(1,email);
+            rs = checkEmail.executeQuery();
+
+            if (rs.next()) {
+                connection.close();
+                throw new SQLException("Email already exists.");
+            }
+
+            PreparedStatement registerUser = connection.prepareStatement(
+                    "INSERT INTO Users (FirstName, LastName, UserName, Email, EncryptedPassword, UserLevel) Values (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+
+            registerUser.setString(1,firstname);
+            registerUser.setString(2,lastname);
+            registerUser.setString(3,username);
+            registerUser.setString(4,email);
+            registerUser.setString(5,password);
+            registerUser.setInt(6,userlevel);
+            registerUser.executeUpdate();
+
+            ResultSet generatedKeys = registerUser.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                userid = generatedKeys.getInt(1);
+            } else {
+                connection.close();
+                throw new SQLException("Unable to create user.");
+            }
+
+            // delete the key from UserChanges
+            PreparedStatement deleteKey = connection.prepareStatement(
+                    "DELETE FROM UserChanges WHERE EncryptedPassword = ? AND Type = 2");
+
+            deleteKey.setString(1,token);
+            deleteKey.executeUpdate();
+
+            connection.close();
+
             return "{\"status\":\"ok\",\"message\":\"User successfully created.\",\"userid\":\""+userid+"\",\"username\":\""+username+"\",\"email\":\""+email+"\"}";
+
 
         } catch (SQLException e) {
             return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
@@ -185,7 +277,7 @@ public class UserHandler {
             addComment.setString(3, side);
             addComment.executeUpdate();
 
-            return "{\"status\":\"ok\",\"message\":\"Side "+side+"chosen.\"}";
+            return "{\"status\":\"ok\",\"debateid\":\""+debateid+"\",\"message\":\"Side "+side+" chosen.\"}";
 
         } catch (SQLException e) {
             e.printStackTrace();

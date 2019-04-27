@@ -3,6 +3,7 @@ package edu.buffalo.cse442.handlers;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.sql.*;
+import java.util.LinkedHashMap;
 
 public class DebateHandler {
 
@@ -33,15 +34,7 @@ public class DebateHandler {
        ResultSet rs;
        try {
            Connection connection = db.openDBConnection("debateapp");
-           PreparedStatement checkTitle = connection.prepareStatement("SELECT * FROM Debates WHERE Title = ?");
 
-           checkTitle.setString(1, title);
-           rs = checkTitle.executeQuery();
-
-           if (rs.next()) {
-               connection.close();
-               throw new SQLException("A debate with this title already exists.");
-           }
            PreparedStatement debatecreation = connection.prepareStatement(
                    "INSERT INTO Debates (OwnerID, Open, Public , Title, SideATitle, SideBTitle,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
            debatecreation.setInt(1, ownerid);
@@ -63,7 +56,7 @@ public class DebateHandler {
            }
            connection.close();
 
-           return "{\"status\" : \"ok\" ,\"debateID\" : \""+debateid+" \"}";
+           return "{\"status\" : \"ok\" ,\"debateID\" : \""+debateid+"\"}";
        }
        catch (SQLException e)
        {
@@ -130,11 +123,14 @@ public class DebateHandler {
                 int rightCount = 0;
                 String leftJson = "";
                 String rightJson = "";
+                LinkedHashMap uniqueLeft = new LinkedHashMap();
+                LinkedHashMap uniqueRight = new LinkedHashMap();
                 while (rsComments.next())
                 {
                     rowCount++;
                     if (rsComments.getString("Side").equals("A")) {
                         leftCount++;
+                        uniqueLeft.put(rsComments.getInt("UserID"),"left");
                         leftJson += "\"" + rsComments.getInt("cid") + "\":{" +
                                 "\"Comment\":\"" + rsComments.getString("Comment") + "\"," +
                                 "\"CommentTime\":\"" + rsComments.getString("CommentDateTime") + "\"," +
@@ -143,6 +139,7 @@ public class DebateHandler {
                                 "},";
                     } else {
                         rightCount++;
+                        uniqueRight.put(rsComments.getInt("UserID"),"right");
                         rightJson += "\"" + rsComments.getInt("cid") + "\":{" +
                                 "\"Comment\":\"" + rsComments.getString("Comment") + "\"," +
                                 "\"CommentTime\":\"" + rsComments.getString("CommentDateTime") + "\"," +
@@ -165,14 +162,14 @@ public class DebateHandler {
                 json += "\"totalcomments\":" + rowCount + "," +
                         "\"agree\":{" +
                         "   \"displaytext\":\"" + rs.getString("SideATitle") + "\"," +
-                        "   \"usercount\":2," +
+                        "   \"usercount\":"+uniqueLeft.size()+"," +
                         "   \"commentcount\":" + leftCount + "," +
                         "   \"comments\":{" + leftJson +
                         "   }" +
                         "}," +
                         "\"disagree\":{" +
                         "   \"displaytext\":\"" + rs.getString("SideBTitle") + "\"," +
-                        "   \"usercount\":2," +
+                        "   \"usercount\":"+uniqueRight.size()+"," +
                         "   \"commentcount\":" + rightCount + "," +
                         "   \"comments\":{" + rightJson +
                         "   }" +
@@ -254,7 +251,7 @@ public class DebateHandler {
 
             while (rs.next()) {
 
-                json += "\"" + rs.getInt("Id") + "\":{\"id\":\""+rs.getInt("Id")+"\",\"debateName\":\""+rs.getString("Title")+"\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},";
+                json += "\"" + rs.getInt("Id") + "\":{\"id\":\""+rs.getInt("Id")+"\",\"debateName\":\""+rs.getString("Title")+"\",\"createdDate\":\""+rs.getTimestamp("CreatedTime")+"\",\"activeUsers\":\"TBD\"},";
 
             }
 

@@ -1,14 +1,12 @@
 import React from 'react';
 import Error from './Error';
+import Message from './Message';
 
-class Register extends React.Component 
-{
-        constructor(props) 
-        {
+class Register extends React.Component {
+        constructor(props) {
                 super(props);
                          
-                this.state=
-                {
+                this.state={
                         username :'',
                         email :'',
                         password : '',
@@ -18,18 +16,19 @@ class Register extends React.Component
                         passwordlogin : '',
                 }
                 this.handleSubmit = this.handleSubmit.bind(this);
-
         }
 
         handleError = msg => {
-
                 this.setState({error: msg});
-                this.setState({hasError: true});
-                
+                this.setState({hasError: true});  
         }
 
-        handleSubmit = type => event =>
-         {
+        handleMessage = msg => {
+                this.setState({message: msg});
+                this.setState({hasMessage: true});
+        }
+
+        handleSubmit = type => event => {
 
                 let self = this;
                 let formBody,property,encodedKey,encodedValue;
@@ -40,6 +39,13 @@ class Register extends React.Component
                         case "register":
 
                                 formBody = [];
+
+                                let port = "";
+                                if (window.location.port !== 80 && window.location.port !== 443) {
+                                        port = ":" + window.location.port;
+                                }
+                                formBody.push("domain="+window.location.protocol + "//" + window.location.hostname + port);
+
                                 for (property in self.state) 
                                 {
                                         encodedKey = encodeURIComponent(property);
@@ -58,9 +64,8 @@ class Register extends React.Component
                                         return response.json();
                                 }).then(function(data) {
                                         if (data.status === "ok") {
-                                                self.props.setUserName(data.username); 
-                                                localStorage.setItem("debate", JSON.stringify({"userid":data.userid,"username":data.username, "email":data.email})); 
-                                                self.props.changeView('DebateWindow', self.props.debateid); 
+                                                self.setState({hasError: false});
+                                                self.handleMessage(data.message);
                                         } else {
                                                 self.handleError(data.message);
                                         }
@@ -90,8 +95,13 @@ class Register extends React.Component
                                 }).then(function(data) {
                                         if (data.status === "ok") {
                                                 self.props.setUserName(data.username);
+                                                self.props.setUserID(data.userid);
                                                 localStorage.setItem("debate", JSON.stringify({"userid":data.userid,"username":data.username, "email":data.email}));
-                                                self.props.changeView('DebateWindow', self.props.debateid);
+                                                if (self.props.lastView === "DebateWindow") {
+                                                        self.props.changeView('DebateWindow', self.props.lastDebateID);
+                                                } else {
+                                                        self.props.changeView(self.props.lastView);
+                                                }
                                         } else {
                                                 self.handleError(data.message);
                                         }
@@ -112,6 +122,8 @@ class Register extends React.Component
                 <div className="container login-container">
 
                         { this.state.hasError ? <Error ErrorMessage={this.state.error} /> : null }
+
+                        { this.state.hasMessage ? <Message Message={this.state.message} /> : null }
 
                         <div className="row">
                                 <div className="col-md-6 login-form-1">
@@ -173,7 +185,7 @@ class Register extends React.Component
                                                 </div>
                                                 <div className="form-group">
                                                         <input className="btn btn-light" type="submit" value="Login" aria-describedby="forgotPasswordBlock" />
-                                                        <small id="forgotPasswordBlock" class="form-text text-muted">
+                                                        <small id="forgotPasswordBlock" className="form-text text-muted">
                                                                 Forgot your password? <a href="#/forgotPassword" onClick={()=>{ this.props.changeView("ForgotPassword"); }} >Click here to reset it.</a>
                                                         </small>
                                                 </div>

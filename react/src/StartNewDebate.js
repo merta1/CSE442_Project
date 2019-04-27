@@ -75,10 +75,10 @@ handleSubmit(event)
                return response.json();
        }).then(function(data) {
                if (data.status === "ok") {
-                       
-                       self.props.changeView('DebateWindow', data.debateid); 
+				   window.location.hash = "#/debate/"+ data.debateID;
+				   self.props.changeView('DebateWindow', data.debateID); 
                } else {
-                       self.handleError(data.message);
+				   self.handleError(data.message);
                }
        }).catch(function(err) {
                console.log("Fetch Error: ",err);

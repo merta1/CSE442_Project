@@ -41,7 +41,7 @@ class Register extends React.Component {
                                 formBody = [];
 
                                 let port = "";
-                                if (window.location.port !== 80 && window.location.port !== 443) {
+                                if (window.location.port !== "" && window.location.port !== 80 && window.location.port !== 443) {
                                         port = ":" + window.location.port;
                                 }
                                 formBody.push("domain="+window.location.protocol + "//" + window.location.hostname + port);

@@ -159,6 +159,10 @@ class DebateWindow extends React.Component {
 
       event.preventDefault();
     }
+    
+    const debateColStyle = {
+      overflow-x:hidden
+    };
 
     render() {
       var debateJson = this.state.json;
@@ -206,7 +210,7 @@ class DebateWindow extends React.Component {
             <h2>{debateJson.question}</h2>
           </div>
           <div className="row">
-            <div className="col">
+            <div className="col" style={debateColStyle}>
               <div className="bg-dark p-2" ref={ (debateHeading) => this.debateHeading = debateHeading}>
                 <h5 className="text-light">{debateJson.agree.displaytext} - {debateJson.agree.usercount} Users</h5>
               </div>
@@ -235,7 +239,7 @@ class DebateWindow extends React.Component {
               <div ref={ (commentBoxA) => this.commentBoxA = commentBoxA}></div>
               }
             </div>
-            <div className="col">
+            <div className="col" style={debateColStyle}>
               <div className="bg-dark p-2">
                 <h5 className="text-light">{debateJson.disagree.displaytext} - {debateJson.disagree.usercount} Users</h5>
               </div>

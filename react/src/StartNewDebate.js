@@ -15,9 +15,6 @@ class StartNewDebate extends React.Component
        SideBTitle : '',
        Summary : '',
 
-      //centerStyle : {
-      //   textAlign : 'center'
-      //}
       };
 
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -89,9 +86,9 @@ handleSubmit(event)
     render() {
       return (
           <>
-            <h4 class="mb-3 mt-3" style={this.state.centerStyle}>New Debate</h4>
+            <h1 class="mb-3 mt-3" style={this.state.centerStyle}>New Debate</h1>
             <form onSubmit={this.handleSubmit}>
-              <div class="bg-light">
+              <div class="bg-light p-3">
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label htmlFor="title">Debate Title</label>

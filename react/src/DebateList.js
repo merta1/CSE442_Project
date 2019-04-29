@@ -62,6 +62,9 @@ class DebateList extends React.Component {
               }
             })
         }}>
+        <div className="row ml-2 mb-4 mt-4">
+            <h1>Most Recent Debates</h1>
+          </div>
         <table className="table">
             <thead className="thead-dark">
                 <tr>

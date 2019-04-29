@@ -28,8 +28,8 @@ public class CommentHandler {
             Connection connection = db.openDBConnection("debateapp");
 
             //Sanitize the input string of side and comment
-            side = StringEscapeUtils.escapeHtml4(side);
             comment = StringEscapeUtils.escapeHtml4(comment);
+            comment = comment.replaceAll("\\r\\n|\\r|\\n", " ");
 
             PreparedStatement addComment = connection.prepareStatement(
                     "INSERT INTO Comment (DebateID, UserID, Comment, Side) Values (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);

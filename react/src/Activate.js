@@ -1,6 +1,5 @@
 import React from 'react';
 import Error from './Error';
-import Message from './Message';
 
 function Activated(props) {
         return (

@@ -263,7 +263,7 @@ public class UserHandler {
             Connection connection = db.openDBConnection("debateapp");
 
             PreparedStatement addComment = connection.prepareStatement(
-                    "INSERT INTO `debateapp`.`useropinion`\n" +
+                    "INSERT INTO `debateapp`.`UserOpinion`\n" +
                             "(`DebateID`,\n" +
                             "`UserID`,\n" +
                             "`Side`)\n" +
@@ -290,7 +290,7 @@ public class UserHandler {
             Connection connection = db.openDBConnection("debateapp");
 
             PreparedStatement getDebate = connection.prepareStatement(
-                    "SELECT * FROM useropinion WHERE UserID = ? AND DebateID = ?");
+                    "SELECT * FROM UserOpinion WHERE UserID = ? AND DebateID = ?");
 
             getDebate.setInt(1, userid);
             getDebate.setInt(2, debateid);

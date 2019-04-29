@@ -18,6 +18,7 @@ body {
 
 .debate-window div {
   min-width:100%;
+  overflow-x:hidden;
 }
 
 code {

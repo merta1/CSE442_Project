@@ -2,6 +2,7 @@ import React from 'react';
 import CommentItem from './CommentItem';
 import Error from './Error';
 import LoadingOverlay from 'react-loading-overlay';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 class DebateWindow extends React.Component {
 
@@ -30,9 +31,33 @@ class DebateWindow extends React.Component {
         side: "N",
       };
 
+      this.handleSubmit = this.handleSubmit.bind(this);
+
+      this.myRef = React.createRef();
+
     }
 
     componentDidMount() {
+
+      // i don't live this code and wish it was better
+
+      if (window.innerWidth > 400) {  //if desktop
+
+        var commentHeight = window.innerHeight - 290 -
+        this.commentBoxA.clientHeight - 
+        this.commentBoxB.clientHeight -
+        this.debateTitle.clientHeight -
+        this.debateHeading.clientHeight;
+
+        var cols = document.getElementsByClassName('debate-window'); // ReactDOM.findDOMNode('DebateWindow').getElementsByClassName('debate-window');
+        for(let i = 0; i < cols.length; i++) {
+          cols[i].style.height = commentHeight + "px";
+        }
+
+        this.debateWindow.style.height = commentHeight;
+
+      }
+
       if (this.props.userid !== null) {
         fetch(this.props.sparkEndpoint + "/user/getpreference/" + this.props.userid + "/"+ this.props.debateid)
           .then(res => res.json())
@@ -56,7 +81,6 @@ class DebateWindow extends React.Component {
         .then(res => res.json())
         .then(
           (result) => {
-            console.log("JSON : " + result);
             this.setState({ json : result });
             this.setState({ isLoading : false });
           },
@@ -78,7 +102,14 @@ class DebateWindow extends React.Component {
 
     }
 
-    handleSubmit = (type) => event => {
+    onEnterPress = type => event => {
+      if(event.keyCode === 13 && event.shiftKey === false) {
+        event.preventDefault();
+        this.myRef.current.click();
+      }
+    }
+
+    handleSubmit = type => event => {
 
       let self = this;
 
@@ -169,75 +200,68 @@ class DebateWindow extends React.Component {
               }
             })
         }}>
-        <div className="container">
+        <div className="container" ref={ (debateWindow) => this.debateWindow = debateWindow}>
           { this.state.hasError ? <Error ErrorMessage={this.state.error} /> : null }
-          <div className="row mb-4 mt-4">
-            <h1>{debateJson.question} - #{this.props.debateid}</h1>
+          <div className="row ml-2 mb-4 mt-4" ref={ (debateTitle) => this.debateTitle = debateTitle}>
+            <h2>{debateJson.question}</h2>
           </div>
           <div className="row">
             <div className="col">
-                <table className="table">
-                  <thead className="thead-dark">
-                    <tr>
-                      <th scope="col"><h2>{debateJson.agree.displaytext} - {debateJson.agree.usercount} Users</h2></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {
-                    arrAgree.map(item => <CommentItem changeView={this.handleViewChange}
-                        id={item.id}
-                        key={item.id}
-                        Comment={item.Comment}
-                        UserID={item.UserID}
-                        UserName={item.UserName}
-                        />)
-                  }
-                  </tbody>
-                </table>
-                {this.state.side==="A" && this.props.userid !== null?
-                  <form onSubmit={this.handleSubmit('A', arrAgree)} >
-                  <div>
-                      <textarea className="form-control" rows="2" id="textAreaAgree"
-                        onChange={e=>this.setState({comment: e.target.value}) }
-                        value={this.state.comment} /><br></br>
-                      <input className="btn btn-light" type="submit" value="Submit Comment" />
-                  </div>
-                  </form>
-                :
-                <div></div>
-                }
+              <div className="bg-dark p-2" ref={ (debateHeading) => this.debateHeading = debateHeading}>
+                <h5 className="text-light">{debateJson.agree.displaytext} - {debateJson.agree.usercount} Users</h5>
+              </div>
+              <ScrollToBottom className="debate-window">
+              {
+                arrAgree.map((item, index) => <CommentItem changeView={this.handleViewChange}
+                    id={index}
+                    key={"A"+index}
+                    Comment={item.Comment}
+                    UserID={item.UserID}
+                    UserName={item.UserName}
+                    />)
+              }
+              </ScrollToBottom>
+
+              {this.state.side==="A" && this.props.userid !== null?
+                <form onSubmit={this.handleSubmit('A')}>
+                <div ref={ (commentBoxA) => this.commentBoxA = commentBoxA}>
+                    <textarea className="form-control" rows="1" id="textAreaAgree"
+                      onChange={e=>this.setState({comment: e.target.value}) }
+                      value={this.state.comment} onKeyDown={this.onEnterPress('A')} /><br></br>
+                    <input className="btn btn-light" type="submit" ref={this.myRef} value="Submit Comment" />
+                </div>
+                </form>
+              :
+              <div ref={ (commentBoxA) => this.commentBoxA = commentBoxA}></div>
+              }
             </div>
             <div className="col">
-                <table className="table">
-                  <thead className="thead-dark">
-                      <tr>
-                      <th scope="col"><h2>{debateJson.disagree.displaytext} - {debateJson.disagree.usercount} Users</h2></th>
-                      </tr>
-                  </thead>
-                  <tbody>
+              <div className="bg-dark p-2">
+                <h5 className="text-light">{debateJson.disagree.displaytext} - {debateJson.disagree.usercount} Users</h5>
+              </div>
+              <ScrollToBottom className="debate-window">
                   {
-                      arrDisagree.map(item => <CommentItem changeView={this.handleViewChange}
-                        id={item.id}
-                        key={item.id}
+                      arrDisagree.map((item, index) => <CommentItem changeView={this.handleViewChange}
+                        id={index}
+                        key={"B"+index}
                         Comment={item.Comment}
                         UserID={item.UserID}
                         UserName={item.UserName}
                           />)
                   }
-                  </tbody>
-                </table>
+                  </ScrollToBottom>
                 {this.state.side==="B" && this.props.userid !== null?
-                  <form onSubmit={this.handleSubmit('B', arrDisagree)} >
-                    <div>
-                      <textarea className="form-control" rows="2" id="textAreaDisagree"
+                  <form onSubmit={this.handleSubmit('B')}>
+                    <div ref={ (commentBoxB) => this.commentBoxB = commentBoxB}>
+                      <textarea className="form-control" rows="1" id="textAreaDisagree"
                         onChange={e=>this.setState({comment: e.target.value}) }
-                        value={this.state.comment} /><br></br>
-                      <input className="btn btn-light" type="submit" value="Submit Comment" />
+                        value={this.state.comment} onKeyDown={this.onEnterPress('A')} /><br></br>
+                      <input className="btn btn-light" type="submit" ref={this.myRef} value="Submit Comment" />
                     </div>
                 </form>
-              :
-                <div></div>
-              }
+                :
+                <div ref={ (commentBoxB) => this.commentBoxB = commentBoxB}></div>
+                }
             </div>
           </div>
         </div>

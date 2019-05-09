@@ -85,20 +85,21 @@ public class Main {
 
         get("/debates/search/:query", (req, res) -> debateHandler.search(req.queryParams(":query")));
 
-        get("/debates/:input", (req, res) -> {
+        get("/debates/:input/:page", (req, res) -> {
             String input = req.params(":input");
+            int page = Integer.parseInt(req.params(":page"));
             try {
                 // Try to parse the input as an integer, the id of a user.
-                return debateHandler.getDebatesCreatedBy(Integer.parseInt(input));
+                return debateHandler.getDebatesCreatedBy(Integer.parseInt(input), page);
             } catch (Exception e) {
                 if (input.equals("active"))
-                    return debateHandler.getActive();
+                    return debateHandler.getActive(page);
                 else if (input.equals("controversial"))
-                    return debateHandler.getControversial();
+                    return debateHandler.getControversial(page);
                 else if (input.equals("popular"))
-                    return debateHandler.getPopularDebates();
+                    return debateHandler.getPopularDebates(page);
                 else if (input.equals("recent"))
-                    return debateHandler.getRecentDebates();
+                    return debateHandler.getRecentDebates(page);
 
                 // Otherwise, we have no solution. Throw the error.
                 throw e;

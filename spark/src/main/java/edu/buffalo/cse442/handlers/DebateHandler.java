@@ -93,7 +93,6 @@ public class DebateHandler {
      * @return The details of the debate with the specified id.
      */
     public String get(int id) {
-
         try {
             Connection connection = db.openDBConnection("debateapp");
 
@@ -104,7 +103,6 @@ public class DebateHandler {
             ResultSet rs = getDebate.executeQuery();
 
             if (rs.next()) {
-
                 String json = "{" +
                         "\"status\":\"ok\"," +
                         "\"question\":\"" + rs.getString("Title") + "\"," +
@@ -193,7 +191,7 @@ public class DebateHandler {
     /**
      * @return a list of the most active debates.
      */
-    public String getActive() {
+    public String getActive(int page) {
         /** TODO Implement GET handler to return active debates. */
         return "{\n" +
                 "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
@@ -205,7 +203,7 @@ public class DebateHandler {
     /**
      * @return a list of the most controversial debates.
      */
-    public String getControversial() {
+    public String getControversial(int page) {
         /** TODO Implement GET handler for returning contoversial debates. */
         return "{\n" +
                 "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
@@ -214,7 +212,7 @@ public class DebateHandler {
                 "}";
     }
 
-    public String getDebatesCreatedBy(int userID) {
+    public String getDebatesCreatedBy(int userID, int page) {
         /** TODO Implement GET handler for returning debates created by a particular user. */
         return "{\n" +
                 "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
@@ -226,7 +224,7 @@ public class DebateHandler {
     /**
      * @return a list of the most popular debates.
      */
-    public String getPopularDebates() {
+    public String getPopularDebates(int page) {
         /** TODO Implement GET handler for requesting popular debates. */
         return "{\n" +
                 "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
@@ -238,12 +236,13 @@ public class DebateHandler {
     /**
      * @return a list of the most recent debates.
      */
-    public String getRecentDebates() {
+    public String getRecentDebates(int page) {
+        System.out.println("Page " + page);
         try {
             Connection connection = db.openDBConnection("debateapp");
 
             PreparedStatement getDebate = connection.prepareStatement(
-                    "SELECT * FROM Debates WHERE Public = 1 ORDER BY Id DESC");
+                    "SELECT * FROM Debates WHERE Public = 1 ORDER BY Id DESC LIMIT 15 OFFSET " + (page*15));
 
             ResultSet rs = getDebate.executeQuery();
 

@@ -40,7 +40,7 @@ class StartNewDebate extends React.Component {
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label htmlFor="title">Debate Title</label>
-                    <input name="title" type="text" class="form-control" id="title" placeholder="A Good Debate Topic" required="" />
+                    <input name="title" type="text" class="form-control" id="title" placeholder="A Good Debate Topic" required="required" />
                     <div class="invalid-feedback">
                       A valid debate title is required.
                     </div>
@@ -69,17 +69,17 @@ class StartNewDebate extends React.Component {
                 <div class="row">
                   <div class="col w-50">
                     <label htmlFor="summary">Debate Summary :</label>
-                    <textarea name="summary" class="form-control" id="summary" rows="3"></textarea>
+                    <textarea name="summary" class="form-control" id="summary" rows="3" required="required"></textarea>
                   </div>
                   <div class="col w-50">
                     <div class="row">
                       <div class="col w-50">
                         <label htmlFor="SideATitle">Side A Title :</label>
-                        <textarea name="SideATitle" class="form-control" id="SideATitle" rows="1"></textarea>
+                        <textarea name="SideATitle" class="form-control" id="SideATitle" rows="1" required="required"></textarea>
                       </div>
                       <div class="col w-50">
                         <label htmlFor="SideBTitle">Side B Title :</label>
-                        <textarea name="SideBTitle" class="form-control" id="SideBTitle" rows="1"></textarea>
+                        <textarea name="SideBTitle" class="form-control" id="SideBTitle" rows="1" required="required"></textarea>
                       </div>
                     </div>
                   </div>

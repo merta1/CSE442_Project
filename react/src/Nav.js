@@ -75,12 +75,12 @@ class Nav extends React.Component {
                 </ul>
                 <form className="form-inline mx-2 my-2 my-lg-0">
                 <select className="form-control mr-sm-2" id="switchView">
-                    <option>Most Recent</option>
-                    <option>Most Popular</option>
-                    <option>Most Active</option>
-                    <option>My Debates</option>
+                    <option value='recent'>Most Recent</option>
+                    <option value='popular'>Most Popular</option>
+                    <option value='active'>Most Active</option>
+                    <option value='id'>My Debates</option>
                 </select>
-                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Switch View</button>
+                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Switch View </button>
                 </form>
                 <form className="form-inline my-2 my-lg-0">
                 <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />

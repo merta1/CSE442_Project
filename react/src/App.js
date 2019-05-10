@@ -17,6 +17,7 @@ class App extends React.Component {
             username: null,
             userid: null,
             email: null,
+            debateCurrentView :'Default',
             sparkEndpoint: "http://localhost:4567"
         };
 
@@ -66,7 +67,7 @@ class App extends React.Component {
         //this is a list of potential views.  We need to add new views here first!!!!
         var VIEWS = {
             DebateList: <DebateList changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
-            DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} username={this.state.username} userid={this.state.userid} sparkEndpoint={this.state.sparkEndpoint} />,
+            DebateWindow: <DebateWindow changeView={this.changeView} debateid={state.debateid} username={this.state.username} userid={this.state.userid} sparkEndpoint={this.state.sparkEndpoint} debateCurrentView={this.state.debatecurrentView} />,
             StartNewDebate: <StartNewDebate changeView={this.changeView} sparkEndpoint={this.state.sparkEndpoint} />,
             Register: <Register changeView={this.changeView} setUserName={this.setUserName} debateid={state.debateid} sparkEndpoint={this.state.sparkEndpoint} />,
             }

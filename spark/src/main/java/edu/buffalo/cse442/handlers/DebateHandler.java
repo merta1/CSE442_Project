@@ -207,11 +207,36 @@ public class DebateHandler {
 
     public String getDebatesCreatedBy(int userID) {
         /** TODO Implement GET handler for returning debates created by a particular user. */
-        return "{\n" +
-                "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
-                "        \"3\":{\"id\":3,\"debateName\":\"Is AI Dangerous?\",\"createdDate\":\"Feb 18, 2019 1:05pm\",\"activeUsers\":16},\n" +
-                "        \"4\":{\"id\":4,\"debateName\":\"Is this the best app ever created in the history of apps?\",\"createdDate\":\"Feb 18, 2019 3:00pm\",\"activeUsers\":4}\n" +
-                "}";
+        try
+        {
+            PreparedStatement getDebate = connection.prepareStatement(
+                    "SELECT * FROM Debates WHERE Id=" +userID );
+            ResultSet rs = getDebate.executeQuery();
+            String json = "{";
+            while (rs.next())
+            {
+                json += "\"" + rs.getInt("Id") + "\":{\"id\":\""+rs.getInt("Id")+"\",\"debateName\":\""+rs.getString("Title")+"\",\"createdDate\":\""+rs.getTimestamp("CreatedTime")+"\",\"activeUsers\":\"TBD\"},";
+
+
+            }
+            if (json != null && json.length() > 0 && json.charAt(json.length() - 1) == ',')
+            {
+                json = json.substring(0, json.length() - 1);
+            }
+
+            json += "}";
+            if (json.equals("{}"))
+            {
+                throw new SQLException("No debates found.");
+            }
+
+            return json;
+
+        }
+        catch (SQLException e)
+        {
+            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+        }
     }
 
     /**
@@ -229,12 +254,38 @@ public class DebateHandler {
     /**
      * @return a list of the most recent debates.
      */
-    public String getRecentDebates() {
-        /** TODO Implement GET handler for getting recent debates. */
-        return "{\n" +
-                "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
-                "        \"3\":{\"id\":3,\"debateName\":\"Is AI Dangerous?\",\"createdDate\":\"Feb 18, 2019 1:05pm\",\"activeUsers\":16},\n" +
-                "        \"4\":{\"id\":4,\"debateName\":\"Is this the best app ever created in the history of apps?\",\"createdDate\":\"Feb 18, 2019 3:00pm\",\"activeUsers\":4}\n" +
-                "}";
+    public String getDebatesCreatedBy(int userID) {
+        /** TODO Implement GET handler for returning debates created by a particular user. */
+        try
+        {
+            PreparedStatement getDebate = connection.prepareStatement(
+                    "SELECT * FROM Debates order by created_date_time asc" );
+            ResultSet rs = getDebate.executeQuery();
+            String json = "{";
+            while (rs.next())
+            {
+                json += "\"" + rs.getInt("Id") + "\":{\"id\":\""+rs.getInt("Id")+"\",\"debateName\":\""+rs.getString("Title")+"\",\"createdDate\":\""+rs.getTimestamp("CreatedTime")+"\",\"activeUsers\":\"TBD\"},";
+
+
+            }
+            if (json != null && json.length() > 0 && json.charAt(json.length() - 1) == ',')
+            {
+                json = json.substring(0, json.length() - 1);
+            }
+
+            json += "}";
+            if (json.equals("{}"))
+            {
+                throw new SQLException("No debates found.");
+            }
+
+            return json;
+
+        }
+        catch (SQLException e)
+        {
+            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+        }
+    }
     }
 }

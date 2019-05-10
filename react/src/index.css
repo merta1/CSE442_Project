@@ -8,6 +8,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+.debate-window {
+  height:20rem;
+  display:inline-block;
+  min-width:100%;
+  width:100%;
+}
+
+.debate-window div {
+  min-width:100%;
+  overflow-x:hidden;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -22,7 +35,7 @@ td {
   padding: 8px;
 }
 
-tr:nth-child(even){background-color: #f2f2f2}
+.debate-window div:nth-child(even){background-color: #f2f2f2}
 
 /* Login Form Styling */
 
@@ -67,14 +80,10 @@ tr:nth-child(even){background-color: #f2f2f2}
   color: #0062cc;
   background-color: #fff;
 }
-.login-form-2 .ForgetPwd{
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-}
-.login-form-1 .ForgetPwd{
+
+#forgotPasswordBlock a {
+  text-decoration: underline;
   color: #0062cc;
   font-weight: 600;
-  text-decoration: none;
+  cursor: pointer;
 }
-

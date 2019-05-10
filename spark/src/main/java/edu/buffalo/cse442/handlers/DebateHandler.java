@@ -1,10 +1,14 @@
 package edu.buffalo.cse442.handlers;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.sql.*;
+import java.util.LinkedHashMap;
 
 public class DebateHandler {
 
     private DBActionHandler db;
+
 
     public DebateHandler(String con, String un, String pw) {
         db = createActionHandler(con, un, pw);
@@ -17,54 +21,52 @@ public class DebateHandler {
      * @return The debate's details, the same as if you
      * had requested the details of that debate's ID.
      */
-    public String createDebate(String ownerId, String Title, int readPermissions, int writePermissions, String SideATitle, String SideBTitle, String Summary) {
+   public String createDebate(int ownerid,int open, int publicity,String title,String SideA,String SideB,String summary)
+   {
+     
+        
+        SideA = StringEscapeUtils.escapeHtml4(SideA);
+        SideB = StringEscapeUtils.escapeHtml4(SideB);
+        summary = StringEscapeUtils.escapeHtml4(summary);
+      
+       int debateid;
+       String query;
+       ResultSet rs;
+       try {
+           Connection connection = db.openDBConnection("debateapp");
 
-        int open = 1; //right now we only support open debates.
-        int _public = 1; //right now we only support public debates.
+           PreparedStatement debatecreation = connection.prepareStatement(
+                   "INSERT INTO Debates (OwnerID, Open, Public , Title, SideATitle, SideBTitle,Summary) Values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+           debatecreation.setInt(1, ownerid);
+           debatecreation.setInt(2,open);
+           debatecreation.setInt(3, publicity);
+           debatecreation.setString(4, title);
+           debatecreation.setString(5, SideA);
+           debatecreation.setString(6, SideB);
+           debatecreation.setString(7,summary);
+           ;
 
-        try {
-            Connection connection = db.openDBConnection("debateapp");
-            Statement stmt= connection.createStatement();
+           debatecreation.executeUpdate();
+           ResultSet generatedKeys = debatecreation.getGeneratedKeys();
+           if (generatedKeys.next()) {
+               debateid = generatedKeys.getInt(1);
+           } else {
+               connection.close();
+               throw new SQLException("Unable to create debate");
+           }
+           connection.close();
 
-            String query = "INSERT INTO Debates (" +
-                    "OwnerID, " +
-                    "Open, " +
-                    "Public, " +
-                    "Title, " +
-                    "ViewPermissions, " +
-                    "CommentPermissions, " +
-                    "SideATitle, " +
-                    "SideBTitle, " +
-                    "Summary) Values (" +
-                    ownerId + ", " +
-                    open + ", " +
-                    _public + ", " +
-                    "\"" + Title + "\"," +
-                    readPermissions + ", " +
-                    writePermissions + ", " +
-                    "\"" + SideATitle + "\"," +
-                    "\"" + SideBTitle + "\"," +
-                    "\"" + Summary + "\"" +
-                    ");";
-
-//            System.out.println(query);
-            stmt.execute(query);
-
-            System.out.println("Debate Created!");
-            connection.close();
-
-        } catch (SQLException e) {
-            System.out.println("Connection Failed! Check output console");
-            e.printStackTrace();
-        } catch(Exception e){
-            System.out.println(e);
-        }
-
-
-        /** TODO Add in creating a debate **/
-        System.out.println("Created a debate!");
-        return "";
-    }
+           return "{\"status\" : \"ok\" ,\"debateID\" : \""+debateid+"\"}";
+       }
+       catch (SQLException e)
+       {
+           return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+       }
+       catch (Exception e)
+       {
+           return "{\"status\":\"error\",\"message\":\""+e.getMessage()+"\"}";
+       }
+   }
 
     /**
      * @param query The String to search for.
@@ -74,6 +76,10 @@ public class DebateHandler {
         /**
          * TODO Implement searching debates
          */
+
+        //Sanitize the input string of query
+        query = StringEscapeUtils.escapeHtml4(query);
+
         return "{\n" +
                 "        \"1\":{\"id\":146,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
                 "        \"2\":{\"id\":32546,\"debateName\":\"Is AI Dangerous?\",\"createdDate\":\"Feb 18, 2019 1:05pm\",\"activeUsers\":16},\n" +
@@ -87,7 +93,6 @@ public class DebateHandler {
      * @return The details of the debate with the specified id.
      */
     public String get(int id) {
-
         try {
             Connection connection = db.openDBConnection("debateapp");
 
@@ -98,7 +103,6 @@ public class DebateHandler {
             ResultSet rs = getDebate.executeQuery();
 
             if (rs.next()) {
-
                 String json = "{" +
                         "\"status\":\"ok\"," +
                         "\"question\":\"" + rs.getString("Title") + "\"," +
@@ -117,10 +121,14 @@ public class DebateHandler {
                 int rightCount = 0;
                 String leftJson = "";
                 String rightJson = "";
-                while (rsComments.next()) {
+                LinkedHashMap uniqueLeft = new LinkedHashMap();
+                LinkedHashMap uniqueRight = new LinkedHashMap();
+                while (rsComments.next())
+                {
                     rowCount++;
                     if (rsComments.getString("Side").equals("A")) {
                         leftCount++;
+                        uniqueLeft.put(rsComments.getInt("UserID"),"left");
                         leftJson += "\"" + rsComments.getInt("cid") + "\":{" +
                                 "\"Comment\":\"" + rsComments.getString("Comment") + "\"," +
                                 "\"CommentTime\":\"" + rsComments.getString("CommentDateTime") + "\"," +
@@ -129,6 +137,7 @@ public class DebateHandler {
                                 "},";
                     } else {
                         rightCount++;
+                        uniqueRight.put(rsComments.getInt("UserID"),"right");
                         rightJson += "\"" + rsComments.getInt("cid") + "\":{" +
                                 "\"Comment\":\"" + rsComments.getString("Comment") + "\"," +
                                 "\"CommentTime\":\"" + rsComments.getString("CommentDateTime") + "\"," +
@@ -151,14 +160,14 @@ public class DebateHandler {
                 json += "\"totalcomments\":" + rowCount + "," +
                         "\"agree\":{" +
                         "   \"displaytext\":\"" + rs.getString("SideATitle") + "\"," +
-                        "   \"usercount\":2," +
+                        "   \"usercount\":"+uniqueLeft.size()+"," +
                         "   \"commentcount\":" + leftCount + "," +
                         "   \"comments\":{" + leftJson +
                         "   }" +
                         "}," +
                         "\"disagree\":{" +
                         "   \"displaytext\":\"" + rs.getString("SideBTitle") + "\"," +
-                        "   \"usercount\":2," +
+                        "   \"usercount\":"+uniqueRight.size()+"," +
                         "   \"commentcount\":" + rightCount + "," +
                         "   \"comments\":{" + rightJson +
                         "   }" +
@@ -182,7 +191,7 @@ public class DebateHandler {
     /**
      * @return a list of the most active debates.
      */
-    public String getActive() {
+    public String getActive(int page) {
         /** TODO Implement GET handler to return active debates. */
         return "{\n" +
                 "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
@@ -194,7 +203,7 @@ public class DebateHandler {
     /**
      * @return a list of the most controversial debates.
      */
-    public String getControversial() {
+    public String getControversial(int page) {
         /** TODO Implement GET handler for returning contoversial debates. */
         return "{\n" +
                 "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
@@ -203,7 +212,7 @@ public class DebateHandler {
                 "}";
     }
 
-    public String getDebatesCreatedBy(int userID) {
+    public String getDebatesCreatedBy(int userID, int page) {
         /** TODO Implement GET handler for returning debates created by a particular user. */
         return "{\n" +
                 "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
@@ -215,7 +224,7 @@ public class DebateHandler {
     /**
      * @return a list of the most popular debates.
      */
-    public String getPopularDebates() {
+    public String getPopularDebates(int page) {
         /** TODO Implement GET handler for requesting popular debates. */
         return "{\n" +
                 "        \"2\":{\"id\":2,\"debateName\":\"Do you think CSE is a good program?\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},\n" +
@@ -227,12 +236,13 @@ public class DebateHandler {
     /**
      * @return a list of the most recent debates.
      */
-    public String getRecentDebates() {
+    public String getRecentDebates(int page) {
+        System.out.println("Page " + page);
         try {
             Connection connection = db.openDBConnection("debateapp");
 
             PreparedStatement getDebate = connection.prepareStatement(
-                    "SELECT * FROM Debates WHERE Public = 1 ORDER BY Id DESC");
+                    "SELECT * FROM Debates WHERE Public = 1 ORDER BY Id DESC LIMIT 15 OFFSET " + (page*15));
 
             ResultSet rs = getDebate.executeQuery();
 
@@ -240,7 +250,7 @@ public class DebateHandler {
 
             while (rs.next()) {
 
-                json += "\"" + rs.getInt("Id") + "\":{\"id\":\""+rs.getInt("Id")+"\",\"debateName\":\""+rs.getString("Title")+"\",\"createdDate\":\"Feb 18, 2019 1:00pm\",\"activeUsers\":5},";
+                json += "\"" + rs.getInt("Id") + "\":{\"id\":\""+rs.getInt("Id")+"\",\"debateName\":\""+rs.getString("Title")+"\",\"createdDate\":\""+rs.getTimestamp("CreatedTime")+"\",\"activeUsers\":\"TBD\"},";
 
             }
 

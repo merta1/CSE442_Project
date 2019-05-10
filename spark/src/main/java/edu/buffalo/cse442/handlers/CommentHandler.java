@@ -1,6 +1,7 @@
 package edu.buffalo.cse442.handlers;
 
 import java.sql.*;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class CommentHandler {
 
@@ -25,6 +26,10 @@ public class CommentHandler {
 
         try {
             Connection connection = db.openDBConnection("debateapp");
+
+            //Sanitize the input string of side and comment
+            comment = StringEscapeUtils.escapeHtml4(comment);
+            comment = comment.replaceAll("\\r\\n|\\r|\\n", " ");
 
             PreparedStatement addComment = connection.prepareStatement(
                     "INSERT INTO Comment (DebateID, UserID, Comment, Side) Values (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);

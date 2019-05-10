@@ -9,19 +9,67 @@ class DebateList extends React.Component {
       // This will be the values on the screen until the Spark API call returns.
       this.state = {
         json : {},
-        isLoading : true
+        isLoading : true,
+        page : 0
       };
+      this.gotoNextPage = this.gotoNextPage.bind(this);
+      this.gotoPreviousPage = this.gotoPreviousPage.bind(this);
     }
 
-    handleViewChange = (view, url="#") => {
+    handleViewChange = (view, url="#") =>  {
         this.props.changeView(view, url);
     }
 
     componentDidMount() {
-      fetch(this.props.sparkEndpoint + "/debates/recent")
+
+      fetch(this.props.sparkEndpoint + "/debates/recent/" + this.state.page)
         .then(res => res.json())
         .then(
           (result) => {
+            this.setState({ json : result });
+            this.setState({isLoading : false});
+            console.log(result);
+          },
+          (error) => {
+            // TODO Implement Error handling.
+            alert(error);
+            console.log("Error, couldn't connect to spark : " + error);
+          }
+        )
+    }
+
+    gotoNextPage() {
+      var nextPage = this.state.page+1;
+      this.setState({ page: nextPage});
+
+      console.log("Going forward to page " + nextPage);
+
+      fetch(this.props.sparkEndpoint + "/debates/recent/" + nextPage)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log(result);
+            this.setState({ json : result });
+            this.setState({isLoading : false})
+          },
+          (error) => {
+            // TODO Implement Error handling.
+            console.log("Error, couldn't connect to spark : " + error);
+          }
+        )
+    }
+
+    gotoPreviousPage() {
+      var nextPage = this.state.page-1;
+      this.setState({ page: nextPage});
+
+      console.log("Going back to page " + nextPage);
+
+      fetch(this.props.sparkEndpoint + "/debates/recent/" + nextPage)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log(result);
             this.setState({ json : result });
             this.setState({isLoading : false})
           },
@@ -40,10 +88,10 @@ class DebateList extends React.Component {
       arr.push(json[key]);
     });
       return (
-        <LoadingOverlay 
-          active={this.state.isLoading} 
-          spinner 
-          text='Loading...' 
+        <LoadingOverlay
+          active={this.state.isLoading}
+          spinner
+          text='Loading...'
           styles={{
             overlay: (base) => ({
               ...base,
@@ -61,6 +109,9 @@ class DebateList extends React.Component {
               }
             })
         }}>
+        <div className="row ml-2 mb-4 mt-4">
+            <h1>Most Recent Debates</h1>
+          </div>
         <table className="table">
             <thead className="thead-dark">
                 <tr>
@@ -71,9 +122,15 @@ class DebateList extends React.Component {
                 </tr>
             </thead>
             <tbody>
-            {arr.map(item => <DebateItem changeView={this.handleViewChange} id={item.id} debateName={item.debateName} createdDate={item.createdDate} activeUsers={item.activeUsers} />)}
+            {arr.map(item => <DebateItem changeView={this.handleViewChange} id={item.id} key={item.id} debateName={item.debateName} createdDate={item.createdDate} activeUsers={item.activeUsers} />)}
             </tbody>
         </table>
+        <nav aria-label="Page navigation">
+        <ul class="pagination">
+          {this.state.page > 0? <li class="page-item"><a class="page-link" onClick={this.gotoPreviousPage}>Previous</a></li> : <div></div>}
+          {Object.keys(this.state.json).length >= 15? <li class="page-item"><a class="page-link" onClick={this.gotoNextPage}>Next</a></li> : <div></div>}
+        </ul>
+        </nav>
         </LoadingOverlay>
       );
     }

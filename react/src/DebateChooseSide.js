@@ -1,86 +1,102 @@
 import React from 'react';
+import Error from './Error';
 
-class DebateChooseSide extends React.Component {  
-    showAgreeAlert() {
-      alert("Agree Comment : " + document.getElementById("textAreaAgree").value);
-    }
-    showDisagreeAlert() {
-      alert("Disagree Comment : " + document.getElementById("textAreaDisagree").value);
-    }
-    render() {
-      var debateJson = {
-        "question":"Do you think CSE is a good program?",
-        "debateid":147,
-        "totalcomments":5,
-        "agree":{
-            "displaytext":"Agree",
-            "usercount":2,
-            "commentcount":3,
-            "comments":{
-                "1":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"It is Awesome!!!","UserID":"dadkins20"},
-                "2":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"YEAH!!!!!!!!","UserID":"mert"},
-                "3":{"id":146,"debateName":"debate 146","View":"Agree","Comment":"Best APP ever :D","UserID":"dadkins20"}
-            }
+class DebateChooseSide extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        json : {
+          "agree" : {
+            "comments":{},
+          },
+          "disagree" : {
+            "comments":{},
+          },
         },
-        "disagree":{
-            "displaytext":"Disagree",
-            "usercount":2,
-            "commentcount":2,
-            "comments":{
-                "1":{"id":146,"debateName":"debate 146","View":"Disagree","Comment":"Eh!!","UserID":"JonForce"},
-                "2":{"id":146,"debateName":"debate 146","View":"Disagree","Comment":"Worst App Yet!!!!!!!!","UserID":"Anu"}
-            }
+        userid : props.userid,
+        debateid : props.debateid
+      };
+
+      //this.postChoice = this.postChoice.bind(this);
+    }
+
+    handleError = msg => {
+      this.setState({error: msg});
+      this.setState({hasError: true});
+    }
+
+    postChoice(choice) {
+      let self = this;
+      let formBody = [];
+      formBody.push("debateid=" + encodeURIComponent(self.props.debateid));
+      formBody.push("userid=" + encodeURIComponent(self.props.userid));
+      formBody.push("side=" + encodeURIComponent(choice));
+      formBody = formBody.join("&");
+
+      fetch(self.props.sparkEndpoint + "/user/setpreference", {
+        method: 'post',
+        headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: formBody,
+      }).then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        if (data.status === "ok") {
+          self.props.changeView('DebateWindow', data.debateid); 
+        } else {
+          self.handleError(data.message);
         }
-      }
-
-      var arrAgree = [];
-      Object.keys(debateJson.agree.comments).forEach(function(key) {
-        arrAgree.push(debateJson.agree.comments[key]);
+      }).catch(function(err) {
+        console.log("Fetch Error: ",err);
       });
+    }
 
-      var arrDisagree = [];
-      Object.keys(debateJson.disagree.comments).forEach(function(key) {
-        arrDisagree.push(debateJson.disagree.comments[key]);
-      });
+    componentDidMount() {
+      fetch(this.props.sparkEndpoint + "/debate/" + this.props.debateid)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({ json : result });
+            this.setState({ isLoading : false });
+          },
+          (error) => {
+            console.log("Error, couldn't connect to spark : " + error);
+          }
+        );
+    }
 
+    render() {
+      var debateJson = this.state.json;
       return (
-        // <div onClick={() => this.props.changeView('DebateList')}>
-          //  Draw Debate Window for {this.props.debateid} here
-        <div class="container">
-          <div class="row mb-4 mt-4">
+        <div className="container">
+          { this.state.hasError ? <Error ErrorMessage={this.state.error} /> : null }
+          <div className="row mb-4 mt-4">
             <h1>{debateJson.question} - #{this.props.debateid}</h1>
           </div>
-          <div class="row">
-            <div class="col">
-                <table class="table">
-                  <thead class="thead-dark">
+          <div className="row">
+            <div className="col">
+                <table className="table">
+                  <thead className="thead-dark">
                     <tr>
-                      <th scope="col"><h2>Click below to agree! </h2></th>
+                      <th scope="col"><h2>{debateJson.agree.displaytext} </h2></th>
                     </tr>
                   </thead>
-                  <tbody>
-
-                  </tbody>
                 </table>
-                <div>
-                    
-                    <button onClick={this.showAgreeAlert}> I agree</button>
+                <div align="center">
+                    <button onClick={()=>{ this.postChoice("A"); }}> Choose This Side </button>
                 </div>
             </div>
-            <div class="col">
-              <table class="table">
-                <thead class="thead-dark">
+            <div className="col">
+              <table className="table">
+                <thead className="thead-dark">
                     <tr>
-                    <th scope="col"><h2>Click below to disagree!</h2></th>
+                    <th scope="col"><h2>{debateJson.disagree.displaytext}</h2></th>
                     </tr>
                 </thead>
-                <tbody>
-
-                </tbody>
               </table>
-              <div>
-                
-                <button onClick={this.showDisagreeAlert}>I disagree</button>
+              <div align="center">
+                <button onClick={()=>{ this.postChoice("B"); }}> Choose This Side </button>
               </div>
             </div>
           </div>

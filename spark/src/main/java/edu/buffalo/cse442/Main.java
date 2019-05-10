@@ -7,7 +7,16 @@ import edu.buffalo.cse442.handlers.DebateHandler;
 import edu.buffalo.cse442.handlers.UserHandler;
 import edu.buffalo.cse442.handlers.CommentHandler;
 import org.apache.log4j.BasicConfigurator;
+<<<<<<< Updated upstream
 
+=======
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+>>>>>>> Stashed changes
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileInputStream;

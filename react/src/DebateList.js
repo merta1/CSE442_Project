@@ -18,7 +18,55 @@ class DebateList extends React.Component {
     }
 
     componentDidMount() {
+<<<<<<< Updated upstream
       fetch(this.props.sparkEndpoint + "/debates/recent")
+=======
+      view=props.currentView;
+      fetch(this.props.sparkEndpoint + "/debates/"+view+"/" + this.state.page)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({ json : result });
+            this.setState({isLoading : false});
+            console.log(result);
+          },
+          (error) => {
+            // TODO Implement Error handling.
+            alert(error);
+            console.log("Error, couldn't connect to spark : " + error);
+          }
+        )
+    }
+
+    gotoNextPage() {
+      var nextPage = this.state.page+1;
+      this.setState({ page: nextPage});
+
+      console.log("Going forward to page " + nextPage);
+
+      fetch(this.props.sparkEndpoint + "/debates/recent/" + nextPage)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log(result);
+            this.setState({ json : result });
+            this.setState({isLoading : false})
+          },
+          (error) => {
+            // TODO Implement Error handling.
+            console.log("Error, couldn't connect to spark : " + error);
+          }
+        )
+    }
+
+    gotoPreviousPage() {
+      var nextPage = this.state.page-1;
+      this.setState({ page: nextPage});
+
+      console.log("Going back to page " + nextPage);
+
+      fetch(this.props.sparkEndpoint + "/debates/recent/" + nextPage)
+>>>>>>> Stashed changes
         .then(res => res.json())
         .then(
           (result) => {

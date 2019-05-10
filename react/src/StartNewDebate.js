@@ -92,7 +92,7 @@ handleSubmit(event)
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label htmlFor="title">Debate Title</label>
-                    <input name="title" type="text" class="form-control" id="title" placeholder="A Good Debate Topic" required="" value={this.state.title} onChange={e=>this.setState({title: e.target.value})}/>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="A Good Debate Topic" required="required" value={this.state.title} onChange={e=>this.setState({title: e.target.value})}/>
                     <div class="invalid-feedback">
                       A valid debate title is required.
                     </div>
@@ -121,17 +121,17 @@ handleSubmit(event)
                 <div class="row">
                   <div class="col w-50">
                     <label htmlFor="summary">Debate Summary :</label>
-                    <textarea name="summary" class="form-control" id="summary" rows="3" value={this.state.Summary} onChange={e=>this.setState({Summary: e.target.value})}></textarea>
+                    <textarea name="summary" class="form-control" id="summary" rows="3" required="required" value={this.state.Summary} onChange={e=>this.setState({Summary: e.target.value})}></textarea>
                   </div>
                   <div class="col w-50">
                     <div class="row">
                       <div class="col w-50">
                         <label htmlFor="SideATitle">Side A Title :</label>
-                        <textarea name="SideATitle" class="form-control" id="SideATitle" value ={this.state.SideATitle} onChange={e=>this.setState({SideATitle: e.target.value})}rows="1"></textarea>
+                        <textarea name="SideATitle" class="form-control" id="SideATitle" required="required" value={this.state.SideATitle} onChange={e=>this.setState({SideATitle: e.target.value})}rows="1"></textarea>
                       </div>
                       <div class="col w-50">
                         <label htmlFor="SideBTitle">Side B Title :</label>
-                        <textarea name="SideBTitle" class="form-control" id="SideBTitle"  value ={this.state.SideBTitle} onChange={e=>this.setState({SideBTitle: e.target.value})}rows="1"></textarea>
+                        <textarea name="SideBTitle" class="form-control" id="SideBTitle" required="required" value ={this.state.SideBTitle} onChange={e=>this.setState({SideBTitle: e.target.value})}rows="1"></textarea>
                       </div>
                     </div>
                   </div>

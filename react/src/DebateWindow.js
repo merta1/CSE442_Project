@@ -4,6 +4,10 @@ import Error from './Error';
 import LoadingOverlay from 'react-loading-overlay';
 import ScrollToBottom from 'react-scroll-to-bottom';
 
+const debateColStyle = {
+  'overflow-x':'hidden',
+};
+
 class DebateWindow extends React.Component {
 
     constructor(props) {
@@ -159,10 +163,7 @@ class DebateWindow extends React.Component {
 
       event.preventDefault();
     }
-    
-    const debateColStyle = {
-      overflow-x:hidden
-    };
+
 
     render() {
       var debateJson = this.state.json;
